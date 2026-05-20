@@ -7,11 +7,11 @@
 // Set PHP timezone to UTC
 date_default_timezone_set('UTC');
 
-define('DB_HOST', 'localhost');
+define('DB_HOST', 'sql12.freesqldatabase.com');
 define('DB_PORT', '3306');
-define('DB_NAME', 'eduquest');
-define('DB_USER', 'root');       // change for production
-define('DB_PASS', '');           // change for production
+define('DB_NAME', 'sql12827672');
+define('DB_USER', 'sql12827672');       // change for production
+define('DB_PASS', 'gWLMelpwsu');           // change for production
 define('DB_CHARSET', 'utf8mb4');
 
 function getDBConnection(): PDO {
