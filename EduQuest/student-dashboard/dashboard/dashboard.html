@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - EduQuest</title>
+    <link rel="stylesheet" href="../../shared/styles/variables-v2.css">
+    <link rel="stylesheet" href="../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../shared/styles/responsive.css">
+    <link rel="stylesheet" href="../../shared/components/navigation-v2.css">
+    <link rel="stylesheet" href="../../shared/components/notification.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="../../EDUQUEST/assets/css/pet_animations.css">
+    <link rel="stylesheet" href="../../EDUQUEST/assets/css/gamified_popup.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../shared/styles/quest_theme.css">
+    <link rel="stylesheet" href="../../shared/styles/pet-companion.css">
+    <script src="../../shared/components/quest_background.js" defer></script>
+</head>
+<body class="quest-theme">
+    <!-- Navigation Bar -->
+        <nav class="navbar student-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="nav-logo">🎮 EduQuest</span>
+                <span class="nav-role">Student Portal</span>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <span class="hamburger"></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <a href="../dashboard/dashboard.html" class="nav-link">
+                    <span class="nav-icon">🏠</span><span>Home</span>
+                </a>
+                <a href="../learning/learning.html" class="nav-link">
+                    <span class="nav-icon">📚</span><span>Learn</span>
+                </a>
+                <a href="../quests/quests.html" class="nav-link">
+                    <span class="nav-icon">🎯</span><span>My Quests</span>
+                </a>
+                <a href="../quests/take-quiz.html" class="nav-link">
+                    <span class="nav-icon">📝</span><span>Quizzes</span>
+                </a>
+                <a href="../gamification/gamification.html" class="nav-link">
+                    <span class="nav-icon">🌟</span><span>My Progress</span>
+                </a>
+                <a href="../achievements/achievements.html" class="nav-link">
+                    <span class="nav-icon">🏆</span><span>Achievements</span>
+                </a>
+                <a href="../leaderboard/leaderboard.html" class="nav-link">
+                    <span class="nav-icon">🥇</span><span>Leaderboard</span>
+                </a>
+            </div>
+            <div class="nav-actions">
+                <div class="nav-stats">
+                    <div class="stat-item">
+                        <span class="stat-icon">⚡</span>
+                        <span class="stat-value" id="navXp">0 XP</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">🔥</span>
+                        <span class="stat-value" id="navStreak">0 days</span>
+                    </div>
+                </div>
+                <div class="nav-profile" id="profileMenu">
+                    <div class="profile-avatar" id="navAvatar">🧑‍🎓</div>
+                    <div class="profile-level">
+                        <span class="level-badge" id="navLevel">Lv 1</span>
+                    </div>
+                    <div class="profile-dropdown">
+                        <a href="../profile/profile.html" class="dropdown-item">
+                            <span class="dropdown-icon">👤</span><span>Profile</span>
+                        </a>
+                        <a href="#" class="dropdown-item" onclick="handleLogout()">
+                            <span class="dropdown-icon">🚪</span><span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Welcome Bar -->
+            <section class="welcome-bar">
+                <div class="welcome-left">
+                    <h1 class="welcome-name">Hey, <span id="studentName">Adventurer</span>! 👋</h1>
+                    <p class="welcome-sub" id="welcomeSub">Your quest continues — let's level up!</p>
+                </div>
+                <div class="welcome-right">
+                    <div class="level-chip">
+                        <span class="level-num" id="heroLevel">Lv 1</span>
+                    </div>
+                    <div class="xp-mini">
+                        <div class="xp-mini-bar"><div class="xp-mini-fill" id="heroXpFill" style="width:0%"></div></div>
+                        <span class="xp-mini-text" id="heroXpText">0 / 0 XP</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Stats Row -->
+            <section class="stats-row" id="statsRow">
+                <div class="stat-card">
+                    <span class="sc-icon">⚡</span>
+                    <div class="sc-body"><span class="sc-value" id="statXp">0</span><span class="sc-label">Total XP</span></div>
+                </div>
+                <div class="stat-card">
+                    <span class="sc-icon">🔥</span>
+                    <div class="sc-body"><span class="sc-value" id="statStreak">0</span><span class="sc-label">Day Streak</span></div>
+                </div>
+                <div class="stat-card">
+                    <span class="sc-icon">📖</span>
+                    <div class="sc-body"><span class="sc-value" id="statLessons">—</span><span class="sc-label">Lessons Done</span></div>
+                </div>
+                <div class="stat-card">
+                    <span class="sc-icon">🏆</span>
+                    <div class="sc-body"><span class="sc-value" id="statBadges">—</span><span class="sc-label">Badges</span></div>
+                </div>
+            </section>
+
+            <!-- Quick Actions Grid -->
+            <section class="actions-grid">
+                <a href="../learning/learning.html" class="action-card ac-learn" data-track="Learning Modules">
+                    <span class="ac-icon">📚</span>
+                    <span class="ac-title">Learning Modules</span>
+                    <span class="ac-desc">Assignments, PPTs, videos &amp; teacher resources</span>
+                </a>
+                <a href="../quests/quests.html" class="action-card ac-game" data-track="Play &amp; Learn">
+                    <span class="ac-icon">⚔️</span>
+                    <span class="ac-title">Play &amp; Learn</span>
+                    <span class="ac-desc">Quest missions and challenge tasks</span>
+                </a>
+                <a href="../gamification/gamification.html" class="action-card ac-progress" data-track="My Progress">
+                    <span class="ac-icon">🌿</span>
+                    <span class="ac-title">My Progress</span>
+                    <span class="ac-desc">Real-time XP, egg evolution &amp; streaks</span>
+                </a>
+                <a href="../achievements/achievements.html" class="action-card ac-badge ac-wide" data-track="Trophy Room">
+                    <span class="ac-icon">🏅</span>
+                    <span class="ac-title">Trophy Room</span>
+                    <span class="ac-desc">Achievements earned on your quest</span>
+                </a>
+                <a href="../leaderboard/leaderboard.html" class="action-card ac-grades ac-wide" data-track="Leaderboard">
+                    <span class="ac-icon">🥇</span>
+                    <span class="ac-title">Leaderboard</span>
+                    <span class="ac-desc">See which hero is on top</span>
+                </a>
+            </section>
+
+            <!-- Recent Activity (loaded from API) -->
+            <section class="recent-section" id="recentSection" style="display:none;">
+                <h2 class="section-title">Recent Activity</h2>
+                <div class="recent-list" id="recentList"></div>
+            </section>
+        </div>
+    </main>
+
+    <script src="../../shared/components/navigation.js"></script>
+    <script src="../../shared/utils/gamification-helper.js"></script>
+    <script src="../../shared/utils/pet-sprites.js"></script>
+    <script src="../../EDUQUEST/assets/js/gamified_popup.js"></script>
+    <script src="../../EDUQUEST/assets/js/pet_animations.js" defer></script>
+    <script src="onboarding.js"></script>
+    <script src="dashboard.js"></script>
+    <script>window.PetCompanionConfig = { context: 'learn', wizard: false };</script>
+    <script src="../../shared/utils/pet-companion.js"></script>
+    <script>window.EDUQUEST_PAGE_NAME = 'dashboard';</script>
+    <script src="../../EDUQUEST/assets/js/tracker.js"></script>
+</body>
+</html>
+

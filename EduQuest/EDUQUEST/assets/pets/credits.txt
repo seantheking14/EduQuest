@@ -1,0 +1,101 @@
+EduQuest — Pet & Egg Visual Assets Credits
+============================================
+
+All assets in this directory are original SVG graphics created for the
+EduQuest project. No external art assets were sourced.
+
+---
+
+FIRE TEAM (Echidna — Thornflare lineage)
+-----------------------------------------
+fire/egg.svg
+  Original SVG — EduQuest project
+  Description : Deep red Fire Egg with orange crack lines and flame on top.
+  Author      : EduQuest development team
+  License     : Original work, project-internal use
+
+fire/baby.svg
+  Original SVG — EduQuest project
+  Description : Iggy — baby echidna with three flame-tipped spines and long snout.
+  Author      : EduQuest development team
+  License     : Original work, project-internal use
+
+fire/young.svg
+  Original SVG — EduQuest project
+  Description : Blazeback — young echidna with five large flame-tipped spines.
+  Author      : EduQuest development team
+  License     : Original work, project-internal use
+
+fire/adult.svg
+  Original SVG — EduQuest project
+  Description : Thornflare — adult echidna with seven flame spines, glowing eyes, and fire aura.
+  Author      : EduQuest development team
+  License     : Original work, project-internal use
+
+---
+
+WATER TEAM (Turtle — Tidalback lineage)
+----------------------------------------
+water/egg.svg
+  Original SVG — EduQuest project
+  Description : Teal-blue Water Egg with wave ripple pattern and floating bubble on top.
+  Author      : EduQuest development team
+  License     : Original work, project-internal use
+
+water/baby.svg
+  Original SVG — EduQuest project
+  Description : Bubbles — baby turtle with dome shell, peeking head, big eyes, and bubble crown.
+  Author      : EduQuest development team
+  License     : Original work, project-internal use
+
+water/young.svg
+  Original SVG — EduQuest project
+  Description : Shellby — young turtle with geometric shell pattern, ridge, and confident smile.
+  Author      : EduQuest development team
+  License     : Original work, project-internal use
+
+water/adult.svg
+  Original SVG — EduQuest project
+  Description : Tidalback — adult turtle with majestic wave-patterned shell, deep wise eyes, and bubble sparkles.
+  Author      : EduQuest development team
+  License     : Original work, project-internal use
+
+---
+
+GRASS TEAM (Monkey — Vinespark lineage)
+-----------------------------------------
+grass/egg.svg
+  Original SVG — EduQuest project
+  Description : Earthy green Grass Egg with leaf vein texture and double leaf on top.
+  Author      : EduQuest development team
+  License     : Original work, project-internal use
+
+grass/baby.svg
+  Original SVG — EduQuest project
+  Description : Sprout — baby monkey with big round ears, leaf on head, and curling tail.
+  Author      : EduQuest development team
+  License     : Original work, project-internal use
+
+grass/young.svg
+  Original SVG — EduQuest project
+  Description : Twigster — young monkey with leafy head decoration and vine bracelet.
+  Author      : EduQuest development team
+  License     : Original work, project-internal use
+
+grass/adult.svg
+  Original SVG — EduQuest project
+  Description : Vinespark — adult monkey with vine cape, flower crown, and forest sparkles.
+  Author      : EduQuest development team
+  License     : Original work, project-internal use
+
+---
+
+Notes
+-----
+- All SVG files use standard XML/SVG markup with no embedded scripts.
+- Colour palettes are adapted from the EduQuest brand guidelines defined in
+  shared/styles/variables-v2.css and shared/utils/pet-sprites.js.
+- Character designs are inspired by real-world animals (echidna, sea turtle,
+  primate) and are entirely original compositions for this project.
+- For academic integrity purposes: no AI image generation services were used.
+  All shapes, gradients, and paths were hand-authored in SVG markup.

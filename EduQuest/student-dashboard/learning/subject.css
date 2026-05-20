@@ -1,0 +1,352 @@
+/* =========================================================
+   Subject Detail & Lesson Roadmap Styles
+   ========================================================= */
+
+/* ── Breadcrumb ── */
+.breadcrumb {
+    padding: 16px 0;
+    font-size: 14px;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.breadcrumb a {
+    color: #8b5cf6;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.breadcrumb a:hover { text-decoration: underline; }
+
+.breadcrumb-sep { color: #d1d5db; }
+
+/* ── Subject Header Banner ── */
+.subject-banner {
+    border-radius: 20px;
+    padding: 32px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 32px;
+    border: 2px solid rgba(0,0,0,0.1);
+    border-bottom: 5px solid rgba(0,0,0,0.2);
+}
+
+.subject-banner.math { background: linear-gradient(135deg, #ef4444, #dc2626); }
+.subject-banner.self_care { background: linear-gradient(135deg, #10b981, #059669); }
+.subject-banner.english { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+
+.banner-decoration {
+    position: absolute;
+    right: -20px;
+    top: -20px;
+    font-size: 120px;
+    opacity: 0.15;
+    transform: rotate(15deg);
+}
+
+.banner-content {
+    position: relative;
+    z-index: 1;
+}
+
+.banner-title {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.banner-desc {
+    font-size: 15px;
+    opacity: 0.9;
+    margin-bottom: 16px;
+}
+
+.banner-stats {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.banner-stat {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.2);
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* ── Lesson Roadmap (vertical winding path) ── */
+.lesson-roadmap {
+    position: relative;
+    padding: 0 0 40px;
+}
+
+.roadmap-path {
+    position: relative;
+}
+
+/* Vertical line */
+.roadmap-path::before {
+    content: '';
+    position: absolute;
+    left: 28px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #e5e7eb;
+    border-radius: 2px;
+}
+
+/* Lesson Card on the Road */
+.lesson-road-card {
+    position: relative;
+    margin-bottom: 24px;
+    padding-left: 68px;
+    min-height: 80px;
+}
+
+/* Node dot on path */
+.road-node {
+    position: absolute;
+    left: 12px;
+    top: 16px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    z-index: 2;
+    border: 3px solid #e5e7eb;
+    background: white;
+    transition: all 0.3s;
+}
+
+.road-node.completed {
+    border-color: #10b981;
+    background: #10b981;
+    color: white;
+}
+
+.road-node.available, .road-node.in_progress {
+    border-color: #fbbf24;
+    background: #fffbeb;
+    color: #f59e0b;
+    animation: node-pulse 2s ease-in-out infinite;
+}
+
+.road-node.in_progress {
+    border-color: #8b5cf6;
+    background: #f5f3ff;
+    color: #8b5cf6;
+}
+
+.road-node.locked {
+    border-color: #d1d5db;
+    background: #f9fafb;
+    color: #d1d5db;
+}
+
+@keyframes node-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(251, 191, 36, 0); }
+}
+
+/* Card body */
+.road-card-body {
+    background: white;
+    border-radius: 16px;
+    padding: 20px 24px;
+    border: 2px solid #e5e7eb;
+    border-bottom: 4px solid #d1d5db;
+    transition: all 0.15s;
+    cursor: pointer;
+}
+
+.road-card-body:hover:not(.locked) {
+    border-color: #8b5cf6;
+    border-bottom-color: #7c3aed;
+    transform: translateY(2px);
+    border-bottom-width: 2px;
+}
+
+.road-card-body.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.road-card-body.completed {
+    border-color: #d1fae5;
+    background: #f0fdf4;
+}
+
+.road-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.road-card-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1f2937;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.road-card-title .lesson-num {
+    font-size: 12px;
+    color: #9ca3af;
+    font-weight: 500;
+}
+
+.road-card-badges {
+    display: flex;
+    gap: 6px;
+}
+
+.difficulty-pill {
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.difficulty-pill.easy { background: #d1fae5; color: #065f46; }
+.difficulty-pill.medium { background: #fef3c7; color: #92400e; }
+.difficulty-pill.hard { background: #fee2e2; color: #991b1b; }
+
+.xp-pill {
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    color: #92400e;
+    border: 1px solid #f59e0b;
+}
+
+.road-card-desc {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.road-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.meta-left {
+    display: flex;
+    gap: 12px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.meta-left span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.road-card-status {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.road-card-status.completed { color: #059669; }
+.road-card-status.in-progress { color: #7c3aed; }
+.road-card-status.available { color: #d97706; }
+.road-card-status.locked-text { color: #9ca3af; }
+
+/* Quiz indicator */
+.quiz-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #faf5ff;
+    border-radius: 10px;
+    border: 2px solid #ede9fe;
+    border-bottom: 3px solid #ddd6fe;
+    font-size: 13px;
+    color: #6d28d9;
+    font-weight: 600;
+}
+
+.quiz-indicator .quiz-status {
+    margin-left: auto;
+    font-size: 12px;
+}
+
+.quiz-indicator .quiz-status.passed { color: #059669; }
+.quiz-indicator .quiz-status.not-passed { color: #dc2626; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .banner-title { font-size: 24px; }
+    .banner-stats { gap: 12px; }
+    .lesson-road-card { padding-left: 56px; }
+    .roadmap-path::before { left: 22px; }
+    .road-node { left: 6px; width: 32px; height: 32px; font-size: 14px; }
+    .road-card-body { padding: 16px; }
+    .subject-banner { padding: 24px; }
+    .road-card-title { font-size: 16px; }
+    .road-card-header { flex-direction: column; gap: 8px; }
+}
+
+@media (max-width: 480px) {
+    .subject-banner { padding: 20px 16px; border-radius: 14px; }
+    .banner-title { font-size: 20px; gap: 8px; }
+    .banner-desc { font-size: 13px; }
+    .banner-stat { padding: 4px 10px; font-size: 12px; }
+    .banner-decoration { font-size: 80px; }
+    .lesson-road-card { padding-left: 48px; min-height: 60px; }
+    .roadmap-path::before { left: 18px; }
+    .road-node { left: 4px; width: 28px; height: 28px; font-size: 12px; }
+    .road-card-body { padding: 12px; }
+    .road-card-title { font-size: 15px; }
+    .road-card-desc { font-size: 13px; margin-bottom: 8px; }
+    .difficulty-pill, .xp-pill { font-size: 10px; padding: 2px 8px; }
+    .quiz-indicator { padding: 6px 10px; font-size: 12px; }
+    .breadcrumb { font-size: 12px; }
+}
+
+/* --- Additional Responsive Breakpoints --- */
+@media (max-width: 1024px) {
+    .subject-banner { padding: 28px 24px; }
+    .banner-title { font-size: 28px; }
+    .lesson-road-card { padding-left: 60px; }
+}
+
+@media (max-width: 320px) {
+    .subject-banner { padding: 16px 12px; border-radius: 12px; }
+    .banner-title { font-size: 18px; gap: 6px; }
+    .banner-desc { font-size: 12px; }
+    .banner-decoration { font-size: 48px; }
+    .lesson-road-card { padding-left: 44px; min-height: 56px; }
+    .road-node { width: 26px; height: 26px; font-size: 11px; }
+    .road-card-title { font-size: 14px; }
+    .difficulty-pill, .xp-pill { font-size: 11px; }
+    .breadcrumb { font-size: 11px; flex-wrap: wrap; }
+}

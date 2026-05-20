@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievements - EduQuest</title>
+    <link rel="stylesheet" href="../../shared/styles/variables-v2.css">
+    <link rel="stylesheet" href="../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../shared/components/navigation-v2.css">
+    <link rel="stylesheet" href="./achievements.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../shared/styles/quest_theme.css">
+    <link rel="stylesheet" href="../../shared/styles/pet-companion.css">
+    <script src="../../shared/components/quest_background.js" defer></script>
+</head>
+<body class="quest-theme">
+    <!-- Navigation Bar -->
+        <nav class="navbar student-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="nav-logo">🎮 EduQuest</span>
+                <span class="nav-role">Student Portal</span>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <span class="hamburger"></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <a href="../dashboard/dashboard.html" class="nav-link">
+                    <span class="nav-icon">🏠</span><span>Home</span>
+                </a>
+                <a href="../learning/learning.html" class="nav-link">
+                    <span class="nav-icon">📚</span><span>Learn</span>
+                </a>
+                <a href="../quests/quests.html" class="nav-link">
+                    <span class="nav-icon">🎯</span><span>My Quests</span>
+                </a>
+                <a href="../quests/take-quiz.html" class="nav-link">
+                    <span class="nav-icon">📝</span><span>Quizzes</span>
+                </a>
+                <a href="../gamification/gamification.html" class="nav-link">
+                    <span class="nav-icon">🌟</span><span>My Progress</span>
+                </a>
+                <a href="../achievements/achievements.html" class="nav-link">
+                    <span class="nav-icon">🏆</span><span>Achievements</span>
+                </a>
+                <a href="../leaderboard/leaderboard.html" class="nav-link">
+                    <span class="nav-icon">🥇</span><span>Leaderboard</span>
+                </a>
+            </div>
+            <div class="nav-actions">
+                <div class="nav-stats">
+                    <div class="stat-item">
+                        <span class="stat-icon">⚡</span>
+                        <span class="stat-value" id="navXp">0 XP</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">🔥</span>
+                        <span class="stat-value" id="navStreak">0 days</span>
+                    </div>
+                </div>
+                <div class="nav-profile" id="profileMenu">
+                    <div class="profile-avatar" id="navAvatar">🧑‍🎓</div>
+                    <div class="profile-level">
+                        <span class="level-badge" id="navLevel">Lv 1</span>
+                    </div>
+                    <div class="profile-dropdown">
+                        <a href="../profile/profile.html" class="dropdown-item">
+                            <span class="dropdown-icon">👤</span><span>Profile</span>
+                        </a>
+                        <a href="#" class="dropdown-item" onclick="handleLogout()">
+                            <span class="dropdown-icon">🚪</span><span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">🏆 Achievements</h1>
+            <p class="page-subtitle">Collect badges and unlock rewards</p>
+        </div>
+
+        <div class="section-sign">
+            <span class="section-sign-icon" aria-hidden="true">📈</span>
+            <span class="section-sign-title">Your Progress</span>
+        </div>
+        <div class="achievement-summary">
+            <h2 class="summary-title">Your Progress</h2>
+            <div class="summary-stats">
+                <div class="summary-stat">
+                    <div class="summary-value" id="statUnlocked">—</div>
+                    <div class="summary-label">Unlocked</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="summary-value" id="statInProgress">—</div>
+                    <div class="summary-label">In Progress</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="summary-value" id="statLocked">—</div>
+                    <div class="summary-label">Locked</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="summary-value" id="statTotal">—</div>
+                    <div class="summary-label">Total</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-sign">
+            <span class="section-sign-icon" aria-hidden="true">🏅</span>
+            <span class="section-sign-title">Your Badges</span>
+        </div>
+        <div class="filter-tabs" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <button class="filter-btn active" data-filter="all">All Achievements</button>
+            <button class="filter-btn" data-filter="unlocked">✓ Unlocked</button>
+            <button class="filter-btn" data-filter="progress">📊 In Progress</button>
+            <button class="filter-btn" data-filter="locked">🔒 Locked</button>
+            <button id="refreshBtn" title="Refresh achievements" style="margin-left:auto;background:none;border:2px solid currentColor;border-radius:8px;padding:5px 12px;cursor:pointer;font-size:0.82rem;display:flex;align-items:center;gap:5px;">
+                <span id="refreshIcon">🔄</span> Refresh
+            </button>
+        </div>
+
+        <div class="achievements-grid" id="achievementsGrid">
+            <p style="text-align:center;color:#6b7280;grid-column:1/-1;padding:40px 0;">Loading achievements…</p>
+        </div>
+    </main>
+
+    <script src="../../shared/components/navigation.js"></script>
+    <script src="../../shared/utils/gamification-helper.js"></script>
+    <script>
+    (function () {
+        'use strict';
+
+        const API_BASE = '../../EDUQUEST/api/gamification';
+        const grid     = document.getElementById('achievementsGrid');
+        let allAchievements = [];
+
+        /* ── Auth helper ── */
+        function authHeaders() {
+            return {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + (localStorage.getItem('eq_token') || ''),
+            };
+        }
+
+        /* ── Fetch achievements from API ── */
+        async function loadAchievements(silent) {
+            const refreshIcon = document.getElementById('refreshIcon');
+            if (!silent) {
+                grid.innerHTML = '<p style="text-align:center;color:#6b7280;grid-column:1/-1;padding:40px 0;">Loading achievements…</p>';
+            }
+            if (refreshIcon) refreshIcon.style.animation = 'spin 0.8s linear infinite';
+            try {
+                const res = await fetch(API_BASE + '/achievements.php', { headers: authHeaders() });
+                const json = await res.json();
+
+                if (!json.success) {
+                    if (!silent) grid.innerHTML = '<p style="text-align:center;color:#ef4444;grid-column:1/-1;padding:40px 0;">Failed to load achievements.</p>';
+                    return;
+                }
+
+                allAchievements = json.data.achievements || [];
+                const total    = json.data.total || 0;
+                const unlocked = json.data.unlocked || 0;
+
+                // Compute in-progress vs locked
+                let inProgress = 0;
+                let locked     = 0;
+                allAchievements.forEach(a => {
+                    if (a.isUnlocked) return;
+                    if (a.progressPct > 0) inProgress++;
+                    else locked++;
+                });
+
+                // Update summary stats
+                document.getElementById('statUnlocked').textContent   = unlocked;
+                document.getElementById('statInProgress').textContent  = inProgress;
+                document.getElementById('statLocked').textContent      = locked;
+                document.getElementById('statTotal').textContent       = total;
+
+                renderAchievements(activeFilter());
+            } catch (e) {
+                if (!silent) grid.innerHTML = '<p style="text-align:center;color:#ef4444;grid-column:1/-1;padding:40px 0;">Network error — could not load achievements.</p>';
+            } finally {
+                if (refreshIcon) refreshIcon.style.animation = '';
+            }
+        }
+
+        function activeFilter() {
+            const active = document.querySelector('.filter-btn.active');
+            return active ? active.dataset.filter : 'all';
+        }
+
+        /* ── Determine card status ── */
+        function getStatus(ach) {
+            if (ach.isUnlocked) return 'unlocked';
+            if (ach.progressPct > 0) return 'progress';
+            return 'locked';
+        }
+
+        /* ── Render cards ── */
+        function renderAchievements(filter) {
+            grid.innerHTML = '';
+
+            let list = allAchievements;
+            if (filter === 'unlocked')  list = allAchievements.filter(a => a.isUnlocked);
+            if (filter === 'progress')  list = allAchievements.filter(a => !a.isUnlocked && a.progressPct > 0);
+            if (filter === 'locked')    list = allAchievements.filter(a => !a.isUnlocked && a.progressPct === 0);
+
+            if (list.length === 0) {
+                grid.innerHTML = '<p style="text-align:center;color:#6b7280;grid-column:1/-1;padding:40px 0;">No achievements in this category yet.</p>';
+                return;
+            }
+
+            list.forEach(ach => {
+                const status = getStatus(ach);
+                const card   = document.createElement('div');
+                card.className = 'achievement-card' + (status === 'locked' ? ' locked' : '');
+                if (ach.isUnlocked) card.style.borderColor = ach.badgeColor || '#10b981';
+
+                let footer = '';
+                if (ach.isUnlocked) {
+                    const date = ach.unlockedAt ? new Date(ach.unlockedAt).toLocaleDateString() : '';
+                    footer = `
+                        <span class="unlock-badge" style="background:linear-gradient(135deg,${ach.badgeColor || '#10b981'},${darken(ach.badgeColor || '#10b981')})">✓ Unlocked</span>
+                        ${date ? '<p class="progress-text">' + escH(date) + '</p>' : ''}
+                    `;
+                } else {
+                    footer = `
+                        <div class="achievement-progress"><div class="progress-fill" style="width:${ach.progressPct}%;background:linear-gradient(90deg,${ach.badgeColor || '#fbbf24'},${darken(ach.badgeColor || '#fbbf24')})"></div></div>
+                        <p class="progress-text">${ach.progress} / ${ach.targetValue} — ${ach.progressPct}%</p>
+                    `;
+                }
+
+                card.innerHTML = `
+                    ${status === 'locked' ? '<span class="lock-icon">🔒</span>' : ''}
+                    <div class="achievement-icon">${ach.icon || '🏅'}</div>
+                    <h3 class="achievement-title">${escH(ach.title)}</h3>
+                    <p class="achievement-desc">${escH(ach.description)}</p>
+                    <span class="achievement-xp">+${ach.xpReward} XP</span>
+                    <span class="achievement-category">${escH(ach.category)}</span>
+                    ${footer}
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        /* ── Helpers ── */
+        function escH(s) { const d = document.createElement('span'); d.textContent = s; return d.innerHTML; }
+        function darken(hex) {
+            // Simple darken by 20%
+            const num = parseInt(hex.replace('#', ''), 16);
+            const r = Math.max(0, (num >> 16) - 40);
+            const g = Math.max(0, ((num >> 8) & 0xff) - 40);
+            const b = Math.max(0, (num & 0xff) - 40);
+            return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        }
+
+        /* ── Filter tabs ── */
+        document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderAchievements(btn.dataset.filter);
+            });
+        });
+
+        /* ── Manual refresh button ── */
+        document.getElementById('refreshBtn').addEventListener('click', () => loadAchievements(false));
+
+        /* ── Auto-poll every 30 s ── */
+        setInterval(() => loadAchievements(true), 30000);
+
+        /* ── Spin keyframe for refresh icon ── */
+        const styleTag = document.createElement('style');
+        styleTag.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
+        document.head.appendChild(styleTag);
+
+        /* ── Init ── */
+        loadAchievements(false);
+
+        // Update nav XP/streak/level from live API data
+        (async function updateNav() {
+            try {
+                const res = await fetch(API_BASE + '/profile.php', { headers: authHeaders() });
+                const json = await res.json();
+                if (json.success && json.data && window.EduGamification) {
+                    EduGamification.updateNavStats(json.data.profile);
+                }
+            } catch (_) {}
+        })();
+    })();
+    </script>
+    <script>window.PetCompanionConfig = { context: 'learn', wizard: false };</script>
+    <script src="../../shared/utils/pet-companion.js"></script>
+</body>
+</html>
+

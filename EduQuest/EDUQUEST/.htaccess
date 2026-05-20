@@ -1,0 +1,27 @@
+# ── Pass Authorization header to PHP (XAMPP/Apache strips it by default) ──
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+</IfModule>
+
+# ── Security Headers ──
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ── Protect sensitive server-side files ──
+<FilesMatch "\.(sql|log|env|ini|json|lock)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# ── Prevent directory listing ──
+Options -Indexes
+
+# ── PHP error display off in production ──
+php_flag display_errors Off
+php_flag log_errors On

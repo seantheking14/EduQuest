@@ -1,0 +1,380 @@
+/* ==========================================================================
+   pet-companion.css — Pet (bottom-left) + Wizard guide (bottom-right)
+   Used on: Learn, Games, Quizzes pages
+   ========================================================================== */
+
+/* ── PET WRAPPER (fixed bottom-left) ── */
+.pc-pet-wrap {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 8900;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    user-select: none;
+    animation: pcFadeIn 0.4s ease 0.5s both;
+}
+
+/* ── WIZARD WRAPPER (fixed bottom-right) ── */
+.pc-wiz-wrap {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 8900;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    user-select: none;
+    animation: pcFadeIn 0.4s ease 0.7s both;
+}
+
+/* ── Shared body row ── */
+.pc-pet-body,
+.pc-wiz-body {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+}
+
+/* ── Pet noise bubble (short animal sounds) ── */
+.pc-noise {
+    position: relative;
+    background: rgba(22, 12, 52, 0.90);
+    color: #f0e8ff;
+    border-radius: 14px 14px 14px 0;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    max-width: 150px;
+    min-width: 70px;
+    text-align: center;
+    line-height: 1.4;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    animation: pcFadeIn 0.35s ease both;
+    pointer-events: none;
+    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+/* Noise bubble tail — points down toward pet (bottom-left) */
+.pc-noise::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 22px;
+    border: 10px solid transparent;
+    border-top-color: rgba(22, 12, 52, 0.90);
+    border-bottom: none;
+}
+
+/* Noise reaction tints */
+.pc-noise.pc-b-correct {
+    background: rgba(5, 50, 25, 0.95);
+    border-color: rgba(74, 222, 128, 0.45);
+    color: #d1fae5;
+}
+.pc-noise.pc-b-correct::after { border-top-color: rgba(5, 50, 25, 0.95); }
+
+.pc-noise.pc-b-wrong {
+    background: rgba(60, 15, 5, 0.95);
+    border-color: rgba(248, 113, 113, 0.45);
+    color: #fee2e2;
+}
+.pc-noise.pc-b-wrong::after { border-top-color: rgba(60, 15, 5, 0.95); }
+
+.pc-noise.pc-b-streak,
+.pc-noise.pc-b-complete {
+    background: rgba(60, 30, 5, 0.95);
+    border-color: rgba(251, 191, 36, 0.55);
+    color: #fef3c7;
+}
+.pc-noise.pc-b-streak::after,
+.pc-noise.pc-b-complete::after { border-top-color: rgba(60, 30, 5, 0.95); }
+
+/* ── Wizard speech bubble ── */
+.pc-bubble {
+    position: relative;
+    background: rgba(22, 12, 52, 0.94);
+    color: #f0e8ff;
+    border-radius: 14px 14px 0 14px;
+    padding: 10px 15px;
+    font-size: 13px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    max-width: 185px;
+    min-width: 100px;
+    text-align: center;
+    line-height: 1.45;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    animation: pcFadeIn 0.35s ease both;
+    pointer-events: none;
+    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+/* Bubble tail — points down toward wizard (bottom-right) */
+.pc-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    right: 20px;
+    border: 10px solid transparent;
+    border-top-color: rgba(22, 12, 52, 0.94);
+    border-bottom: none;
+}
+
+/* Wizard bubble reaction tints */
+.pc-bubble.pc-b-correct {
+    background: rgba(5, 50, 25, 0.95);
+    border-color: rgba(74, 222, 128, 0.45);
+    color: #d1fae5;
+}
+.pc-bubble.pc-b-correct::after { border-top-color: rgba(5, 50, 25, 0.95); }
+
+.pc-bubble.pc-b-wrong {
+    background: rgba(60, 15, 5, 0.95);
+    border-color: rgba(248, 113, 113, 0.45);
+    color: #fee2e2;
+}
+.pc-bubble.pc-b-wrong::after { border-top-color: rgba(60, 15, 5, 0.95); }
+
+.pc-bubble.pc-b-streak,
+.pc-bubble.pc-b-complete {
+    background: rgba(60, 30, 5, 0.95);
+    border-color: rgba(251, 191, 36, 0.55);
+    color: #fef3c7;
+}
+.pc-bubble.pc-b-streak::after,
+.pc-bubble.pc-b-complete::after { border-top-color: rgba(60, 30, 5, 0.95); }
+
+/* ── Minimize toggle (shared) ── */
+.pc-toggle {
+    align-self: flex-start;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.50);
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+    transition: background 0.15s ease, transform 0.15s ease;
+    flex-shrink: 0;
+}
+.pc-toggle:hover {
+    background: rgba(0, 0, 0, 0.70);
+    transform: scale(1.1);
+}
+
+/* ── Pet Avatar Circle ── */
+.pc-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.07);
+    border: 2.5px solid transparent;
+    position: relative;
+    flex-shrink: 0;
+    transition: transform 0.2s ease, width 0.2s ease, height 0.2s ease;
+}
+.pc-avatar:active { transform: scale(0.92); }
+
+.pc-avatar img {
+    width: 68px;
+    height: 68px;
+    object-fit: contain;
+    display: block;
+    transform-origin: bottom center;
+    pointer-events: none;
+    will-change: transform;
+}
+
+/* ── Stage-based idle animations ── */
+.pc-avatar[data-stage="0"] img {
+    animation: pcEggWobble 1.8s ease-in-out infinite alternate;
+}
+.pc-avatar[data-stage="1"] img {
+    animation: pcBounce 1.4s ease-in-out infinite alternate;
+}
+.pc-avatar[data-stage="2"] img {
+    animation: pcFloat 1.6s ease-in-out infinite alternate;
+}
+.pc-avatar[data-stage="3"] img {
+    animation: pcMajestic 2.2s ease-in-out infinite;
+}
+
+@keyframes pcEggWobble {
+    0%   { transform: rotate(-5deg) scale(1);     }
+    100% { transform: rotate(5deg)  scale(1.03);  }
+}
+@keyframes pcBounce {
+    0%   { transform: translateY(0);     }
+    100% { transform: translateY(-8px);  }
+}
+@keyframes pcFloat {
+    0%   { transform: scale(1)    translateY(0);    }
+    100% { transform: scale(1.04) translateY(-5px); }
+}
+@keyframes pcMajestic {
+    0%   { transform: scale(1)    translateY(0);    }
+    50%  { transform: scale(1.03) translateY(-7px); }
+    100% { transform: scale(1)    translateY(0);    }
+}
+
+/* ── Team glow pulses ── */
+.pc-avatar[data-team="fire"] {
+    animation: pcFireGlow 1.0s ease-in-out infinite alternate;
+}
+.pc-avatar[data-team="water"] {
+    animation: pcWaterGlow 1.4s ease-in-out infinite alternate;
+}
+.pc-avatar[data-team="grass"] {
+    animation: pcGrassGlow 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes pcFireGlow {
+    0%   { box-shadow: 0 0 10px 3px rgba(239, 68,  68, 0.45); border-color: #ef4444; }
+    100% { box-shadow: 0 0 24px 9px rgba(249,115,  22, 0.70); border-color: #f97316; }
+}
+@keyframes pcWaterGlow {
+    0%   { box-shadow: 0 0 10px 3px rgba( 59,130, 246, 0.40); border-color: #3b82f6; }
+    100% { box-shadow: 0 0 24px 9px rgba(  6,182, 212, 0.68); border-color: #06b6d4; }
+}
+@keyframes pcGrassGlow {
+    0%   { box-shadow: 0 0 10px 3px rgba( 34,197,  94, 0.40); border-color: #22c55e; }
+    100% { box-shadow: 0 0 24px 9px rgba(163,230,  53, 0.68); border-color: #a3e635; }
+}
+
+/* ── Reaction animations (override idle) ── */
+.pc-avatar.pc-react img {
+    animation: none !important;
+}
+
+.pc-avatar.pc-react-correct  img { animation: pcJump    0.50s ease forwards !important; }
+.pc-avatar.pc-react-wrong    img { animation: pcShake   0.40s ease forwards !important; }
+.pc-avatar.pc-react-streak   img { animation: pcBigJump 0.60s ease forwards !important; }
+.pc-avatar.pc-react-complete img { animation: pcBigJump 0.65s ease forwards !important; }
+.pc-avatar.pc-react-encourage img{ animation: pcNod     0.50s ease forwards !important; }
+
+@keyframes pcJump {
+    0%   { transform: translateY(0)     scale(1);    }
+    40%  { transform: translateY(-20px) scale(1.12); }
+    70%  { transform: translateY(-8px)  scale(1.06); }
+    100% { transform: translateY(0)     scale(1);    }
+}
+@keyframes pcBigJump {
+    0%   { transform: translateY(0)     scale(1);    }
+    30%  { transform: translateY(-28px) scale(1.16); }
+    62%  { transform: translateY(-10px) scale(1.08); }
+    100% { transform: translateY(0)     scale(1);    }
+}
+@keyframes pcShake {
+    0%,100% { transform: translateX(0); }
+    20%     { transform: translateX(-6px) rotate(-4deg); }
+    60%     { transform: translateX(6px)  rotate(4deg);  }
+}
+@keyframes pcNod {
+    0%,100% { transform: translateY(0); }
+    50%     { transform: translateY(-5px) scale(1.05); }
+}
+
+/* ── Wizard Avatar ── */
+.pc-wiz-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: radial-gradient(circle at 40% 35%, rgba(100, 60, 200, 0.85), rgba(30, 15, 70, 0.95));
+    border: 2.5px solid rgba(200, 160, 255, 0.55);
+    font-size: 40px;
+    line-height: 1;
+    flex-shrink: 0;
+    transition: transform 0.2s ease, width 0.2s ease, height 0.2s ease;
+    animation: pcWizGlow 1.8s ease-in-out infinite alternate, pcWizFloat 2.4s ease-in-out infinite;
+}
+.pc-wiz-avatar:active { transform: scale(0.92); }
+
+@keyframes pcWizGlow {
+    0%   { box-shadow: 0 0 12px  4px rgba(139, 92, 246, 0.50); border-color: rgba(167, 139, 250, 0.60); }
+    100% { box-shadow: 0 0 28px 10px rgba(196,181, 253, 0.75); border-color: rgba(221, 214, 254, 0.90); }
+}
+@keyframes pcWizFloat {
+    0%,100% { transform: translateY(0);    }
+    50%     { transform: translateY(-8px); }
+}
+
+/* Wizard react animation (higher specificity overrides base) */
+.pc-wiz-avatar.pc-wiz-react {
+    animation: pcWizReact 0.5s ease forwards, pcWizGlow 1.8s ease-in-out infinite alternate;
+}
+@keyframes pcWizReact {
+    0%   { transform: scale(1)    rotate(0deg);  }
+    25%  { transform: scale(1.18) rotate(-8deg); }
+    60%  { transform: scale(1.12) rotate(5deg);  }
+    100% { transform: scale(1)    rotate(0deg);  }
+}
+
+/* ── Minimised states ── */
+.pc-pet-wrap.pc-min .pc-noise,
+.pc-pet-wrap.pc-min .pc-toggle {
+    display: none;
+}
+.pc-pet-wrap.pc-min .pc-avatar {
+    width: 54px;
+    height: 54px;
+    opacity: 0.82;
+}
+.pc-pet-wrap.pc-min .pc-avatar img {
+    width: 46px;
+    height: 46px;
+}
+
+.pc-wiz-wrap.pc-min .pc-bubble,
+.pc-wiz-wrap.pc-min .pc-toggle {
+    display: none;
+}
+.pc-wiz-wrap.pc-min .pc-wiz-avatar {
+    width: 54px;
+    height: 54px;
+    font-size: 28px;
+    opacity: 0.82;
+}
+
+/* ── Entrance ── */
+@keyframes pcFadeIn {
+    from { opacity: 0; transform: translateY(8px) scale(0.95); }
+    to   { opacity: 1; transform: translateY(0)   scale(1);    }
+}
+
+/* ── Mobile: smaller sizes ── */
+@media (max-width: 480px) {
+    .pc-pet-wrap { bottom: 16px; left: 12px; }
+    .pc-wiz-wrap { bottom: 16px; right: 12px; }
+    .pc-noise, .pc-bubble {
+        font-size: 12px;
+        max-width: 130px;
+        padding: 7px 11px;
+    }
+    .pc-avatar, .pc-wiz-avatar { width: 64px; height: 64px; }
+    .pc-avatar img { width: 54px; height: 54px; }
+    .pc-wiz-avatar { font-size: 32px; }
+    .pc-pet-wrap.pc-min .pc-avatar { width: 44px; height: 44px; }
+    .pc-pet-wrap.pc-min .pc-avatar img { width: 36px; height: 36px; }
+    .pc-wiz-wrap.pc-min .pc-wiz-avatar { width: 44px; height: 44px; font-size: 22px; }
+}

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Modules - EduQuest</title>
+    <link rel="stylesheet" href="../../shared/styles/variables-v2.css">
+    <link rel="stylesheet" href="../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../shared/styles/responsive.css">
+    <link rel="stylesheet" href="../../shared/components/navigation-v2.css">
+    <link rel="stylesheet" href="../../shared/components/notification.css">
+    <link rel="stylesheet" href="learning.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../shared/styles/quest_theme.css">
+    <link rel="stylesheet" href="../../shared/styles/pet-companion.css">
+    <script src="../../shared/components/quest_background.js" defer></script>
+</head>
+<body class="quest-theme">
+    <!-- Navigation Bar -->
+        <nav class="navbar student-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="nav-logo">🎮 EduQuest</span>
+                <span class="nav-role">Student Portal</span>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <span class="hamburger"></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <a href="../dashboard/dashboard.html" class="nav-link">
+                    <span class="nav-icon">🏠</span><span>Home</span>
+                </a>
+                <a href="../learning/learning.html" class="nav-link active">
+                    <span class="nav-icon">📚</span><span>Learn</span>
+                </a>
+                <a href="../quests/quests.html" class="nav-link">
+                    <span class="nav-icon">🎯</span><span>My Quests</span>
+                </a>
+                <a href="../quests/take-quiz.html" class="nav-link">
+                    <span class="nav-icon">📝</span><span>Quizzes</span>
+                </a>
+                <a href="../gamification/gamification.html" class="nav-link">
+                    <span class="nav-icon">🌟</span><span>My Progress</span>
+                </a>
+                <a href="../achievements/achievements.html" class="nav-link">
+                    <span class="nav-icon">🏆</span><span>Achievements</span>
+                </a>
+                <a href="../leaderboard/leaderboard.html" class="nav-link">
+                    <span class="nav-icon">🥇</span><span>Leaderboard</span>
+                </a>
+            </div>
+            <div class="nav-actions">
+                <div class="nav-stats">
+                    <div class="stat-item">
+                        <span class="stat-icon">⚡</span>
+                        <span class="stat-value" id="navXp">0 XP</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">🔥</span>
+                        <span class="stat-value" id="navStreak">0 days</span>
+                    </div>
+                </div>
+                <div class="nav-profile" id="profileMenu">
+                    <div class="profile-avatar" id="navAvatar">🧑‍🎓</div>
+                    <div class="profile-level">
+                        <span class="level-badge" id="navLevel">Lv 1</span>
+                    </div>
+                    <div class="profile-dropdown">
+                        <a href="../profile/profile.html" class="dropdown-item">
+                            <span class="dropdown-icon">👤</span><span>Profile</span>
+                        </a>
+                        <a href="#" class="dropdown-item" onclick="handleLogout()">
+                            <span class="dropdown-icon">🚪</span><span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+
+            <!-- Page Header with World Map Theme -->
+            <section class="learning-hero">
+                <div class="hero-world">
+                    <div class="world-decoration">
+                        <div class="cloud cloud-1">☁️</div>
+                        <div class="cloud cloud-2">☁️</div>
+                        <div class="cloud cloud-3">⛅</div>
+                    </div>
+                    <h1 class="page-title">🗺️ Learning Adventures</h1>
+                    <p class="page-subtitle">Explore your course materials and learning resources!</p>
+                </div>
+            </section>
+
+            <!-- Course Modules -->
+            <div class="section-sign">
+                <span class="section-sign-icon" aria-hidden="true">📂</span>
+                <span class="section-sign-title">My Course Materials</span>
+            </div>
+            <section class="course-modules-section" id="courseModulesSection">
+                <div class="section-header-row">
+                    <h2 class="section-title">📂 My Course Materials</h2>
+                    <p class="section-subtitle">Learning materials from your enrolled courses</p>
+                </div>
+                <div class="course-modules-container" id="courseModulesContainer">
+                    <div class="loading-state">
+                        <div class="loading-spinner"></div>
+                        <p>Loading your course materials...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ─── Material Viewer (inline, below course materials) ─── -->
+            <div class="section-sign" id="lvPanelSign" style="display:none;">
+                <span class="section-sign-icon" aria-hidden="true">📄</span>
+                <span class="section-sign-title">Viewing Material</span>
+            </div>
+            <div class="lv-panel" id="lvPanel" style="display:none;">
+                <div class="lv-header">
+                    <div class="lv-header-info">
+                        <span class="lv-icon" id="lvIcon" aria-hidden="true">📄</span>
+                        <div class="lv-header-text">
+                            <h3 class="lv-title" id="lvTitle">Material</h3>
+                            <p class="lv-meta" id="lvMeta"></p>
+                        </div>
+                    </div>
+                    <div class="lv-header-actions">
+                        <a class="lv-btn-head lv-btn-dl" id="lvDownloadBtn" style="display:none;" title="Download">⬇️ Download</a>
+                        <a class="lv-btn-head lv-btn-newtab" id="lvOpenTabBtn" style="display:none;" target="_blank" rel="noopener noreferrer" title="Open in new tab">↗️ New Tab</a>
+                        <button class="lv-close-btn" id="lvClose" aria-label="Close viewer">✕</button>
+                    </div>
+                </div>
+                <div class="lv-body" id="lvBody">
+                    <div class="lv-loading"><div class="loading-spinner"></div><p>Loading…</p></div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="../../shared/components/navigation.js"></script>
+    <script src="../../shared/utils/helpers.js"></script>
+    <script src="learning.js"></script>
+    <script>window.EDUQUEST_PAGE_NAME = 'learning';</script>
+    <script src="../../EDUQUEST/assets/js/tracker.js"></script>
+    <script>window.PetCompanionConfig = { context: 'learn' };</script>
+    <script src="../../shared/utils/pet-companion.js"></script>
+</body>
+</html>
+

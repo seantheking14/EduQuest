@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to EduQuest</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color: #333; line-height: 1.6; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px 20px; text-align: center; border-radius: 8px 8px 0 0; }
+        .header h1 { margin: 0; font-size: 28px; }
+        .content { background: #f9f9f9; padding: 30px 20px; border-radius: 0 0 8px 8px; }
+        .button { display: inline-block; background: #667eea; color: white; padding: 12px 30px; text-decoration: none; border-radius: 4px; margin: 20px 0; font-weight: bold; }
+        .button:hover { background: #5568d3; }
+        .footer { text-align: center; font-size: 12px; color: #666; margin-top: 30px; }
+        .success-badge { display: inline-block; background: #28a745; color: white; padding: 8px 12px; border-radius: 4px; font-weight: bold; }
+        .features { margin: 20px 0; }
+        .feature-list { list-style: none; padding: 0; }
+        .feature-list li { padding: 10px; background: white; margin: 8px 0; border-left: 4px solid #667eea; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>EduQuest</h1>
+            <p>Welcome!</p>
+        </div>
+
+        <div class="content">
+            <p>Hello {NAME},</p>
+
+            <p>
+                <span class="success-badge">✓ Account Created</span>
+            </p>
+
+            <p>
+                Your <strong>{ROLE}</strong> account has been successfully created. You're now part of EduQuest, a gamified digital portfolio system for SPED students.
+            </p>
+
+            <h3>Getting Started:</h3>
+            <ul class="feature-list">
+                <li><strong>Complete Your Profile</strong> - Add your information and avatar</li>
+                <li><strong>Explore Features</strong> - Discover gamified learning and portfolio tools</li>
+                <li><strong>Start Learning</strong> - Access courses and materials</li>
+            </ul>
+
+            <p style="text-align: center; margin-top: 30px;">
+                <a href="{LOGIN_URL}" class="button">Log In to EduQuest</a>
+            </p>
+
+            <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
+
+            <h3>About EduQuest:</h3>
+            <p style="font-size: 14px; color: #666;">
+                EduQuest is a comprehensive platform designed to support SPED (Special Education) students through gamification and digital portfolio development. Our platform helps students track their progress, build achievements, and develop important life and academic skills.
+            </p>
+
+            <p style="font-size: 12px; color: #999;">
+                EduQuest • A Gamified Digital Portfolio System for SPED Students<br>
+                © 2025 EduQuest. All rights reserved.
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>You received this email because you created an account. If you didn't create this account, please contact us.</p>
+        </div>
+    </div>
+</body>
+</html>

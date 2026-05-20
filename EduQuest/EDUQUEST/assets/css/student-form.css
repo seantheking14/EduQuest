@@ -1,0 +1,597 @@
+/* ═════════════════════════════════════════════
+   EduQuest — Student Form Redesign
+   Clean, organized, teacher-friendly layout
+   ═════════════════════════════════════════════ */
+
+/* ── Step indicator (horizontal progress bar) ── */
+.sf-steps {
+  display: flex;
+  gap: 0;
+  margin-bottom: 1.75rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 6px rgba(0,0,0,.07);
+  overflow: hidden;
+}
+.sf-step {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: .85rem .5rem;
+  font-size: .82rem;
+  color: #94a3b8;
+  cursor: pointer;
+  border-right: 1px solid #f1f5f9;
+  transition: background .15s, color .15s;
+  user-select: none;
+  text-align: center;
+}
+.sf-step:last-child { border-right: none; }
+.sf-step:hover { background: #f8fafc; color: #64748b; }
+.sf-step .sf-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  color: #94a3b8;
+  font-weight: 700;
+  font-size: .82rem;
+  flex-shrink: 0;
+  transition: background .2s, color .2s;
+}
+.sf-step.active { background: #eff6ff; color: #2563eb; font-weight: 600; }
+.sf-step.active .sf-num { background: #3b82f6; color: #fff; }
+.sf-step.done .sf-num { background: #22c55e; color: #fff; }
+.sf-step.done { color: #16a34a; }
+
+/* ── Section cards ── */
+.sf-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 5px rgba(0,0,0,.06);
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+}
+.sf-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+.sf-card-head h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e2a3b;
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+}
+.sf-card-head .sf-icon { font-size: 1.1rem; }
+.sf-card-body { padding: 1.25rem; }
+.sf-card-body:empty { display: none; }
+
+/* ── Collapsible / Accordion sections ── */
+.sf-collapse-toggle {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  width: 100%;
+  padding: .8rem 1.25rem;
+  background: #f8fafc;
+  border: none;
+  border-top: 1px solid #f1f5f9;
+  cursor: pointer;
+  font-size: .85rem;
+  font-weight: 600;
+  color: #475569;
+  text-align: left;
+  transition: background .15s;
+}
+.sf-collapse-toggle:hover { background: #f1f5f9; }
+.sf-collapse-toggle .sf-chevron {
+  transition: transform .2s;
+  font-size: .7rem;
+  color: #94a3b8;
+}
+.sf-collapse-toggle.open .sf-chevron { transform: rotate(90deg); }
+.sf-collapse-body {
+  display: none;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid #f1f5f9;
+  animation: sfFadeIn .2s ease;
+}
+.sf-collapse-body.open { display: block; }
+
+@keyframes sfFadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── Section label / divider within a card ── */
+.sf-section-label {
+  font-size: .78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: #64748b;
+  margin: 1.25rem 0 .5rem;
+  padding-bottom: .3rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+.sf-section-label:first-child { margin-top: 0; }
+
+/* ── Photo upload area (compact) ── */
+.sf-photo-area {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.sf-photo-preview {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #e2e8f0;
+  background: #f8fafc;
+}
+.sf-photo-area .btn { white-space: nowrap; }
+
+/* ── Accommodation badges ── */
+.sf-preset-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .55rem;
+  margin-bottom: 1.1rem;
+}
+.sf-preset-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .5rem 1.05rem;
+  border: 2px solid #cbd5e1;
+  border-radius: 20px;
+  background: #fff;
+  font-size: .9rem;
+  font-weight: 500;
+  color: #475569;
+  cursor: pointer;
+  transition: all .15s;
+  line-height: 1.3;
+}
+.sf-preset-badge:hover { border-color: #3b82f6; color: #2563eb; background: #eff6ff; transform: translateY(-1px); box-shadow: 0 2px 6px rgba(59,130,246,.15); }
+.sf-preset-badge.active { border-color: #16a34a; background: #f0fdf4; color: #15803d; font-weight: 700; box-shadow: 0 0 0 2px rgba(22,163,74,.15); }
+.sf-preset-badge.active::before { content: "✓ "; }
+
+/* ── Added accommodation chips ── */
+.sf-accom-chips-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin-bottom: .6rem;
+}
+.sf-accom-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .32rem .75rem;
+  background: #f0fdf4;
+  border: 1.5px solid #86efac;
+  border-radius: 20px;
+  font-size: .85rem;
+  font-weight: 600;
+  color: #15803d;
+}
+.sf-chip-label::before { content: "✓  "; }
+.sf-chip-remove {
+  background: none;
+  border: none;
+  color: #4ade80;
+  cursor: pointer;
+  font-size: 1.05rem;
+  line-height: 1;
+  padding: 0 .1rem;
+  border-radius: 50%;
+  transition: background .15s, color .15s;
+  font-weight: 700;
+}
+.sf-chip-remove:hover { background: #dcfce7; color: #166534; }
+
+/* ── Accommodation count badge ── */
+.sf-accom-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #6366f1;
+  color: #fff;
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  margin-left: .4rem;
+  vertical-align: middle;
+}
+
+/* ── Accommodation add/remove toast ── */
+.sf-accom-toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 1.5rem;
+  background: #166534;
+  color: #fff;
+  padding: .6rem 1.2rem .6rem .95rem;
+  border-radius: 10px;
+  font-size: .88rem;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .2s, transform .2s;
+  pointer-events: none;
+  z-index: 9999;
+  max-width: 320px;
+}
+.sf-accom-toast.show { opacity: 1; transform: translateY(0); }
+.sf-accom-toast.sf-toast-remove { background: #991b1b; }
+
+/* ── Upload zone (document upload) ── */
+.sf-upload-zone {
+  border: 2px dashed #cbd5e1;
+  border-radius: 10px;
+  padding: 1.75rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+  background: #fafbfc;
+}
+.sf-upload-zone:hover,
+.sf-upload-zone.drag-over {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+.sf-upload-zone .sf-upload-icon { font-size: 2rem; display: block; margin-bottom: .4rem; }
+.sf-upload-zone p { margin: .2rem 0; font-size: .88rem; color: #475569; }
+.sf-upload-zone .muted { font-size: .78rem; color: #94a3b8; }
+.sf-upload-zone input[type="file"] { display: none; }
+
+/* ── Document items ── */
+.sf-doc-item {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .6rem .85rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  margin-top: .5rem;
+  font-size: .85rem;
+}
+.sf-doc-item .sf-doc-name { flex: 1; font-weight: 500; color: #334155; }
+.sf-doc-item .sf-doc-size { color: #94a3b8; font-size: .78rem; }
+.sf-doc-item .sf-doc-remove {
+  background: none;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: .15rem .35rem;
+  border-radius: 4px;
+}
+.sf-doc-item .sf-doc-remove:hover { background: #fef2f2; }
+
+/* ── Plan type cards in doc step ── */
+.sf-plan-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.sf-plan-card {
+  padding: 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.sf-plan-card:hover { border-color: #6366f1; background: #f5f3ff; }
+.sf-plan-card.has-file { border-color: #22c55e; background: #f0fdf4; }
+.sf-plan-card .sf-plan-icon { font-size: 1.5rem; display: block; margin-bottom: .4rem; }
+.sf-plan-card strong { font-size: .85rem; display: block; color: #334155; }
+.sf-plan-card .sf-plan-hint { font-size: .75rem; color: #94a3b8; margin-top: .2rem; }
+.sf-plan-card .sf-plan-file-name {
+  font-size: .75rem;
+  color: #16a34a;
+  margin-top: .3rem;
+  font-weight: 600;
+  word-break: break-all;
+}
+
+/* ── Inline helper text ── */
+.sf-help {
+  font-size: .78rem;
+  color: #94a3b8;
+  margin-top: .15rem;
+  font-style: italic;
+}
+
+/* ── Checkbox grid (compact) ── */
+.sf-check-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: .4rem;
+  margin-bottom: .75rem;
+}
+.sf-check-item {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  font-size: .84rem;
+  cursor: pointer;
+  padding: .25rem 0;
+}
+.sf-check-item input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; }
+
+/* ── Dynamic row (conditions, meds, accommodations) ── */
+.sf-dyn-row {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: .85rem;
+  border-radius: 8px;
+  margin-bottom: .6rem;
+  position: relative;
+}
+.sf-dyn-remove {
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+  background: none;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  font-size: .85rem;
+  padding: .2rem .4rem;
+  border-radius: 4px;
+  line-height: 1;
+}
+.sf-dyn-remove:hover { background: #fef2f2; }
+
+/* ── Tip/info banner ── */
+.sf-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  padding: .75rem 1rem;
+  background: #eff6ff;
+  border-left: 3px solid #3b82f6;
+  border-radius: 0 8px 8px 0;
+  font-size: .83rem;
+  color: #1e40af;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+.sf-tip .sf-tip-icon { font-size: 1rem; flex-shrink: 0; margin-top: .1rem; }
+
+/* ── Navigation buttons ── */
+.sf-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .75rem;
+  padding-top: 1.25rem;
+}
+
+/* ── Rating row for sliders ── */
+.sf-rating-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+.sf-rating-item label { font-size: .82rem; font-weight: 600; color: #374151; display: block; margin-bottom: .2rem; }
+.sf-rating-item input[type="range"] { width: 100%; }
+.sf-rating-val { font-size: .82rem; color: #3b82f6; font-weight: 700; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .sf-plan-cards { grid-template-columns: 1fr; }
+  .sf-rating-row { grid-template-columns: 1fr; }
+  .sf-steps { flex-wrap: wrap; }
+}
+@media (max-width: 480px) {
+  .sf-photo-area { flex-direction: column; align-items: flex-start; }
+}
+
+/* ═══════════════════════════════════════════════════
+   VISUAL ENHANCEMENT — Bigger text, compact inputs,
+   color-coded sections, required field prominence
+   ═══════════════════════════════════════════════════ */
+
+/* ── Step indicator: larger, bolder ── */
+.sf-steps { margin-bottom: 2rem; }
+.sf-step {
+  padding: 1.1rem 0.6rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+.sf-step .sf-num {
+  width: 32px;
+  height: 32px;
+  font-size: 0.92rem;
+}
+
+/* ── Step tip banner: bigger text ── */
+.sf-tip {
+  font-size: 0.92rem;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1.25rem;
+}
+
+/* ── Card header: bigger, clearer ── */
+.sf-card-head { padding: 1rem 1.4rem; }
+.sf-card-head h3 {
+  font-size: 1.08rem;
+  font-weight: 700;
+  gap: 0.55rem;
+}
+.sf-card-head .sf-icon { font-size: 1.25rem; }
+.sf-card-body { padding: 1.25rem 1.4rem; }
+
+/* ── Form labels: larger and bolder ── */
+.sf-card-body .form-group label,
+.sf-collapse-body .form-group label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 0.4rem;
+  display: block;
+  line-height: 1.4;
+}
+
+/* ── Required field labels — extra prominent ── */
+.sf-card-body .form-group:has(input[required]) label,
+.sf-card-body .form-group:has(select[required]) label {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* ── Required inputs — blue left accent + pale tint ── */
+.sf-card-body input[required],
+.sf-card-body select[required] {
+  border-left: 3px solid #3b82f6 !important;
+  background: #f8fbff;
+}
+.sf-card-body input[required]:focus,
+.sf-card-body select[required]:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+}
+
+/* ── All inputs: compact padding, readable font ── */
+.sf-card-body input[type="text"],
+.sf-card-body input[type="email"],
+.sf-card-body input[type="tel"],
+.sf-card-body input[type="date"],
+.sf-card-body input[type="number"],
+.sf-card-body input[type="password"],
+.sf-card-body select,
+.sf-collapse-body input[type="text"],
+.sf-collapse-body input[type="email"],
+.sf-collapse-body input[type="tel"],
+.sf-collapse-body input[type="date"],
+.sf-collapse-body input[type="number"],
+.sf-collapse-body select {
+  padding: 0.5rem 0.8rem;
+  font-size: 0.92rem;
+  border-radius: 7px;
+  height: auto;
+}
+
+/* ── Textareas: readable font, compact ── */
+.sf-card-body textarea,
+.sf-collapse-body textarea {
+  padding: 0.55rem 0.8rem;
+  font-size: 0.92rem;
+  border-radius: 7px;
+  resize: vertical;
+}
+
+/* ── Section divider labels: bigger ── */
+.sf-section-label {
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+}
+
+/* ══ COLOR-CODED SECTION CARDS PER STEP ══ */
+
+/* Step 1 — Blue (Primary / Most Important) */
+#step1 .sf-card {
+  border-left: 5px solid #3b82f6;
+}
+#step1 .sf-card-head {
+  background: linear-gradient(90deg, #eff6ff 0%, #fff 100%);
+}
+#step1 .sf-card-head h3 { color: #1d4ed8; }
+#step1 .sf-collapse-toggle { background: #f0f6ff; color: #1d4ed8; }
+#step1 .sf-collapse-toggle:hover { background: #dbeafe; }
+
+/* Step 2 — Purple (Learning Profile) */
+#step2 .sf-card {
+  border-left: 5px solid #8b5cf6;
+}
+#step2 .sf-card-head {
+  background: linear-gradient(90deg, #f5f3ff 0%, #fff 100%);
+}
+#step2 .sf-card-head h3 { color: #6d28d9; }
+#step2 .sf-collapse-toggle { background: #f5f3ff; color: #6d28d9; }
+#step2 .sf-collapse-toggle:hover { background: #ede9fe; }
+
+/* Step 3 — Green (Accommodations) */
+#step3 .sf-card {
+  border-left: 5px solid #10b981;
+}
+#step3 .sf-card-head {
+  background: linear-gradient(90deg, #ecfdf5 0%, #fff 100%);
+}
+#step3 .sf-card-head h3 { color: #047857; }
+#step3 .sf-collapse-toggle { background: #ecfdf5; color: #047857; }
+#step3 .sf-collapse-toggle:hover { background: #d1fae5; }
+
+/* Step 4 — Amber (Plans & Documents) */
+#step4 .sf-card {
+  border-left: 5px solid #f59e0b;
+}
+#step4 .sf-card-head {
+  background: linear-gradient(90deg, #fffbeb 0%, #fff 100%);
+}
+#step4 .sf-card-head h3 { color: #b45309; }
+#step4 .sf-collapse-toggle { background: #fffbeb; color: #b45309; }
+#step4 .sf-collapse-toggle:hover { background: #fef3c7; }
+
+/* ── Step tip banners: match step color ── */
+#step1 .sf-tip { background: #eff6ff; border-left-color: #3b82f6; color: #1e40af; }
+#step2 .sf-tip { background: #f5f3ff; border-left-color: #8b5cf6; color: #5b21b6; }
+#step3 .sf-tip { background: #ecfdf5; border-left-color: #10b981; color: #065f46; }
+#step4 .sf-tip { background: #fffbeb; border-left-color: #f59e0b; color: #92400e; }
+
+/* ── Active step indicator colors match sections ── */
+.sf-step[data-step="1"].active { background: #eff6ff; color: #1d4ed8; }
+.sf-step[data-step="1"].active .sf-num { background: #3b82f6; }
+.sf-step[data-step="2"].active { background: #f5f3ff; color: #6d28d9; }
+.sf-step[data-step="2"].active .sf-num { background: #8b5cf6; }
+.sf-step[data-step="3"].active { background: #ecfdf5; color: #047857; }
+.sf-step[data-step="3"].active .sf-num { background: #10b981; }
+.sf-step[data-step="4"].active { background: #fffbeb; color: #b45309; }
+.sf-step[data-step="4"].active .sf-num { background: #f59e0b; }
+
+/* ── Check grid: bigger text ── */
+.sf-check-item {
+  font-size: 0.9rem;
+  gap: 0.55rem;
+  padding: 0.3rem 0;
+}
+.sf-check-item input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+}
+
+/* ── Collapse toggle: bigger ── */
+.sf-collapse-toggle {
+  font-size: 0.9rem;
+  padding: 0.85rem 1.4rem;
+}
+
+/* ── Navigation buttons: larger ── */
+.sf-nav .btn {
+  padding: 0.65rem 1.5rem;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 480px) {
+  .sf-step { font-size: 0.8rem; padding: 0.85rem 0.4rem; }
+  .sf-step .sf-num { width: 26px; height: 26px; font-size: 0.8rem; }
+}

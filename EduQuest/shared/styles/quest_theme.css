@@ -1,0 +1,2661 @@
+/* ============================================================
+   QUEST THEME — EduQuest Student RPG Frontend
+   All styles scoped under .quest-theme
+   Fonts: Cinzel (headings), Nunito (body)
+   ============================================================ */
+
+/* --- 1. DESIGN TOKENS ------------------------------------ */
+:root {
+  --color-sky-top:        #6a9fbf;
+  --color-sky-bottom:     #d4e9c7;
+  --color-mountain-far:   #4a5568;
+  --color-mountain-mid:   #2f4a2a;
+  --color-forest-dark:    #1e3a14;
+  --color-forest-mid:     #2d5016;
+  --color-forest-light:   #4a7c2f;
+  --color-ground:         #5c3d1a;
+  --color-parchment:      #f5e6c8;
+  --color-parchment-dark: #ede0c4;
+  --color-wood-dark:      #3b2008;
+  --color-wood-mid:       #6b3a1f;
+  --color-wood-light:     #8b5e3c;
+  --color-gold:           #c9972b;
+  --color-gold-light:     #f0c040;
+  --color-stone:          #7a7060;
+  --color-moss:           #4a7c2f;
+  --color-firefly:        #d4ff70;
+  --color-bark:           #2e1a0e;
+
+  --font-quest: 'Cinzel', 'MedievalSharp', Georgia, serif;
+  --font-body:  'Nunito', 'Segoe UI', system-ui, sans-serif;
+
+  --radius-card:        12px;
+  --radius-btn:         8px;
+  --shadow-card:        0 8px 32px rgba(0,0,0,0.45);
+  --shadow-inset-wood:  inset 0 0 16px rgba(30,10,0,0.35);
+}
+
+/* --- 2. BASE SETUP --------------------------------------- */
+.quest-theme {
+  font-family: var(--font-body);
+  color: var(--color-wood-dark);
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: transparent;
+}
+
+.quest-theme *,
+.quest-theme *::before,
+.quest-theme *::after {
+  box-sizing: border-box;
+}
+
+/* --- 3. BACKGROUND LAYER STRUCTURE ---------------------- */
+.quest-bg-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: -5;
+}
+
+.quest-bg-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- Layer 1: Sky (z-index -5) ---- */
+.quest-bg-sky {
+  z-index: -5;
+  background: linear-gradient(
+    180deg,
+    var(--color-sky-top)    0%,
+    var(--color-sky-bottom) 70%,
+    #e8d5a3                 100%
+  );
+  animation: sky-shift 120s linear infinite alternate;
+}
+
+@keyframes sky-shift {
+  from {
+    background: linear-gradient(
+      180deg, #5a8fb0 0%, #c5e0b8 70%, #ddc898 100%
+    );
+  }
+  to {
+    background: linear-gradient(
+      180deg, #7ab0cc 0%, #dff0cc 70%, #f0d8a8 100%
+    );
+  }
+}
+
+/* Clouds */
+.quest-cloud {
+  position: absolute;
+}
+.quest-cloud--1 { top: 3%;  opacity: 0.75; animation: cloud-drift  50s linear infinite; animation-delay:  -5s; }
+.quest-cloud--2 { top: 9%;  opacity: 0.65; animation: cloud-drift  70s linear infinite; animation-delay: -28s; }
+.quest-cloud--3 { top: 1%;  opacity: 0.85; animation: cloud-drift  90s linear infinite; animation-delay: -52s; }
+.quest-cloud--4 { top: 7%;  opacity: 0.70; animation: cloud-drift 110s linear infinite; animation-delay: -78s; }
+.quest-cloud--5 { top: 4%;  opacity: 0.80; animation: cloud-drift 130s linear infinite; animation-delay: -98s; }
+
+@keyframes cloud-drift {
+  from { transform: translateX(120vw); }
+  to   { transform: translateX(-400px); }
+}
+
+/* ---- Layer 2: Mountains (z-index -4) ---- */
+.quest-bg-mountains {
+  z-index: -4;
+}
+
+.quest-mountains-svg {
+  position: absolute;
+  bottom: 0;
+  left: -8px;
+  width: calc(100% + 16px);
+  height: 55%;
+  animation: mountain-drift 25s ease-in-out infinite alternate;
+}
+
+.quest-peaks-far {
+  filter: blur(2px);
+  opacity: 0.8;
+}
+
+@keyframes mountain-drift {
+  from { transform: translateX(-8px); }
+  to   { transform: translateX(8px); }
+}
+
+/* ---- Layer 3: Pine Forest (z-index -3) ---- */
+.quest-bg-forest {
+  z-index: -3;
+}
+
+.quest-forest-svg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 42vh;
+  overflow: visible;
+}
+
+/* Pine tree sway */
+.quest-pine {
+  transform-origin: 0px 0px;
+  animation: sway-tree 4s ease-in-out infinite alternate;
+}
+
+@keyframes sway-tree {
+  from { transform: rotate(-1.5deg); }
+  to   { transform: rotate(1.5deg); }
+}
+
+/* ---- Layer 4: Foreground (z-index -2) ---- */
+.quest-bg-foreground {
+  z-index: -2;
+}
+
+.quest-foreground-svg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 36vh;
+  overflow: visible;
+}
+
+/* Oak tree sway */
+.quest-oak {
+  transform-origin: 0px 0px;
+  animation: sway-tree-oak 7s ease-in-out infinite alternate;
+}
+
+@keyframes sway-tree-oak {
+  from { transform: rotate(-2.5deg); }
+  to   { transform: rotate(2.5deg); }
+}
+
+/* Fireflies */
+.quest-firefly {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-firefly);
+  box-shadow: 0 0 6px 3px rgba(212,255,112,0.7), 0 0 14px 7px rgba(212,255,112,0.25);
+  animation: glow-pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow-pulse {
+  from { opacity: 0.2; box-shadow: 0 0 4px 2px rgba(212,255,112,0.35); }
+  to   { opacity: 1;   box-shadow: 0 0 10px 5px rgba(212,255,112,0.8), 0 0 22px 10px rgba(212,255,112,0.2); }
+}
+
+/* ---- Layer 5: Fog (z-index -1) ---- */
+.quest-bg-fog {
+  z-index: -1;
+}
+
+.quest-fog {
+  position: absolute;
+  bottom: 0;
+  width: 160%;
+  height: 130px;
+  background: linear-gradient(180deg, transparent 0%, rgba(240,230,200,0.18) 100%);
+  border-radius: 50% 50% 0 0;
+}
+
+.quest-fog--1 {
+  left: -30%;
+  animation: fog-drift 20s ease-in-out infinite alternate;
+}
+
+.quest-fog--2 {
+  right: -30%;
+  animation: fog-drift 30s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes fog-drift {
+  from { transform: translateX(-45px); }
+  to   { transform: translateX(45px); }
+}
+
+/* --- 4. NAVIGATION BAR ----------------------------------- */
+/* Wood-grain utility mixin (applied to multiple nav elements) */
+.quest-theme .navbar,
+.quest-theme .navbar.student-nav {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px !important;
+  z-index: 100;
+  border-bottom: 3px solid var(--color-gold) !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.55) !important;
+  overflow: visible !important;
+  background:
+    repeating-linear-gradient(
+      2deg,
+      rgba(255,200,150,0.055) 0px, rgba(255,200,150,0.055) 2px,
+      transparent 2px, transparent 9px
+    ),
+    repeating-linear-gradient(
+      2deg,
+      rgba(0,0,0,0.13) 0px, rgba(0,0,0,0.13) 1px,
+      transparent 1px, transparent 15px
+    ),
+    var(--color-wood-dark) !important;
+}
+
+.quest-theme .nav-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-content: space-between;
+  overflow: visible;
+}
+
+/* Brand */
+.quest-theme .nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  min-width: 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.quest-theme .nav-brand:hover .nav-logo {
+  text-shadow: 0 0 18px rgba(201,151,43,1), 0 0 6px #fff3b0 !important;
+  transition: text-shadow 0.2s ease;
+}
+
+.quest-theme .nav-logo,
+.quest-theme .navbar.student-nav .nav-logo {
+  font-family: var(--font-quest) !important;
+  color: var(--color-gold) !important;
+  font-size: 1.2rem !important;
+  font-weight: 700;
+  text-shadow: 0 0 12px rgba(201,151,43,0.7);
+  letter-spacing: 0.05em;
+  text-decoration: none;
+}
+
+.quest-theme .nav-role {
+  display: none !important;
+}
+
+/* Book-sword logo icon */
+.quest-logo-icon {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  margin-right: 3px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 4px rgba(201,151,43,0.6));
+  transition: filter 0.2s ease;
+}
+
+.quest-theme .nav-brand:hover .quest-logo-icon {
+  filter: drop-shadow(0 0 8px rgba(240,192,64,0.9));
+}
+
+/* Torch icon */
+.quest-torch {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.quest-torch-flame {
+  animation: flicker 0.4s linear infinite !important;
+  animation-duration: 0.4s !important;
+  animation-iteration-count: infinite !important;
+  transform-origin: center bottom;
+}
+
+@keyframes flicker {
+  0%   { transform: scaleY(1.00) skewX(0deg);  opacity: 1.0; }
+  12%  { transform: scaleY(1.05) skewX(-2deg); opacity: 0.9; }
+  25%  { transform: scaleY(0.95) skewX(2deg);  opacity: 1.0; }
+  37%  { transform: scaleY(1.03) skewX(-1deg); opacity: 0.85; }
+  50%  { transform: scaleY(0.97) skewX(2deg);  opacity: 1.0; }
+  63%  { transform: scaleY(1.04) skewX(-2deg); opacity: 0.9; }
+  75%  { transform: scaleY(0.96) skewX(1deg);  opacity: 0.95; }
+  87%  { transform: scaleY(1.02) skewX(-2deg); opacity: 0.85; }
+  100% { transform: scaleY(1.00) skewX(0deg);  opacity: 1.0; }
+}
+
+/* Nav menu (hanging wooden sign tabs) */
+.quest-theme .nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+  justify-content: center;
+  flex-wrap: nowrap;
+  overflow: visible;
+}
+
+.quest-theme .nav-link,
+.quest-theme .navbar.student-nav .nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 8px;
+  background:
+    repeating-linear-gradient(
+      2deg,
+      rgba(255,200,150,0.04) 0px, rgba(255,200,150,0.04) 2px,
+      transparent 2px, transparent 8px
+    ),
+    linear-gradient(180deg, var(--color-wood-light), var(--color-wood-mid)) !important;
+  border: 2px solid var(--color-wood-mid) !important;
+  border-radius: 4px;
+  font-family: var(--font-quest) !important;
+  font-size: 0.72rem !important;
+  color: var(--color-parchment) !important;
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  transition: all 0.2s ease;
+  position: relative;
+  white-space: nowrap;
+  height: auto !important;
+  line-height: 1.3;
+}
+
+.quest-theme .nav-link:nth-child(odd)  { transform: rotate(-1deg); }
+.quest-theme .nav-link:nth-child(even) { transform: rotate(1deg); }
+
+.quest-theme .nav-link:hover,
+.quest-theme .navbar.student-nav .nav-link:hover {
+  transform: translateY(-3px) rotate(0deg) !important;
+  border-color: var(--color-gold) !important;
+  background:
+    repeating-linear-gradient(
+      2deg,
+      rgba(255,200,150,0.04) 0px, rgba(255,200,150,0.04) 2px,
+      transparent 2px, transparent 8px
+    ),
+    linear-gradient(180deg, #a07040, var(--color-wood-light)) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  color: var(--color-parchment) !important;
+}
+
+/* Remove the active underline from nav-v2 */
+.quest-theme .nav-link::after,
+.quest-theme .navbar.student-nav .nav-link::after {
+  display: none !important;
+  content: none !important;
+}
+
+.quest-theme .nav-link.active,
+.quest-theme .navbar.student-nav .nav-link.active {
+  background: var(--color-parchment) !important;
+  color: var(--color-wood-dark) !important;
+  border-color: var(--color-gold) !important;
+  transform: rotate(0deg) !important;
+  font-weight: 700;
+}
+
+.quest-theme .nav-icon {
+  font-size: 0.88rem;
+  line-height: 1;
+}
+
+/* Nav stats */
+.quest-theme .nav-stats {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.quest-theme .stat-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0,0,0,0.3) !important;
+  border: 1px solid var(--color-gold);
+  border-radius: 20px;
+  padding: 3px 10px;
+}
+
+.quest-theme .stat-value {
+  font-family: var(--font-quest);
+  font-size: 0.7rem;
+  color: var(--color-gold-light) !important;
+  font-weight: 700;
+}
+
+.quest-theme .stat-icon {
+  font-size: 0.8rem;
+}
+
+/* Avatar medallion */
+.quest-theme .nav-actions {
+  overflow: visible;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.quest-theme .nav-profile {
+  position: relative;
+  padding: 4px !important;
+  background: none !important;
+  cursor: pointer;
+}
+
+.quest-theme .profile-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid var(--color-stone) !important;
+  box-shadow: 0 0 0 2px var(--color-gold), inset 0 0 8px rgba(0,0,0,0.4), 0 0 14px rgba(201,151,43,0.3) !important;
+  background: var(--color-wood-mid) !important;
+  font-size: 1.2rem !important;
+  transition: box-shadow 0.2s ease;
+  line-height: 1;
+}
+
+.quest-theme .profile-avatar:hover {
+  box-shadow: 0 0 0 2px var(--color-gold-light), inset 0 0 8px rgba(0,0,0,0.4), 0 0 22px rgba(201,151,43,0.6) !important;
+}
+
+.quest-theme .profile-level {
+  position: static;
+  margin: 0;
+}
+
+.quest-theme .level-badge {
+  background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold)) !important;
+  color: var(--color-wood-dark) !important;
+  font-family: var(--font-quest);
+  font-size: 0.6rem !important;
+  font-weight: 700;
+  padding: 2px 6px !important;
+  border: none !important;
+  white-space: nowrap;
+}
+
+/* Profile Dropdown */
+.quest-theme .profile-dropdown {
+  background: var(--color-parchment) !important;
+  border: 2px solid var(--color-wood-mid) !important;
+  border-radius: var(--radius-card) !important;
+  box-shadow: var(--shadow-card) !important;
+  min-width: 160px;
+  padding: 6px 0;
+}
+
+.quest-theme .dropdown-item {
+  font-family: var(--font-quest);
+  font-size: 0.76rem;
+  color: var(--color-wood-dark) !important;
+  padding: 8px 14px;
+  gap: 8px;
+  transition: background 0.15s ease;
+}
+
+.quest-theme .dropdown-item:hover {
+  background: var(--color-parchment-dark) !important;
+  color: var(--color-wood-dark) !important;
+}
+
+.quest-theme .dropdown-icon {
+  font-size: 1rem;
+}
+
+/* Hamburger (three wooden planks) */
+.quest-theme .nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.quest-theme .hamburger,
+.quest-theme .hamburger::before,
+.quest-theme .hamburger::after {
+  display: block;
+  width: 26px;
+  height: 5px;
+  border-radius: 2px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,200,150,0.12) 0px, rgba(255,200,150,0.12) 3px,
+      transparent 3px, transparent 10px
+    ),
+    linear-gradient(180deg, var(--color-wood-light), var(--color-wood-mid));
+  border: 1px solid var(--color-wood-dark);
+  transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+}
+
+.quest-theme .hamburger {
+  position: relative;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,200,150,0.12) 0px, rgba(255,200,150,0.12) 3px,
+      transparent 3px, transparent 10px
+    ),
+    linear-gradient(180deg, var(--color-wood-light), var(--color-wood-mid));
+}
+
+.quest-theme .hamburger::before {
+  content: '';
+  position: absolute;
+  top: -9px;
+  left: 0;
+}
+
+.quest-theme .hamburger::after {
+  content: '';
+  position: absolute;
+  bottom: -9px;
+  left: 0;
+}
+
+/* Hamburger active (X) state */
+.quest-theme .nav-toggle.active .hamburger {
+  background: transparent !important;
+  border-color: transparent !important;
+}
+
+.quest-theme .nav-toggle.active .hamburger::before {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.quest-theme .nav-toggle.active .hamburger::after {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* ---- Mobile nav drawer ---- */
+@media (max-width: 768px) {
+  .quest-theme .nav-toggle {
+    display: flex;
+  }
+
+  .quest-theme .nav-menu {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background:
+      repeating-linear-gradient(
+        2deg,
+        rgba(255,200,150,0.055) 0px, rgba(255,200,150,0.055) 2px,
+        transparent 2px, transparent 9px
+      ),
+      var(--color-wood-dark);
+    border-bottom: 3px solid var(--color-gold);
+    z-index: 99;
+  }
+
+  .quest-theme .nav-menu.active {
+    max-height: 500px;
+  }
+
+  .quest-theme .nav-link,
+  .quest-theme .navbar.student-nav .nav-link {
+    border-radius: 0 !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+    border-bottom: 1px solid rgba(255,200,150,0.15) !important;
+    transform: none !important;
+    padding: 13px 20px !important;
+    font-size: 0.82rem !important;
+  }
+
+  .quest-theme .nav-stats {
+    display: none;
+  }
+}
+
+/* --- 5. CONTENT WRAPPER ---------------------------------- */
+.quest-content-wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 90px 20px 48px;
+}
+
+.quest-theme .main-content {
+  position: relative;
+  z-index: 1;
+  padding-top: 80px;
+}
+
+.quest-theme .container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* --- 6. CARDS -------------------------------------------- */
+@keyframes card-appear {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+.quest-card {
+  position: relative;
+  background: var(--color-parchment);
+  border: 4px solid var(--color-wood-mid);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card), var(--shadow-inset-wood);
+  padding: 28px 32px;
+  animation: card-appear 0.45s ease-out both;
+  overflow: visible;
+}
+
+/* Decorative top bar */
+.quest-card::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  height: 14px;
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-wood-dark)  0px,  var(--color-wood-dark)  24px,
+    #4a2810                 24px, #4a2810                 26px,
+    var(--color-wood-dark)  26px, var(--color-wood-dark)  48px
+  );
+  pointer-events: none;
+}
+
+/* Nail on top bar */
+.quest-card::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #d8d8d8 0%, #888 40%, #333 100%);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Variant: wood */
+.quest-card--wood {
+  background: linear-gradient(160deg, var(--color-wood-light) 0%, var(--color-wood-mid) 100%);
+  color: var(--color-parchment);
+}
+
+.quest-card--wood::before {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-bark) 0px, var(--color-bark) 24px,
+    #1a0a00           24px, #1a0a00           26px,
+    var(--color-bark) 26px, var(--color-bark) 48px
+  );
+}
+
+/* Variant: stone */
+.quest-card--stone {
+  background: #c8c0b0;
+  border-color: var(--color-stone);
+  box-shadow: var(--shadow-card), inset 0 0 22px rgba(0,0,0,0.22);
+}
+
+.quest-card--stone::before {
+  background: repeating-linear-gradient(
+    90deg,
+    #8a8070 0px, #8a8070 20px,
+    #6a6050 20px, #6a6050 22px,
+    #8a8070 22px, #8a8070 40px
+  );
+}
+
+/* Variant: scroll — top and bottom parchment curls */
+.quest-card--scroll::before {
+  height: 22px;
+  background:
+    radial-gradient(ellipse at center bottom, rgba(180,140,80,0.4) 0%, rgba(245,230,200,0) 65%),
+    linear-gradient(180deg, #c8a86a 0%, var(--color-parchment-dark) 100%);
+}
+
+.quest-card--scroll::after {
+  /* Override nail — show bottom scroll curl instead */
+  width: auto;
+  height: 22px;
+  border-radius: 0 0 var(--radius-card) var(--radius-card);
+  background:
+    radial-gradient(ellipse at center top, rgba(180,140,80,0.4) 0%, rgba(245,230,200,0) 65%),
+    linear-gradient(180deg, var(--color-parchment-dark) 0%, #c8a86a 100%);
+  top: auto;
+  bottom: -4px;
+  left: -4px;
+  right: -4px;
+  transform: none;
+  box-shadow: none;
+  border-radius: 0 0 var(--radius-card) var(--radius-card);
+}
+
+/* --- 7. BUTTONS ------------------------------------------ */
+.btn-quest {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  background: linear-gradient(180deg, var(--color-wood-light), var(--color-wood-mid));
+  color: var(--color-parchment);
+  font-family: var(--font-quest);
+  font-size: 0.9rem;
+  font-weight: 700;
+  border: 2px solid var(--color-wood-dark);
+  border-radius: var(--radius-btn);
+  box-shadow: 0 5px 0 var(--color-wood-dark);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.12s ease;
+  letter-spacing: 0.04em;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+
+.btn-quest:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 var(--color-wood-dark);
+  filter: brightness(1.1);
+  color: var(--color-parchment);
+}
+
+.btn-quest:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 var(--color-wood-dark);
+}
+
+/* Gold / reward */
+.btn-quest--gold {
+  background: linear-gradient(180deg, var(--color-gold-light), var(--color-gold));
+  color: var(--color-wood-dark);
+  border-color: #7a5a00;
+  box-shadow: 0 5px 0 #7a5a00;
+  overflow: hidden;
+}
+
+.btn-quest--gold:hover { box-shadow: 0 7px 0 #7a5a00; color: var(--color-wood-dark); }
+.btn-quest--gold:active { box-shadow: 0 2px 0 #7a5a00; }
+
+/* Shimmer on hover */
+.btn-quest--gold::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -100%;
+  width: 60%;
+  height: 200%;
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.45) 50%, transparent 70%);
+  transform: skewX(-20deg);
+  pointer-events: none;
+  animation: none;
+}
+
+.btn-quest--gold:hover::after {
+  animation: shimmer-sweep 2.5s ease infinite;
+}
+
+@keyframes shimmer-sweep {
+  0%   { left: -100%; }
+  100% { left: 200%; }
+}
+
+/* Stone / secondary */
+.btn-quest--stone {
+  background: linear-gradient(180deg, #9a8f80, var(--color-stone));
+  color: var(--color-parchment);
+  border-color: #4a4438;
+  box-shadow: 0 5px 0 #4a4438;
+}
+
+.btn-quest--stone:hover  { box-shadow: 0 7px 0 #4a4438; color: var(--color-parchment); }
+.btn-quest--stone:active { box-shadow: 0 2px 0 #4a4438; }
+
+/* Danger */
+.btn-quest--danger {
+  background: linear-gradient(180deg, #c0392b, #922b21);
+  color: var(--color-parchment);
+  border-color: #641e16;
+  box-shadow: 0 5px 0 #641e16;
+}
+
+.btn-quest--danger:hover  { box-shadow: 0 7px 0 #641e16; color: var(--color-parchment); }
+.btn-quest--danger:active { box-shadow: 0 2px 0 #641e16; }
+
+/* --- 8. PROGRESS BARS ------------------------------------ */
+.quest-progress {
+  position: relative;
+  background: var(--color-stone);
+  border: 2px solid var(--color-wood-dark);
+  height: 18px;
+  border-radius: 9px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.35);
+  overflow: visible;
+}
+
+.quest-progress__fill {
+  position: relative;
+  height: 100%;
+  border-radius: 9px;
+  width: 0;
+  transition: width 1s ease-out;
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* Shimmer sweep on fill */
+.quest-progress__fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
+  animation: shimmer-sweep 2s linear infinite;
+}
+
+/* Leading orb */
+.quest-progress__orb {
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  animation: orb-pulse 1s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes orb-pulse {
+  from { transform: translateY(-50%) scale(0.85); }
+  to   { transform: translateY(-50%) scale(1.15); }
+}
+
+/* Green variant */
+.quest-progress--green .quest-progress__fill {
+  background: linear-gradient(90deg, #2d5016, #4a7c2f);
+}
+.quest-progress--green .quest-progress__orb {
+  background: #4a7c2f;
+  box-shadow: 0 0 8px 4px rgba(74,124,47,0.7);
+}
+
+/* Gold variant */
+.quest-progress--gold .quest-progress__fill {
+  background: linear-gradient(90deg, #c9972b, #f0c040);
+}
+.quest-progress--gold .quest-progress__orb {
+  background: #f0c040;
+  box-shadow: 0 0 8px 4px rgba(240,192,64,0.7);
+}
+
+/* Fire variant */
+.quest-progress--fire .quest-progress__fill {
+  background: linear-gradient(90deg, #c0392b, #f39c12);
+}
+.quest-progress--fire .quest-progress__orb {
+  background: #f39c12;
+  box-shadow: 0 0 8px 4px rgba(243,156,18,0.7);
+}
+
+/* Runic variant (profile XP) */
+.quest-progress--rune .quest-progress__fill {
+  background: linear-gradient(90deg, #1a4a8a, #4a90d9, #7ab8f5);
+  box-shadow: 0 0 8px rgba(74,144,217,0.5);
+}
+.quest-progress--rune .quest-progress__orb {
+  background: #7ab8f5;
+  box-shadow: 0 0 8px 4px rgba(74,144,217,0.7);
+}
+
+/* --- 9. FORM INPUTS -------------------------------------- */
+.quest-theme .quest-input {
+  background: #fdf6e3;
+  border: 2px solid var(--color-wood-mid);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color: var(--color-wood-dark);
+  width: 100%;
+  transition: all 0.2s ease;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.quest-theme .quest-input:focus {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(201,151,43,0.25);
+  background: #fffdf5;
+}
+
+.quest-theme .quest-label {
+  display: block;
+  font-family: var(--font-quest);
+  font-size: 0.78rem;
+  color: var(--color-wood-dark);
+  letter-spacing: 0.04em;
+  margin-bottom: 5px;
+}
+
+.quest-theme .quest-select {
+  background-color: #fdf6e3;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b3a1f' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  border: 2px solid var(--color-wood-mid);
+  border-radius: 6px;
+  padding: 10px 36px 10px 14px;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color: var(--color-wood-dark);
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.quest-theme .quest-select:focus {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(201,151,43,0.25);
+}
+
+.quest-form-group {
+  margin-bottom: 18px;
+}
+
+/* --- 10. POPUP RESKIN ------------------------------------ */
+.quest-theme .game-popup-overlay {
+  background: rgba(20,12,4,0.78) !important;
+  backdrop-filter: blur(3px);
+}
+
+.quest-theme .game-popup-card {
+  background: var(--color-parchment) !important;
+  border: 5px solid var(--color-wood-mid) !important;
+  box-shadow: var(--shadow-card) !important;
+  border-radius: var(--radius-card) !important;
+}
+
+.quest-theme .game-popup-card .popup-title,
+.quest-theme .game-popup-card h2,
+.quest-theme .game-popup-card h3 {
+  font-family: var(--font-quest) !important;
+  color: var(--color-wood-dark) !important;
+}
+
+/* Rotating golden ring behind popup icon */
+.quest-theme .game-popup-card .popup-icon-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quest-theme .game-popup-card .popup-icon-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  border: 3px dashed var(--color-gold);
+  animation: spin-slow 8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Confetti overrides */
+.quest-theme .confetti-piece:nth-child(6n+1) { background: #2d5016 !important; }
+.quest-theme .confetti-piece:nth-child(6n+2) { background: var(--color-gold) !important; }
+.quest-theme .confetti-piece:nth-child(6n+3) { background: #8b5e3c !important; }
+.quest-theme .confetti-piece:nth-child(6n+4) { background: #922b21 !important; }
+.quest-theme .confetti-piece:nth-child(6n+5) { background: var(--color-parchment) !important; }
+.quest-theme .confetti-piece:nth-child(6n+6) { background: #4a7c2f !important; }
+
+/* --- 11. SECTION HEADINGS WITH LEAF ICON ---------------- */
+.quest-theme h2,
+.quest-theme h3 {
+  font-family: var(--font-quest);
+  color: var(--color-wood-dark);
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.quest-theme h2::before,
+.quest-theme h3::before {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-right: 8px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 0 0 8 20C19 20 22 3 22 3c-1 2-8 2-8 2 0-2-2-3-2-3l-1.5 3.5C8 8 8 10 8 10' fill='%234a7c2f'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+}
+
+/* --- 12. MICRO-INTERACTIONS ------------------------------ */
+/* Quest link hover arrow */
+.quest-theme a.quest-link::after {
+  content: ' ›';
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  transform: translateX(-4px);
+  display: inline-block;
+}
+
+.quest-theme a.quest-link:hover::after {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+/* Leaf particles */
+.leaf-particle {
+  position: absolute;
+  width: 12px;
+  height: 8px;
+  pointer-events: none;
+  z-index: 50;
+  animation: leaf-float 1.2s ease-out forwards;
+}
+
+@keyframes leaf-float {
+  0%   { transform: translateY(0)     rotate(0deg);           opacity: 0.9; }
+  50%  { transform: translateY(-45px) rotate(120deg) translateX(14px); opacity: 0.6; }
+  100% { transform: translateY(-90px) rotate(250deg) translateX(-8px);  opacity: 0; }
+}
+
+/* Page transition overlay */
+.quest-page-transition {
+  position: fixed;
+  inset: 0;
+  background: var(--color-wood-dark);
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* --- 13. DASHBOARD PAGE ---------------------------------- */
+.quest-hero-banner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.quest-avatar-frame {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 4px solid var(--color-stone);
+  box-shadow: 0 0 0 3px var(--color-gold), inset 0 0 12px rgba(0,0,0,0.4), 0 0 20px rgba(201,151,43,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+  background: var(--color-wood-mid);
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.quest-hero-info {
+  flex: 1;
+  min-width: 160px;
+}
+
+.quest-hero-name {
+  font-family: var(--font-quest);
+  font-size: 1.7rem;
+  color: var(--color-gold);
+  text-shadow: 0 2px 6px rgba(0,0,0,0.35);
+  margin: 0 0 10px;
+}
+
+.quest-stat-chips {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.quest-stat-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--color-wood-light), var(--color-wood-mid));
+  border: 3px solid var(--color-wood-dark);
+  box-shadow: 0 4px 0 var(--color-wood-dark), var(--shadow-inset-wood);
+}
+
+.quest-stat-chip .chip-icon  { font-size: 1.2rem; line-height: 1; }
+.quest-stat-chip .chip-value { font-family: var(--font-quest); font-size: 0.88rem; color: var(--color-gold-light); font-weight: 700; }
+.quest-stat-chip .chip-label { font-family: var(--font-quest); font-size: 0.65rem; color: var(--color-parchment); opacity: 1; letter-spacing: 0.04em; }
+
+/* Two-column dashboard grid */
+.quest-dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+/* Achievement badge */
+.quest-badge-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  text-align: center;
+}
+
+.quest-badge-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--color-wood-light), var(--color-wood-mid));
+  border: 3px solid var(--color-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  line-height: 1;
+}
+
+/* Pulse for new badge */
+.quest-badge-icon.is-new {
+  animation: pulse-gold 1.5s ease-in-out 3;
+}
+
+@keyframes pulse-gold {
+  0%   { box-shadow: 0 0 0 0    rgba(201,151,43,0); }
+  50%  { box-shadow: 0 0 0 14px rgba(201,151,43,0.5); }
+  100% { box-shadow: 0 0 0 0    rgba(201,151,43,0); }
+}
+
+/* --- 14. ACTIVITIES PAGE --------------------------------- */
+.quest-page-signboard {
+  text-align: center;
+  padding: 18px 32px 14px;
+  margin-bottom: 28px;
+  border-top: 4px solid transparent;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,200,150,0.1) 0px, rgba(255,200,150,0.1) 3px,
+      transparent 3px, transparent 12px
+    );
+  background-repeat: repeat-x;
+  background-position: top;
+}
+
+.quest-page-title {
+  font-family: var(--font-quest);
+  color: var(--color-gold);
+  font-size: 1.5rem;
+  margin: 0;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.45);
+}
+
+/* Activities grid */
+.quest-activities-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* Category color strips on cards */
+.quest-card[data-category="reading"]::before {
+  background: linear-gradient(90deg, #1e4d0a, #4a7c2f, #1e4d0a) !important;
+}
+.quest-card[data-category="math"]::before {
+  background: linear-gradient(90deg, #7a5a00, var(--color-gold), #7a5a00) !important;
+}
+.quest-card[data-category="arts"]::before {
+  background: linear-gradient(90deg, #4a1580, #9b59b6, #4a1580) !important;
+}
+.quest-card[data-category="science"]::before {
+  background: linear-gradient(90deg, #0a4d4d, #1abc9c, #0a4d4d) !important;
+}
+
+/* Wax seal (completed indicator) */
+.quest-wax-seal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* --- 15. QUIZ PAGE --------------------------------------- */
+.quest-quiz-container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.quest-quiz-question {
+  font-family: var(--font-quest);
+  font-size: 1.1rem;
+  color: var(--color-wood-dark);
+  margin-bottom: 24px;
+  line-height: 1.65;
+}
+
+.quest-quiz-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.quest-quiz-progress-label {
+  font-family: var(--font-quest);
+  font-size: 0.78rem;
+  color: var(--color-wood-dark);
+  white-space: nowrap;
+}
+
+/* Answer choice planks */
+.quest-answer-btn {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  padding: 14px 20px;
+  margin-bottom: 10px;
+  background: linear-gradient(180deg, var(--color-wood-light), var(--color-wood-mid));
+  border: 2px solid var(--color-wood-dark);
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-parchment);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  box-shadow: 3px 3px 0 var(--color-bark);
+}
+
+.quest-answer-btn:hover {
+  transform: translateX(6px);
+  box-shadow: 0 3px 0 var(--color-bark);
+}
+
+.quest-answer-btn.selected {
+  border-color: var(--color-gold);
+  background: linear-gradient(180deg, var(--color-gold-light), var(--color-gold));
+  color: var(--color-wood-dark);
+}
+
+.quest-answer-btn.correct {
+  animation: correct-glow 0.6s ease-out;
+  border-color: #2d5016;
+  background: linear-gradient(180deg, #4a7c2f, #2d5016);
+  color: var(--color-parchment);
+}
+
+@keyframes correct-glow {
+  0%   { box-shadow: 0 0 0 0    rgba(74,124,47,0); }
+  50%  { box-shadow: 0 0 0 14px rgba(74,124,47,0.5); }
+  100% { box-shadow: 0 0 0 4px  rgba(74,124,47,0.2); }
+}
+
+.quest-answer-btn.incorrect {
+  animation: shake 0.4s ease-out;
+  border-color: #922b21;
+  background: linear-gradient(180deg, #c0392b, #922b21);
+  color: var(--color-parchment);
+}
+
+@keyframes shake {
+  0%   { transform: translateX(0); }
+  14%  { transform: translateX(-8px); }
+  28%  { transform: translateX(7px); }
+  42%  { transform: translateX(-6px); }
+  57%  { transform: translateX(5px); }
+  71%  { transform: translateX(-3px); }
+  86%  { transform: translateX(2px); }
+  100% { transform: translateX(0); }
+}
+
+/* --- 16. PORTFOLIO PAGE ---------------------------------- */
+.quest-portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.quest-portfolio-card {
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.quest-portfolio-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 50px rgba(0,0,0,0.55), var(--shadow-inset-wood) !important;
+}
+
+.quest-portfolio-frame {
+  position: absolute;
+  inset: -5px;
+  border: 5px solid var(--color-wood-mid);
+  border-radius: var(--radius-card);
+  box-shadow: inset 0 0 0 2px var(--color-gold);
+  pointer-events: none;
+}
+
+/* --- 17. PROFILE PAGE ------------------------------------ */
+.quest-profile-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.quest-profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 5px solid var(--color-stone);
+  box-shadow: 0 0 0 3px var(--color-gold), inset 0 0 16px rgba(0,0,0,0.4), 0 0 26px rgba(201,151,43,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  background: var(--color-wood-mid);
+  margin: 0 auto 18px;
+  line-height: 1;
+}
+
+.quest-profile-name {
+  font-family: var(--font-quest);
+  font-size: 1.25rem;
+  color: var(--color-gold);
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  margin: 0 0 10px;
+}
+
+/* --- 18. LOGIN / REGISTER PAGES -------------------------- */
+.quest-theme.quest-auth-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.quest-auth-card {
+  max-width: 440px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+
+.quest-auth-title {
+  font-family: var(--font-quest);
+  font-size: 1.45rem;
+  color: var(--color-gold);
+  text-align: center;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.45);
+  margin: 0 0 4px;
+  position: relative;
+}
+
+/* Sparkle stars around auth title */
+.quest-sparkle {
+  position: absolute;
+  pointer-events: none;
+}
+
+.quest-sparkle--1 { top: -10px; left: 20%;  animation: sparkle-star 2.1s ease-in-out infinite; }
+.quest-sparkle--2 { top:   0;   right: 15%; animation: sparkle-star 1.7s ease-in-out infinite 0.4s; }
+.quest-sparkle--3 { bottom: -8px; left: 10%; animation: sparkle-star 2.4s ease-in-out infinite 0.8s; }
+.quest-sparkle--4 { bottom:  0;  right: 25%; animation: sparkle-star 1.9s ease-in-out infinite 1.2s; }
+
+@keyframes sparkle-star {
+  0%, 100% { opacity: 0; transform: rotate(0deg)   scale(0.4); }
+  50%       { opacity: 1; transform: rotate(180deg) scale(1.1); }
+}
+
+/* --- 19. RESPONSIVE: TABLET (768 - 1099px) --------------- */
+@media (max-width: 1099px) and (min-width: 769px) {
+  .quest-activities-grid,
+  .quest-portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .quest-profile-layout {
+    grid-template-columns: 220px 1fr;
+  }
+
+  .quest-card {
+    padding: 18px 20px;
+  }
+
+  .quest-dashboard-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* --- 20. RESPONSIVE: MOBILE (767px and below) ------------ */
+@media (max-width: 767px) {
+  .quest-activities-grid,
+  .quest-portfolio-grid,
+  .quest-dashboard-grid,
+  .quest-profile-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .quest-hero-banner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .quest-stat-chips {
+    justify-content: center;
+  }
+
+  .quest-card {
+    padding: 18px 16px;
+  }
+
+  .btn-quest {
+    font-size: 0.82rem;
+    padding: 8px 18px;
+  }
+
+  /* Simplify background layers on mobile */
+  .quest-bg-mountains,
+  .quest-bg-forest {
+    display: none;
+  }
+
+  .quest-cloud--3,
+  .quest-cloud--4,
+  .quest-cloud--5 {
+    display: none;
+  }
+
+  .quest-fog--2 {
+    display: none;
+  }
+
+  /* Auth card on mobile */
+  .quest-auth-card {
+    margin: 16px;
+    max-width: calc(100% - 32px);
+  }
+
+  /* Popup full width on mobile */
+  .quest-theme .game-popup-card {
+    width: calc(100% - 32px) !important;
+    margin: 0 16px !important;
+  }
+}
+
+/* --- 21. 1100px+ FULL LAYOUT ----------------------------- */
+@media (min-width: 1100px) {
+  .quest-activities-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .quest-portfolio-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ============================================================
+   22. READABILITY & ACCESSIBILITY ENHANCEMENT PACK
+   All rules scoped under .quest-theme
+   ============================================================ */
+
+/* ---- A. GLOBAL TYPOGRAPHY ---- */
+
+.quest-theme {
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* Core body text colour on parchment backgrounds */
+.quest-theme p,
+.quest-theme li,
+.quest-theme td,
+.quest-theme th {
+  color: #2c1a0e;
+  font-family: var(--font-body);
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+/* Page-level headings */
+.quest-theme h1,
+.quest-theme .page-title,
+.quest-theme .tq-page-title {
+  font-family: var(--font-quest) !important;
+  font-size: 2rem !important;
+  color: var(--color-gold) !important;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.5) !important;
+  line-height: 1.25 !important;
+  margin-bottom: 10px;
+}
+
+/* Page subtitles */
+.quest-theme .page-subtitle,
+.quest-theme .tq-page-subtitle {
+  font-family: var(--font-body) !important;
+  font-size: 1rem !important;
+  line-height: 1.7 !important;
+}
+
+/* Section-level headings — override blanket h2/h3 rules above */
+.quest-theme h2:not(.section-sign-title),
+.quest-theme .section-title,
+.quest-theme .summary-title,
+.quest-theme .section-heading {
+  font-family: var(--font-quest) !important;
+  font-size: 1.4rem !important;
+  color: var(--color-wood-dark) !important;
+  line-height: 1.3 !important;
+}
+
+.quest-theme h3:not(.section-sign-title) {
+  font-family: var(--font-quest) !important;
+  font-size: 1.15rem !important;
+  color: var(--color-wood-dark) !important;
+  line-height: 1.3 !important;
+}
+
+/* Tighten up anything that was slipping below 14 px */
+.quest-theme .meta-pill,
+.quest-theme .tq-meta-pill,
+.quest-theme .achievement-category,
+.quest-theme .achievement-xp,
+.quest-theme .stat-box-label,
+.quest-theme .chip-label,
+.quest-theme .bar-label,
+.quest-theme .bar-count,
+.quest-theme .rank-meta,
+.quest-theme .due-row,
+.quest-theme .stat-item .stat-value,
+.quest-theme small {
+  font-size: 0.875rem !important; /* = 14 px at 16 px root */
+}
+
+/* Button labels always readable */
+.quest-theme .btn-quest,
+.quest-theme .btn-play,
+.quest-theme .btn-back,
+.quest-theme .ctrl-btn,
+.quest-theme .filter-btn,
+.quest-theme .subject-tab-btn {
+  font-size: 0.9375rem !important; /* 15 px */
+  font-weight: 700 !important;
+}
+
+/* ---- B. SECTION-SIGN COMPONENT ---- */
+
+/*
+  Usage: <div class="section-sign">
+           <span class="section-sign-icon" aria-hidden="true">📖</span>
+           <span class="section-sign-title">Section Name</span>
+         </div>
+*/
+
+.quest-theme .section-sign {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 20px;
+  margin-bottom: 16px;
+  background:
+    repeating-linear-gradient(
+      2deg,
+      rgba(255,200,150,0.06) 0px, rgba(255,200,150,0.06) 2px,
+      transparent              2px, transparent              9px
+    ),
+    linear-gradient(135deg, var(--color-wood-dark) 0%, var(--color-wood-mid) 100%);
+  border: 3px solid var(--color-gold);
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+
+.quest-theme .section-sign-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.quest-theme .section-sign-title {
+  font-family: var(--font-quest) !important;
+  font-size: 1.1rem !important;
+  color: var(--color-gold) !important;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.45);
+  display: block;
+  line-height: 1.3;
+}
+
+/* ---- C. CONTAINER / SECTION CARD STANDARDS ---- */
+
+/* Any <section> directly inside .main-content should look like a
+   lifted parchment card unless it carries a more specific class */
+.quest-theme .main-content > .container > section,
+.quest-theme .main-content > section {
+  background: var(--color-parchment);
+  border: 2px solid var(--color-wood-mid);
+  border-radius: var(--radius-card);
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+/* Spacing between stacked sibling sections */
+.quest-theme .main-content > .container > * + *,
+.quest-theme .main-content > .container > section + section {
+  margin-top: 24px;
+}
+
+/* Content text on parchment: dark wood brown */
+.quest-theme .main-content > .container > section p,
+.quest-theme .main-content > .container > section li,
+.quest-theme .main-content > .container > section td {
+  color: #2c1a0e;
+}
+
+/* ---- D. ENHANCED PROGRESS BARS ---- */
+
+/* 20 px tall bar with percentage label inside */
+.quest-theme .xp-bar-large,
+.quest-theme .quest-progress,
+.quest-theme .xp-progress-bar,
+.quest-theme .daily-xp-bar,
+.quest-theme .tp-track,
+.quest-theme .egg-progress-bar {
+  height: 20px !important;
+  border-radius: 10px !important;
+  background: rgba(59,32,8,0.25) !important;
+  border: 2px solid var(--color-wood-dark) !important;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.35) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Progress fill keeps the existing shimmer */
+.quest-theme .xp-fill-large,
+.quest-theme .quest-progress__fill,
+.quest-theme .daily-xp-fill,
+.quest-theme .tp-fill,
+.quest-theme .egg-progress-fill {
+  height: 100% !important;
+  border-radius: 8px !important;
+  transition: width 0.9s ease-out !important;
+  min-width: 0;
+  position: relative;
+}
+
+/* Inline percentage label for quest card progress bars */
+.quest-theme .progress-pct-label {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-parchment);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+  pointer-events: none;
+  z-index: 1;
+  white-space: nowrap;
+}
+
+/* Progress bar caption row */
+.quest-theme .xp-label,
+.quest-theme .daily-xp-cap,
+.quest-theme .egg-progress-label {
+  font-family: var(--font-body);
+  font-size: 0.875rem !important;
+  color: var(--color-wood-dark) !important;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+/* ---- E. STATUS CHIPS ---- */
+
+.quest-theme .status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-family: var(--font-body);
+  font-size: 0.8125rem; /* 13 px — readable, compact */
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.quest-theme .status-chip--active,
+.quest-theme .status-chip--in-progress {
+  background: #e8f5e9;
+  color: #1b5e20;
+  border-color: #4a7c2f;
+}
+
+.quest-theme .status-chip--completed,
+.quest-theme .status-chip--done {
+  background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold));
+  color: var(--color-wood-dark);
+  border-color: #7a5a00;
+}
+
+.quest-theme .status-chip--locked,
+.quest-theme .status-chip--not-started {
+  background: #e0d8cc;
+  color: var(--color-stone);
+  border-color: var(--color-stone);
+}
+
+.quest-theme .status-chip--overdue,
+.quest-theme .status-chip--late {
+  background: #fbe9e7;
+  color: #b71c1c;
+  border-color: #c0392b;
+}
+
+/* ---- F. ACHIEVEMENT BADGE CARDS ---- */
+
+.quest-theme .achievement-card {
+  min-width: 130px;
+  min-height: 150px;
+  background: var(--color-parchment) !important;
+  border: 3px solid var(--color-wood-mid) !important;
+  border-radius: var(--radius-card) !important;
+  padding: 16px 14px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+}
+
+.quest-theme .achievement-card:not(.locked):hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.4) !important;
+}
+
+/* Achievement icon wrapper (badge icon) */
+.quest-theme .achievement-icon,
+.quest-theme .achievement-badge-icon {
+  width: 56px;
+  height: 56px;
+  font-size: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 3px solid var(--color-gold);
+  background: linear-gradient(135deg, var(--color-wood-light), var(--color-wood-mid));
+  margin-bottom: 4px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+}
+
+/* Earned badge: gold ring + shimmer */
+.quest-theme .achievement-card:not(.locked) .achievement-icon,
+.quest-theme .achievement-card:not(.locked) .achievement-badge-icon {
+  border-color: var(--color-gold-light);
+  box-shadow: 0 0 0 3px rgba(240,192,64,0.4), 0 3px 8px rgba(0,0,0,0.3);
+}
+
+/* Locked badge: greyscale + dashed border */
+.quest-theme .achievement-card.locked .achievement-icon,
+.quest-theme .achievement-card.locked .achievement-badge-icon {
+  filter: grayscale(100%) brightness(0.8);
+  border-style: dashed;
+  border-color: var(--color-stone);
+}
+
+.quest-theme .achievement-card.locked {
+  opacity: 0.72;
+  border-style: dashed !important;
+}
+
+.quest-theme .achievement-title {
+  font-family: var(--font-quest) !important;
+  font-size: 0.875rem !important;
+  color: var(--color-wood-dark) !important;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.quest-theme .achievement-desc {
+  font-family: var(--font-body) !important;
+  font-size: 0.8125rem !important;
+  color: var(--color-stone) !important;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Achievement summary card */
+.quest-theme .achievement-summary {
+  background: var(--color-parchment) !important;
+  border: 2px solid var(--color-wood-mid) !important;
+  border-radius: var(--radius-card) !important;
+  padding: 20px 24px !important;
+  box-shadow: var(--shadow-card) !important;
+  margin-bottom: 16px;
+}
+
+.quest-theme .summary-value {
+  font-family: var(--font-quest) !important;
+  font-size: 2rem !important;
+  color: var(--color-gold) !important;
+  font-weight: 700;
+}
+
+.quest-theme .summary-label,
+.quest-theme .achievement-summary .summary-label {
+  font-family: var(--font-body) !important;
+  font-size: 0.875rem !important;
+  color: var(--color-wood-dark) !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ---- G. LEADERBOARD ROWS ---- */
+
+.quest-theme .rankings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.quest-theme .rank-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 10px 18px;
+  background: var(--color-parchment);
+  border: 2px solid var(--color-wood-mid);
+  border-radius: 8px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.quest-theme .rank-row:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Gold highlight for own row */
+.quest-theme .rank-row.is-self,
+.quest-theme .rank-row.own-row {
+  background: linear-gradient(90deg, #fffbe6, var(--color-parchment)) !important;
+  border-color: var(--color-gold) !important;
+  box-shadow: 0 0 0 2px rgba(201,151,43,0.35) !important;
+}
+
+.quest-theme .rank-number {
+  font-family: var(--font-quest);
+  font-size: 1.3rem;
+  color: var(--color-wood-dark);
+  font-weight: 700;
+  min-width: 28px;
+  text-align: center;
+}
+
+/* Top-3 rank numbers */
+.quest-theme .rank-row:nth-child(1) .rank-number { font-size: 1.5rem; color: #c9972b; }
+.quest-theme .rank-row:nth-child(2) .rank-number { font-size: 1.4rem; color: var(--color-stone); }
+.quest-theme .rank-row:nth-child(3) .rank-number { font-size: 1.3rem; color: #8b5e3c; }
+
+.quest-theme .rank-name {
+  font-family: var(--font-body);
+  font-size: 1rem !important;
+  color: var(--color-wood-dark) !important;
+  font-weight: 700;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.quest-theme .rank-xp,
+.quest-theme .rank-score {
+  font-family: var(--font-quest);
+  font-size: 0.9375rem;
+  color: var(--color-gold) !important;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ---- H. STAT BOXES (My Progress) ---- */
+
+.quest-theme .stat-box {
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: var(--color-parchment);
+  border: 2px solid var(--color-wood-mid);
+  border-radius: var(--radius-card);
+  padding: 16px 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  text-align: center;
+}
+
+.quest-theme .stat-box-value {
+  font-family: var(--font-quest) !important;
+  font-size: 2.2rem !important;
+  color: var(--color-gold) !important;
+  font-weight: 700;
+  line-height: 1.1;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.25);
+}
+
+.quest-theme .stat-box-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.quest-theme .stat-box-label {
+  font-family: var(--font-body) !important;
+  font-size: 0.8125rem !important;
+  color: var(--color-wood-dark) !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ---- I. QUIZ CARDS (Quizzes page) ---- */
+
+.quest-theme .tq-card {
+  min-height: 180px;
+  background: var(--color-parchment);
+  border: 3px solid var(--color-wood-mid);
+  border-radius: var(--radius-card);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+.quest-theme .tq-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.4);
+}
+
+.quest-theme .tq-card-name,
+.quest-theme .tq-card h3 {
+  font-family: var(--font-quest) !important;
+  font-size: 1.1rem !important;
+  color: var(--color-wood-dark) !important;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.quest-theme .tq-card-desc {
+  font-family: var(--font-body) !important;
+  font-size: 0.9375rem !important;
+  color: #2c1a0e !important;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Attempt tracker */
+.quest-theme .attempt-circles {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.quest-theme .attempt-circle {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--color-wood-mid);
+  background: transparent;
+}
+
+.quest-theme .attempt-circle.used {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+}
+
+/* Due date row */
+.quest-theme .due-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem !important;
+  color: var(--color-stone) !important;
+  font-family: var(--font-body) !important;
+}
+
+.quest-theme .due-row.overdue {
+  color: #c0392b !important;
+  font-weight: 700;
+}
+
+/* Quiz start button */
+.quest-theme .tq-start-btn,
+.quest-theme .btn-start-quiz {
+  min-height: 44px;
+  padding: 10px 24px;
+}
+
+/* Quiz disabled/exhausted state */
+.quest-theme .tq-card.disabled,
+.quest-theme .tq-card.attempts-exhausted {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.quest-theme .tq-disabled-label {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-stone);
+  font-style: italic;
+  text-align: center;
+  padding: 4px 0;
+}
+
+/* ---- J. NAV BAR REFINEMENTS ---- */
+
+/* Tighten active indicator; font-size stays at 0.76rem from section 4 */
+.quest-theme .nav-link.active,
+.quest-theme .navbar.student-nav .nav-link.active {
+  outline: 2px solid var(--color-gold-light) !important;
+  outline-offset: 2px;
+}
+
+/* ---- K. EMPTY STATE COMPONENT ---- */
+
+.quest-theme .quest-empty-state,
+.quest-theme .tq-empty,
+.quest-theme [id$="Empty"]:not([style*="display: none"]):not(.hidden) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px;
+  max-width: 380px;
+  margin: 32px auto;
+  gap: 12px;
+}
+
+.quest-theme .tq-empty-icon,
+.quest-theme .quest-empty-state .empty-icon,
+.quest-theme .disabled-icon {
+  font-size: 3.75rem; /* ~60 px */
+  line-height: 1;
+  display: block;
+}
+
+.quest-theme .tq-empty h3,
+.quest-theme .quest-empty-state h3,
+.quest-theme .disabled-state h2 {
+  font-family: var(--font-quest) !important;
+  font-size: 1.2rem !important;
+  color: var(--color-wood-dark) !important;
+}
+
+.quest-theme .tq-empty p,
+.quest-theme .quest-empty-state p,
+.quest-theme .disabled-state p {
+  font-family: var(--font-body) !important;
+  font-size: 1rem !important;
+  color: var(--color-stone) !important;
+  line-height: 1.7 !important;
+}
+
+/* ---- L. LOADING SKELETON ---- */
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.quest-theme .quest-skeleton {
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    rgba(180,150,100,0.2) 25%,
+    rgba(245,230,200,0.55) 50%,
+    rgba(180,150,100,0.2) 75%
+  );
+  background-size: 800px 100%;
+  animation: skeleton-shimmer 1.4s linear infinite;
+  min-height: 20px;
+}
+
+.quest-theme .quest-skeleton--card {
+  min-height: 150px;
+  border-radius: var(--radius-card);
+  border: 2px solid rgba(107,58,31,0.2);
+}
+
+.quest-theme .quest-skeleton--text {
+  height: 16px;
+  border-radius: 4px;
+  width: 70%;
+}
+
+.quest-theme .quest-skeleton--title {
+  height: 22px;
+  border-radius: 4px;
+  width: 45%;
+  margin-bottom: 8px;
+}
+
+/* ---- M. ACCESSIBILITY: FOCUS, TOUCH TARGETS ---- */
+
+/* Universal focus ring */
+.quest-theme :focus-visible {
+  outline: 3px solid var(--color-gold) !important;
+  outline-offset: 3px !important;
+  border-radius: 4px;
+}
+
+/* 44 × 44 px minimum tap targets for interactive elements */
+.quest-theme .filter-btn,
+.quest-theme .subject-tab-btn,
+.quest-theme .btn-quest,
+.quest-theme .btn-play,
+.quest-theme .btn-back,
+.quest-theme .ctrl-btn,
+.quest-theme .tq-start-btn,
+.quest-theme .btn-start-quiz,
+.quest-theme .nav-link {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* ---- N. FILTER TABS (Achievements / Quests) ---- */
+
+.quest-theme .filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.quest-theme .filter-btn {
+  padding: 8px 18px;
+  background: var(--color-parchment-dark);
+  border: 2px solid var(--color-wood-mid);
+  border-radius: 20px;
+  font-family: var(--font-quest);
+  font-size: 0.875rem !important;
+  color: var(--color-wood-dark);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.quest-theme .filter-btn:hover {
+  background: var(--color-wood-mid);
+  color: var(--color-parchment);
+  border-color: var(--color-gold);
+}
+
+.quest-theme .filter-btn.active {
+  background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold));
+  color: var(--color-wood-dark);
+  border-color: #7a5a00;
+  font-weight: 700;
+}
+
+/* ---- O. QUEST-THEME RESPONSIVE REFINEMENTS ---- */
+
+@media (max-width: 767px) {
+  .quest-theme {
+    font-size: 16px;
+  }
+
+  .quest-theme h1,
+  .quest-theme .page-title,
+  .quest-theme .tq-page-title {
+    font-size: 1.55rem !important;
+  }
+
+  .quest-theme .section-sign {
+    padding: 10px 14px;
+  }
+
+  .quest-theme .section-sign-title {
+    font-size: 0.95rem !important;
+  }
+
+  .quest-theme .stat-box-value {
+    font-size: 1.8rem !important;
+  }
+
+  .quest-theme .achievement-card {
+    min-width: 110px;
+    min-height: 130px;
+  }
+}
+
+/* ============================================================
+   23. PAGE-SPECIFIC VISUAL FIXES
+   ============================================================ */
+
+/* ─── WOOD HEADER MIXIN (used by page headers & quiz header) ─── */
+/* dark gradient + subtle wood grain + gold border */
+
+/* ─── LEARNING PAGE: hero keeps its dark background, emojis visible ─── */
+.quest-theme .learning-hero {
+  background:
+    repeating-linear-gradient(
+      2deg,
+      rgba(255,200,150,0.07) 0px, rgba(255,200,150,0.07) 2px,
+      transparent 2px, transparent 9px
+    ),
+    linear-gradient(135deg, var(--color-wood-dark) 0%, var(--color-wood-mid) 55%, #1e3a14 100%) !important;
+  border: 3px solid var(--color-gold) !important;
+  box-shadow: var(--shadow-card) !important;
+  overflow: hidden;
+}
+
+.quest-theme .learning-hero .page-title {
+  color: var(--color-gold) !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.55) !important;
+}
+
+.quest-theme .learning-hero .page-subtitle {
+  color: var(--color-parchment) !important;
+}
+
+.quest-theme .cloud {
+  opacity: 0.92 !important;
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,0.45)) !important;
+  -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.45)) !important;
+}
+
+/* ─── ALL PAGES: .page-header = dark wood card ─── */
+/* Covers: quests.html div.page-header, achievements.html div.page-header,
+   leaderboard.html section.page-header */
+.quest-theme .page-header {
+  background:
+    repeating-linear-gradient(
+      2deg,
+      rgba(255,200,150,0.07) 0px, rgba(255,200,150,0.07) 2px,
+      transparent 2px, transparent 9px
+    ),
+    linear-gradient(135deg, var(--color-wood-dark) 0%, var(--color-wood-mid) 100%) !important;
+  border: 3px solid var(--color-gold) !important;
+  border-radius: var(--radius-card) !important;
+  padding: 24px 28px !important;
+  box-shadow: var(--shadow-card) !important;
+  margin-bottom: 24px !important;
+  text-align: center;
+}
+
+.quest-theme .page-header .page-title {
+  color: var(--color-gold) !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5) !important;
+}
+
+.quest-theme .page-header .page-subtitle {
+  color: var(--color-parchment) !important;
+}
+
+/* ─── QUIZZES PAGE: tq-page-header = dark wood card ─── */
+.quest-theme .tq-page-header {
+  background:
+    repeating-linear-gradient(
+      2deg,
+      rgba(255,200,150,0.07) 0px, rgba(255,200,150,0.07) 2px,
+      transparent 2px, transparent 9px
+    ),
+    linear-gradient(135deg, var(--color-wood-dark) 0%, var(--color-wood-mid) 100%) !important;
+  border: 3px solid var(--color-gold) !important;
+  border-radius: var(--radius-card) !important;
+  padding: 24px 28px !important;
+  box-shadow: var(--shadow-card) !important;
+  margin-bottom: 28px !important;
+}
+
+.quest-theme .tq-page-title {
+  color: var(--color-gold) !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5) !important;
+}
+
+.quest-theme .tq-page-subtitle {
+  color: var(--color-parchment) !important;
+}
+
+.quest-theme .tq-summary-pill.total   { background: rgba(201,151,43,0.2) !important; color: var(--color-gold-light) !important; }
+.quest-theme .tq-summary-pill.passed  { background: rgba(74,124,47,0.25) !important; color: #b8f0a0 !important; }
+.quest-theme .tq-summary-pill.pending { background: rgba(255,200,80,0.2) !important;  color: #ffe082 !important; }
+.quest-theme .tq-summary-pill.locked  { background: rgba(255,255,255,0.1) !important; color: var(--color-parchment) !important; }
+
+/* ─── MY PROGRESS PAGE ─── */
+
+/* Page header-section: dark wood, gold border */
+.quest-theme .page-header-section {
+  background:
+    repeating-linear-gradient(
+      2deg,
+      rgba(255,200,150,0.07) 0px, rgba(255,200,150,0.07) 2px,
+      transparent 2px, transparent 9px
+    ),
+    linear-gradient(135deg, var(--color-wood-dark) 0%, var(--color-wood-mid) 100%) !important;
+  border: 3px solid var(--color-gold) !important;
+  border-radius: var(--radius-card) !important;
+  padding: 24px 28px !important;
+  box-shadow: var(--shadow-card) !important;
+  margin-bottom: 24px !important;
+  text-align: center;
+}
+
+.quest-theme .page-header-section .page-title {
+  color: var(--color-gold) !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5) !important;
+}
+
+.quest-theme .page-header-section .page-subtitle {
+  color: var(--color-parchment) !important;
+}
+
+/* Section-sign light variant (beige/parchment tone) */
+.quest-theme .section-sign--light {
+  background: var(--color-parchment-dark) !important;
+  border-color: var(--color-wood-mid) !important;
+}
+
+.quest-theme .section-sign--light .section-sign-title {
+  color: var(--color-wood-dark) !important;
+  text-shadow: none !important;
+}
+
+/* Overview card: dark wood, same tone as page-header-section */
+.quest-theme .overview-card {
+  background:
+    repeating-linear-gradient(
+      2deg,
+      rgba(255,200,150,0.07) 0px, rgba(255,200,150,0.07) 2px,
+      transparent 2px, transparent 9px
+    ),
+    linear-gradient(135deg, var(--color-wood-dark) 0%, var(--color-wood-mid) 100%) !important;
+  border: 3px solid var(--color-gold) !important;
+  color: var(--color-parchment) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+.quest-theme .overview-card::before {
+  background-image: none !important;
+  background: none !important;
+}
+
+.quest-theme .level-circle {
+  background: linear-gradient(135deg, rgba(255,200,100,0.25), rgba(255,200,100,0.1)) !important;
+  border: 3px solid var(--color-gold) !important;
+  box-shadow: 0 0 0 4px rgba(201,151,43,0.3) !important;
+}
+
+.quest-theme .level-number {
+  color: var(--color-gold-light) !important;
+}
+
+.quest-theme .level-label {
+  color: var(--color-parchment) !important;
+  opacity: 1 !important;
+}
+
+.quest-theme .overview-card h2.player-name,
+.quest-theme .overview-card .player-name {
+  color: var(--color-gold-light) !important;
+}
+
+.quest-theme .overview-card .xp-bar-large {
+  background: rgba(0,0,0,0.35) !important;
+  border-color: rgba(201,151,43,0.5) !important;
+}
+
+.quest-theme .overview-card .xp-label {
+  color: var(--color-parchment) !important;
+}
+
+.quest-theme .team-progress-meter {
+  background: rgba(0,0,0,0.25) !important;
+  border: 1px solid rgba(201,151,43,0.4) !important;
+}
+
+.quest-theme .team-progress-title {
+  color: var(--color-gold) !important;
+}
+
+.quest-theme .tp-value {
+  color: var(--color-parchment) !important;
+}
+
+.quest-theme .team-progress-hint {
+  color: rgba(245,230,200,0.65) !important;
+}
+
+/* Stat boxes: glassy amber on dark wood */
+.quest-theme .overview-card .stat-box {
+  background: rgba(201,151,43,0.18) !important;
+  border: 2px solid rgba(201,151,43,0.5) !important;
+}
+
+.quest-theme .overview-card .stat-box-value {
+  color: var(--color-gold-light) !important;
+}
+
+.quest-theme .overview-card .stat-box-label {
+  color: var(--color-parchment) !important;
+}
+
+.quest-theme .overview-card .stat-box-icon {
+  color: var(--color-gold-light) !important;
+}
+
+/* Egg evolution card: parchment, NOT white */
+.quest-theme .egg-evolution-card {
+  background: var(--color-parchment) !important;
+  border: 2px solid var(--color-wood-mid) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+.quest-theme .egg-evolution-card .section-heading {
+  color: var(--color-wood-dark) !important;
+}
+
+/* Daily XP section: parchment, NOT white */
+.quest-theme .daily-xp-section {
+  background: var(--color-parchment) !important;
+  border: 2px solid var(--color-wood-mid) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+.quest-theme .daily-xp-section h3 {
+  color: var(--color-wood-dark) !important;
+}
+
+.quest-theme .daily-xp-bar {
+  background: rgba(59,32,8,0.2) !important;
+}
+
+.quest-theme .daily-xp-fill {
+  background: linear-gradient(90deg, var(--color-gold), var(--color-gold-light)) !important;
+}
+
+.quest-theme .daily-xp-hint {
+  color: var(--color-stone) !important;
+}
+
+/* Team selection card (⚔️ Your Team): parchment/beige */
+.quest-theme .team-selection-card {
+  background: var(--color-parchment) !important;
+  border: 2px solid var(--color-wood-mid) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+.quest-theme .team-selection-card .section-heading {
+  color: var(--color-wood-dark) !important;
+}
+
+.quest-theme .team-description {
+  color: var(--color-wood-mid) !important;
+}
+
+/* ─── ACHIEVEMENTS PAGE: achievement-summary parchment ─── */
+.quest-theme .achievement-summary {
+  background: var(--color-parchment) !important;
+  border: 2px solid var(--color-wood-mid) !important;
+}
+
+/* ─── LEADERBOARD PAGE ─── */
+
+/* Team cards: colored tint instead of white */
+.quest-theme .team-card {
+  background: var(--color-parchment) !important;
+  border: 2px solid var(--color-wood-mid) !important;
+}
+
+.quest-theme .team-card.team-fire {
+  background: linear-gradient(160deg, #fff4f2 0%, #ffddd9 100%) !important;
+  border-color: #dc2626 !important;
+  border-top: 4px solid #ef4444 !important;
+}
+
+.quest-theme .team-card.team-water {
+  background: linear-gradient(160deg, #f0f8ff 0%, #dbeafe 100%) !important;
+  border-color: #2563eb !important;
+  border-top: 4px solid #3b82f6 !important;
+}
+
+.quest-theme .team-card.team-grass {
+  background: linear-gradient(160deg, #f3fef5 0%, #d1fae5 100%) !important;
+  border-color: #16a34a !important;
+  border-top: 4px solid #22c55e !important;
+}
+
+/* Text fitting: hide duplicate h2 section titles (replaced by section-signs) */
+.quest-theme .team-podium-section .section-title,
+.quest-theme .rankings-section .section-title {
+  display: none !important;
+}
+
+/* Rank row text: prevent overflow */
+.quest-theme .rank-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+  min-width: 0;
+}
+
+/* ─── NAVBAR: tighten padding on smaller screens to prevent overflow ─── */
+@media (max-width: 1600px) {
+  .quest-theme .nav-link,
+  .quest-theme .navbar.student-nav .nav-link {
+    padding: 5px 9px !important;
+    gap: 3px !important;
+    font-size: 0.73rem !important;
+  }
+
+  .quest-theme .nav-icon {
+    font-size: 0.8rem !important;
+  }
+
+  .quest-theme .nav-menu {
+    gap: 3px !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .quest-theme .nav-link,
+  .quest-theme .navbar.student-nav .nav-link {
+    padding: 5px 7px !important;
+    gap: 2px !important;
+    font-size: 0.7rem !important;
+  }
+
+  .quest-theme .nav-menu {
+    gap: 2px !important;
+  }
+}
+
+@media (max-width: 1050px) {
+  .quest-theme .nav-link span:not(.nav-icon) {
+    display: none !important;
+  }
+
+  .quest-theme .nav-link {
+    padding: 6px 10px !important;
+  }
+
+  .quest-theme .nav-icon {
+    font-size: 1.05rem !important;
+  }
+}

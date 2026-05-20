@@ -1,0 +1,427 @@
+/* ═══════════════════════════════════════════════════════════
+   Gamification Settings — Teacher Dashboard
+   Matches the quiz-builder / student-form design language
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Overview stat cards ─────────────────────────────────── */
+.gs-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.gs-stat-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 1.75rem 1.25rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  text-align: center;
+  transition: box-shadow 0.15s, transform 0.15s;
+  border-top: 4px solid #e2e8f0;
+}
+.gs-stat-card:nth-child(1) { border-top-color: #6366f1; }
+.gs-stat-card:nth-child(2) { border-top-color: #059669; }
+.gs-stat-card:nth-child(3) { border-top-color: #2563eb; }
+.gs-stat-card:nth-child(4) { border-top-color: #d97706; }
+.gs-stat-card:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.10); transform: translateY(-2px); }
+.gs-stat-icon  { font-size: 2rem; margin-bottom: 0.5rem; }
+.gs-stat-value { font-size: 2.2rem; font-weight: 800; color: #6366f1; line-height: 1.1; }
+.gs-stat-label { font-size: 0.95rem; color: #64748b; margin-top: 0.3rem; font-weight: 600; }
+.gs-team-badges { display: flex; justify-content: center; gap: 0.6rem; margin-top: 0.6rem; }
+.gs-team-badges .team-count { font-size: 0.9rem; font-weight: 700; }
+.gs-team-badges .team-count.fire  { color: #ef4444; }
+.gs-team-badges .team-count.water { color: #3b82f6; }
+.gs-team-badges .team-count.grass { color: #10b981; }
+.gs-team-badges .team-count.none  { color: #9ca3af; }
+
+/* ── Page-level section tabs ─────────────────────────────── */
+.gs-tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #e2e8f0;
+  flex-wrap: wrap;
+}
+
+.gs-tab {
+  padding: 0.85rem 1.6rem;
+  font-size: 1rem;
+  font-weight: 700;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  color: #64748b;
+  cursor: pointer;
+  border-radius: 6px 6px 0 0;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  font-family: inherit;
+}
+.gs-tab:hover   { color: #1e293b; background: #f8fafc; }
+
+/* Per-tab active accent colors */
+.gs-tab[data-gs-panel="panel-settings"].active { color: #6366f1; border-bottom-color: #6366f1; background: #eef2ff; }
+.gs-tab[data-gs-panel="panel-override"].active  { color: #2563eb; border-bottom-color: #2563eb; background: #eff6ff; }
+.gs-tab[data-gs-panel="panel-xp"].active        { color: #059669; border-bottom-color: #059669; background: #ecfdf5; }
+.gs-tab[data-gs-panel="panel-games"].active     { color: #d97706; border-bottom-color: #d97706; background: #fffbeb; }
+
+/* ── Panels ──────────────────────────────────────────────── */
+.gs-panel.hidden { display: none; }
+
+/* Per-panel card header accent stripe */
+#panel-settings .gs-card-head { border-top: 3px solid #6366f1; }
+#panel-override .gs-card-head  { border-top: 3px solid #2563eb; }
+#panel-xp .gs-card-head        { border-top: 3px solid #059669; }
+#panel-games .gs-card-head     { border-top: 3px solid #d97706; }
+
+/* Per-panel stat/range accent colors */
+#panel-override .range-value,
+#panel-override .save-status.ok { color: #2563eb; }
+#panel-override .setting-range-wrapper input[type="range"] { accent-color: #2563eb; }
+#panel-override .setting-select:focus,
+#panel-override .setting-number:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.12); }
+#panel-override .toggle-switch input:checked + .toggle-slider { background: #2563eb; }
+#panel-override .ovr-check { accent-color: #2563eb; }
+
+#panel-xp .range-value,
+#panel-xp .save-status.ok { color: #059669; }
+#panel-xp .setting-range-wrapper input[type="range"] { accent-color: #059669; }
+#panel-xp .setting-select:focus,
+#panel-xp .setting-number:focus { border-color: #059669; box-shadow: 0 0 0 3px rgba(5,150,105,0.12); }
+#panel-xp .xp-mode-toggle input:checked + label { background: #059669; }
+#panel-xp .xp-mode-toggle input[value="deduct"]:checked + label { background: #ef4444; }
+
+#panel-games .range-value,
+#panel-games .save-status.ok { color: #d97706; }
+#panel-games .setting-range-wrapper input[type="range"] { accent-color: #d97706; }
+#panel-games .setting-select:focus,
+#panel-games .setting-number:focus { border-color: #d97706; box-shadow: 0 0 0 3px rgba(217,119,6,0.12); }
+#panel-games .toggle-switch input:checked + .toggle-slider { background: #d97706; }
+#panel-games .game-filter-btn.active { background: #d97706; border-color: #d97706; color: #fff; }
+
+/* ── Section cards ───────────────────────────────────────── */
+.gs-card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.gs-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 1.75rem;
+  border-bottom: 1px solid #f1f5f9;
+  background: #f8fafc;
+  gap: 1rem;
+}
+
+.gs-card-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.gs-card-meta {
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+.gs-card-body { padding: 1.75rem; }
+
+/* ── Attention / info notes ──────────────────────────────── */
+.gs-note {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1.1rem 1.25rem;
+  background: #fffbeb;
+  border: 1.5px solid #fde68a;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  color: #92400e;
+  line-height: 1.55;
+}
+.gs-note.info { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+.gs-note-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+
+/* ── Alert banners ───────────────────────────────────────── */
+.gs-alert {
+  padding: 1rem 1.4rem;
+  border-radius: 10px;
+  margin-bottom: 1.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.gs-alert.success { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+.gs-alert.error   { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+/* ── Setting rows (within cards) ─────────────────────────── */
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+.setting-row:last-child { border-bottom: none; }
+.setting-info { flex: 1; }
+.setting-label {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #1e293b;
+  margin-bottom: 0.2rem;
+}
+.setting-desc { font-size: 0.9rem; color: #64748b; line-height: 1.5; }
+
+/* ── Range wrapper ───────────────────────────────────────── */
+.setting-range-wrapper { display: flex; align-items: center; gap: 0.75rem; }
+.setting-range-wrapper input[type="range"] {
+  width: 180px;
+  accent-color: #6366f1;
+  height: 6px;
+}
+.range-value {
+  font-weight: 800;
+  font-size: 1rem;
+  color: #6366f1;
+  min-width: 48px;
+  text-align: right;
+}
+
+/* ── Select & Number inputs ──────────────────────────────── */
+.setting-select {
+  min-width: 180px;
+  padding: 0.7rem 0.9rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 9px;
+  font-size: 0.95rem;
+  color: #1e293b;
+  background: #fff;
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.setting-select:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
+
+.setting-number {
+  width: 110px;
+  padding: 0.7rem 0.9rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 9px;
+  font-size: 0.95rem;
+  text-align: center;
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.setting-number:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
+
+/* ── Save status ─────────────────────────────────────────── */
+.save-status { font-size: 0.9rem; font-weight: 700; color: #94a3b8; }
+.save-status.ok  { color: #16a34a; }
+.save-status.err { color: #991b1b; }
+
+/* ── Toggle switch ───────────────────────────────────────── */
+.toggle-switch {
+  position: relative;
+  width: 52px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: #d1d5db;
+  border-radius: 24px;
+  transition: 0.2s;
+}
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  height: 22px; width: 22px;
+  left: 3px; bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  transition: 0.2s;
+}
+.toggle-switch input:checked + .toggle-slider { background: #6366f1; }
+.toggle-switch input:checked + .toggle-slider::before { transform: translateX(24px); }
+
+/* ── Per-student override rows ───────────────────────────── */
+.ovr-section-label {
+  font-size: 0.88rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #64748b;
+  margin: 1.25rem 0 0.65rem;
+}
+.ovr-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+.ovr-row:last-child { border-bottom: none; }
+.ovr-check {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  accent-color: #6366f1;
+  cursor: pointer;
+}
+.ovr-label { flex: 1; font-size: 1rem; font-weight: 600; color: #1e293b; }
+.ovr-hint  { font-size: 0.85rem; color: #94a3b8; font-weight: 400; }
+select.ovr-control:disabled,
+input.ovr-control:disabled,
+.ovr-control select:disabled,
+.ovr-control input:disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ── XP award/deduct mode toggle ─────────────────────────── */
+.xp-mode-toggle {
+  display: inline-flex;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1.5px solid #e2e8f0;
+  margin-bottom: 1.25rem;
+}
+.xp-mode-toggle input { display: none; }
+.xp-mode-toggle label {
+  padding: 0.7rem 1.6rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: #f8fafc;
+  color: #64748b;
+  transition: 0.2s;
+  border: none;
+  user-select: none;
+}
+.xp-mode-toggle input:checked + label { background: #6366f1; color: #fff; }
+.xp-mode-toggle input[value="deduct"]:checked + label { background: #ef4444; color: #fff; }
+
+/* ── XP award form grid ──────────────────────────────────── */
+.xp-award-form {
+  display: grid;
+  grid-template-columns: 2fr 1fr 3fr;
+  gap: 1rem;
+  align-items: end;
+}
+@media (max-width: 700px) {
+  .xp-award-form { grid-template-columns: 1fr; }
+}
+
+/* ── XP deduct warning note ──────────────────────────────── */
+.gs-deduct-note {
+  margin-top: 0.85rem;
+  padding: 0.9rem 1.25rem;
+  background: #fef2f2;
+  border: 1.5px solid #fecaca;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: #991b1b;
+}
+
+/* ── XP result toast ─────────────────────────────────────── */
+.xp-result-toast {
+  display: none;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  animation: gsToastSlide 0.35s ease;
+}
+.xp-result-toast.xp-toast-visible { display: flex; }
+.xp-result-toast .xp-toast-icon   { font-size: 1.5rem; flex-shrink: 0; }
+.xp-result-toast .xp-toast-body   { flex: 1; }
+.xp-result-toast .xp-toast-sub    { font-weight: 500; font-size: 0.9rem; opacity: 0.8; margin-top: 3px; }
+.xp-result-toast.xp-toast-awarded  { background: linear-gradient(135deg,#ecfdf5,#d1fae5); border:1px solid #6ee7b7; color:#065f46; }
+.xp-result-toast.xp-toast-deducted { background: linear-gradient(135deg,#fff7ed,#ffedd5); border:1px solid #fdba74; color:#9a3412; }
+.xp-result-toast.xp-toast-error    { background: linear-gradient(135deg,#fef2f2,#fee2e2); border:1px solid #fca5a5; color:#991b1b; }
+
+@keyframes gsToastSlide {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Inline action toasts (game / team / override) ──────── */
+.game-toast {
+  padding: 0.85rem 1.25rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: none;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.85rem;
+  animation: gsToastSlide 0.3s ease;
+}
+.game-toast.toast-success { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+.game-toast.toast-error   { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+/* ── Game filter buttons ─────────────────────────────────── */
+.game-filter-btn {
+  background: #f1f5f9;
+  color: #64748b;
+  border: 2px solid #e2e8f0;
+  cursor: pointer;
+  border-radius: 9px;
+  padding: 0.6rem 1.3rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+  font-family: inherit;
+  transition: 0.15s;
+}
+.game-filter-btn:hover  { background: #e2e8f0; color: #475569; }
+.game-filter-btn.active { background: #6366f1; color: #fff; border-color: #6366f1; }
+
+/* ── Game assignment cards ───────────────────────────────── */
+.game-card {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background 0.1s;
+}
+.game-card:last-child  { border-bottom: none; }
+.game-card:hover       { background: #fafbff; margin: 0 -1.25rem; padding-left: 1.25rem; padding-right: 1.25rem; }
+.game-card-icon        { font-size: 1.9rem; width: 46px; text-align: center; flex-shrink: 0; }
+.game-card-info        { flex: 1; min-width: 0; }
+.game-card-title       { font-weight: 700; font-size: 1.05rem; color: #1e293b; }
+.game-card-desc        { font-size: 0.88rem; color: #64748b; }
+.game-card-subject {
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+.game-card-subject.math     { background: #dbeafe; color: #1d4ed8; }
+.game-card-subject.english  { background: #fef3c7; color: #92400e; }
+.game-card-subject.selfcare { background: #d1fae5; color: #065f46; }
+.game-card .default-badge {
+  font-size: 0.82rem;
+  background: #f1f5f9;
+  color: #64748b;
+  padding: 4px 12px;
+  border-radius: 20px;
+  flex-shrink: 0;
+}

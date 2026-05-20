@@ -1,0 +1,375 @@
+/* =========================================================
+   Guide Character + Game Timer + Attempt System Styles
+   ========================================================= */
+
+/* ── Guide Character Container ── */
+.guide-char {
+    position: fixed;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.guide-char.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Positioning */
+.guide-pos-bottom-right {
+    bottom: 24px;
+    right: 24px;
+}
+
+.guide-pos-bottom-left {
+    bottom: 24px;
+    left: 24px;
+    align-items: flex-start;
+}
+
+/* ── Speech Bubble ── */
+.guide-bubble {
+    background: #faf5ff;
+    color: #5b21b6;
+    padding: 12px 18px;
+    border-radius: 16px 16px 4px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.5;
+    box-shadow: 0 4px 20px rgba(139, 92, 246, 0.12);
+    border: 2px solid #e9d5ff;
+    border-bottom: 4px solid #d8b4fe;
+    max-width: 260px;
+    margin-bottom: 8px;
+    opacity: 0;
+    transform: scale(0.9) translateY(8px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.guide-pos-bottom-left .guide-bubble {
+    border-radius: 16px 16px 16px 4px;
+}
+
+.guide-bubble.visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+/* ── Guide Sprite/Avatar (Wizard) ── */
+.guide-sprite {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #c4b5fd;
+    border-bottom: 5px solid #a78bfa;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.guide-sprite:hover {
+    transform: scale(1.1);
+}
+
+.guide-face {
+    font-size: 32px;
+    line-height: 1;
+}
+
+/* Bounce animation */
+.guide-sprite.bounce {
+    animation: guideBounce 0.5s ease;
+}
+
+@keyframes guideBounce {
+    0%   { transform: scale(1); }
+    30%  { transform: scale(1.2); }
+    50%  { transform: scale(0.9); }
+    70%  { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Mood glow effects */
+.mood-celebrating .guide-sprite {
+    background: linear-gradient(135deg, #ede9fe, #c4b5fd);
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+}
+
+.mood-hinting .guide-sprite {
+    background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+    border-color: #818cf8;
+}
+
+.mood-comforting .guide-sprite,
+.mood-lastAttempt .guide-sprite {
+    background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
+    border-color: #a855f7;
+}
+
+.mood-timeWarning .guide-sprite {
+    background: linear-gradient(135deg, #fca5a5, #ef4444);
+    border-color: #991b1b;
+    animation: guidePulse 1s ease infinite;
+}
+
+@keyframes guidePulse {
+    0%, 100% { box-shadow: 0 0 8px rgba(239, 68, 68, 0.3); }
+    50%      { box-shadow: 0 0 20px rgba(239, 68, 68, 0.6); }
+}
+
+/* ═══════════════════════════════════════════
+   QUIZ TIMER
+   ═══════════════════════════════════════════ */
+
+.quiz-timer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.timer-track {
+    flex: 1;
+    height: 10px;
+    background: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #d1d5db;
+}
+
+.timer-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 1s linear, background 0.5s ease;
+}
+
+.timer-green { background: linear-gradient(90deg, #22c55e, #16a34a); }
+.timer-yellow { background: linear-gradient(90deg, #eab308, #ca8a04); }
+.timer-red {
+    background: linear-gradient(90deg, #ef4444, #dc2626);
+    animation: timerPulse 0.8s ease infinite;
+}
+
+@keyframes timerPulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.7; }
+}
+
+.timer-text {
+    font-size: 15px;
+    font-weight: 800;
+    color: #374151;
+    min-width: 36px;
+    text-align: right;
+}
+
+/* ═══════════════════════════════════════════
+   ATTEMPT STARS
+   ═══════════════════════════════════════════ */
+
+.attempt-stars {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.attempt-star {
+    font-size: 22px;
+    transition: all 0.3s ease;
+}
+
+.attempt-star.used {
+    opacity: 0.2;
+    filter: grayscale(1);
+    transform: scale(0.8);
+}
+
+.attempt-star.active {
+    animation: starShine 2s ease infinite;
+}
+
+@keyframes starShine {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.1); }
+}
+
+/* ═══════════════════════════════════════════
+   HINT BUBBLE
+   ═══════════════════════════════════════════ */
+
+.hint-bubble {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border: 2px solid #f59e0b;
+    border-bottom: 4px solid #d97706;
+    border-radius: 14px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    animation: hintSlide 0.4s ease;
+}
+
+.hint-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.hint-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #92400e;
+    line-height: 1.5;
+}
+
+@keyframes hintSlide {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════
+   ANSWER REVEAL
+   ═══════════════════════════════════════════ */
+
+.answer-reveal {
+    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+    border: 2px solid #10b981;
+    border-bottom: 4px solid #059669;
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin: 12px 0;
+    animation: revealSlide 0.5s ease;
+}
+
+.answer-reveal-header {
+    font-size: 13px;
+    font-weight: 700;
+    color: #065f46;
+    margin-bottom: 6px;
+}
+
+.answer-reveal-text {
+    font-size: 16px;
+    font-weight: 800;
+    color: #047857;
+    margin-bottom: 8px;
+}
+
+.answer-reveal-explain {
+    font-size: 13px;
+    color: #065f46;
+    line-height: 1.5;
+}
+
+@keyframes revealSlide {
+    from { opacity: 0; transform: scale(0.95); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+/* ═══════════════════════════════════════════
+   SPARKLE EFFECT
+   ═══════════════════════════════════════════ */
+
+.sparkle-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.sparkle-dot {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    animation: sparkleFly 0.8s ease forwards;
+    animation-delay: var(--delay, 0s);
+    opacity: 0;
+}
+
+@keyframes sparkleFly {
+    0%   { opacity: 1; transform: translate(0, 0) scale(1); }
+    100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(0); }
+}
+
+/* ═══════════════════════════════════════════
+   QUIZ ANSWER STATES (for attempt system)
+   ═══════════════════════════════════════════ */
+
+.quiz-option.wrong-shake {
+    animation: wrongShake 0.5s ease;
+    border-color: #ef4444 !important;
+    background: #fef2f2 !important;
+}
+
+@keyframes wrongShake {
+    0%, 100% { transform: translateX(0); }
+    20%      { transform: translateX(-8px); }
+    40%      { transform: translateX(8px); }
+    60%      { transform: translateX(-5px); }
+    80%      { transform: translateX(5px); }
+}
+
+.quiz-option.correct-pop {
+    animation: correctPop 0.5s ease;
+    border-color: #22c55e !important;
+    background: #f0fdf4 !important;
+}
+
+@keyframes correctPop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.quiz-option.disabled-option {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.quiz-option.revealed-correct {
+    border-color: #22c55e !important;
+    background: #f0fdf4 !important;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════ */
+
+@media (max-width: 600px) {
+    .guide-char {
+        bottom: 16px !important;
+        right: 12px !important;
+        left: auto !important;
+    }
+    .guide-bubble {
+        max-width: 200px;
+        font-size: 13px;
+        padding: 10px 14px;
+    }
+    .guide-sprite {
+        width: 52px;
+        height: 52px;
+    }
+    .guide-face {
+        font-size: 26px;
+    }
+    .timer-text {
+        font-size: 13px;
+    }
+    .attempt-star {
+        font-size: 18px;
+    }
+}

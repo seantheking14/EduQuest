@@ -1,0 +1,434 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Email - EduQuest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../shared/styles/variables.css">
+    <link rel="stylesheet" href="../shared/styles/reset.css">
+    <link rel="stylesheet" href="../shared/styles/quest_theme.css">
+    <script src="../shared/components/quest_background.js" defer></script>
+    <style>
+        /* ── Page layout ── */
+        body.quest-theme.quest-auth-page {
+            padding: 24px 16px;
+        }
+
+        /* ── Card shell (matches login-card feel) ── */
+        .verify-card {
+            max-width: 460px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+            background: var(--color-parchment);
+            border-radius: 18px;
+            border: 3px solid var(--color-wood-dark);
+            box-shadow:
+                0 2px 0 var(--color-wood-mid),
+                0 6px 32px rgba(0,0,0,0.45),
+                inset 0 1px 0 rgba(255,255,255,0.35);
+            overflow: hidden;
+            animation: cardEnter 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        @keyframes cardEnter {
+            from { opacity: 0; transform: translateY(24px) scale(0.98); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* ── Card header (wood banner) ── */
+        .verify-header {
+            background:
+                repeating-linear-gradient(
+                    2deg,
+                    rgba(255,200,150,0.06) 0px, rgba(255,200,150,0.06) 2px,
+                    transparent 2px, transparent 9px
+                ),
+                linear-gradient(180deg, var(--color-wood-mid), var(--color-wood-dark));
+            border-bottom: 3px solid var(--color-gold);
+            padding: 28px 32px 24px;
+            text-align: center;
+        }
+
+        .verify-logo {
+            font-family: var(--font-quest);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-gold-light);
+            letter-spacing: 0.06em;
+            text-shadow: 0 0 14px rgba(201,151,43,0.7), 0 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .verify-header-sub {
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(245,230,200,0.65);
+        }
+
+        /* ── Card body ── */
+        .verify-body {
+            padding: 36px 36px 32px;
+        }
+
+        /* ── State panels ── */
+        .verify-state { text-align: center; }
+
+        .state-icon-wrap {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+        }
+
+        .state-icon-wrap.loading { background: rgba(201,151,43,0.12); border: 2px solid rgba(201,151,43,0.3); animation: pulsering 1.6s ease-in-out infinite; }
+        .state-icon-wrap.success { background: rgba(74,124,47,0.13); border: 2px solid rgba(74,124,47,0.35); animation: successPop 0.5s cubic-bezier(0.22,1,0.36,1); }
+        .state-icon-wrap.error   { background: rgba(180,40,40,0.10); border: 2px solid rgba(180,40,40,0.28); }
+        .state-icon-wrap.expired { background: rgba(180,100,20,0.10); border: 2px solid rgba(180,100,20,0.28); }
+        .state-icon-wrap.sent    { background: rgba(74,124,47,0.13); border: 2px solid rgba(74,124,47,0.35); }
+
+        @keyframes pulsering {
+            0%, 100% { box-shadow: 0 0 0 0   rgba(201,151,43,0.4); }
+            50%       { box-shadow: 0 0 0 8px rgba(201,151,43,0); }
+        }
+
+        @keyframes successPop {
+            0%   { transform: scale(0);   opacity: 0; }
+            60%  { transform: scale(1.12); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        /* Spinning envelope for loading */
+        .spin { animation: spin 1.4s linear infinite; display: inline-block; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .state-title {
+            font-family: var(--font-quest);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 0.02em;
+        }
+
+        .state-title.loading  { color: var(--color-gold); }
+        .state-title.success  { color: var(--color-moss); }
+        .state-title.error    { color: #8b1a1a; }
+        .state-title.expired  { color: #7a4010; }
+        .state-title.sent     { color: var(--color-moss); }
+
+        .state-desc {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--color-wood-mid);
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+
+        /* ── Info box (replaces plain error-box) ── */
+        .quest-info-box {
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin: 18px 0 22px;
+            font-size: 0.87rem;
+            font-weight: 600;
+            line-height: 1.65;
+            text-align: left;
+        }
+        .quest-info-box p { margin-top: 6px; font-size: 0.84rem; opacity: 0.88; }
+        .quest-info-box strong { display: block; margin-bottom: 4px; font-size: 0.92rem; }
+
+        .info-error   { background: #fef2f2; border: 1.5px solid #fca5a5; color: #7f1d1d; }
+        .info-warning { background: #fffbeb; border: 1.5px solid #fde68a; color: #78350f; }
+        .info-success { background: #f0fdf4; border: 1.5px solid #86efac; color: #14532d; }
+
+        /* ── Buttons ── */
+        .action-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .btn-quest-primary {
+            width: 100%;
+            padding: 14px 20px;
+            background: linear-gradient(180deg, var(--color-gold-light) 0%, var(--color-gold) 100%);
+            color: var(--color-bark);
+            font-family: var(--font-quest);
+            font-size: 0.92rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            border: none;
+            border-bottom: 3px solid var(--color-wood-mid);
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(201,151,43,0.35);
+            transition: transform 0.2s cubic-bezier(0.22,1,0.36,1), box-shadow 0.2s;
+        }
+        .btn-quest-primary:hover  { transform: translateY(-2px); box-shadow: 0 7px 20px rgba(201,151,43,0.45); }
+        .btn-quest-primary:active { transform: translateY(0); border-bottom-width: 1px; }
+        .btn-quest-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .btn-quest-secondary {
+            width: 100%;
+            padding: 12px 20px;
+            background: var(--color-parchment-dark);
+            color: var(--color-wood-dark);
+            font-family: var(--font-body);
+            font-size: 0.88rem;
+            font-weight: 700;
+            border: 2px solid var(--color-wood-mid);
+            border-bottom: 3px solid var(--color-wood-dark);
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: transform 0.15s, background 0.15s;
+        }
+        .btn-quest-secondary:hover  { transform: translateY(-1px); background: #e8d5a3; }
+        .btn-quest-secondary:active { transform: translateY(0); }
+
+        /* ── Divider ── */
+        .verify-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+            opacity: 0.35;
+            margin: 24px 0 18px;
+        }
+
+        /* ── Bottom help text ── */
+        .verify-help {
+            text-align: center;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--color-stone);
+            margin-top: 12px;
+        }
+        .verify-help a {
+            color: var(--color-gold);
+            font-weight: 700;
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+        .verify-help a:hover { color: var(--color-gold-light); text-decoration: underline; }
+
+        /* ── Auto-redirect bar ── */
+        .redirect-bar {
+            display: none;
+            background: rgba(74,124,47,0.1);
+            border: 1px solid rgba(74,124,47,0.25);
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 0.83rem;
+            font-weight: 600;
+            color: var(--color-forest-mid);
+            text-align: center;
+            margin-top: 14px;
+        }
+        .redirect-bar.visible { display: block; }
+
+        @media (max-width: 480px) {
+            .verify-body { padding: 28px 22px 24px; }
+            .verify-header { padding: 22px 22px 18px; }
+        }
+    </style>
+</head>
+<body class="quest-theme quest-auth-page">
+
+    <div class="verify-card">
+
+        <!-- Header -->
+        <div class="verify-header">
+            <div class="verify-logo">&#127918; EduQuest</div>
+            <div class="verify-header-sub">Email Verification</div>
+        </div>
+
+        <div class="verify-body">
+
+            <!-- Loading State -->
+            <div id="loadingState" class="verify-state">
+                <div class="state-icon-wrap loading">
+                    <span class="spin">&#9993;</span>
+                </div>
+                <div class="state-title loading">Verifying&hellip;</div>
+                <p class="state-desc">Please wait while we activate your account.</p>
+            </div>
+
+            <!-- Success State -->
+            <div id="successState" class="verify-state" style="display:none;">
+                <div class="state-icon-wrap success">&#9989;</div>
+                <div class="state-title success">Email Verified!</div>
+                <p class="state-desc">
+                    Your account has been activated.<br>
+                    You can now log in and start your adventure!
+                </p>
+                <div class="redirect-bar visible" id="redirectBar">
+                    &#8987; Redirecting to login in <span id="countdown">3</span> seconds&hellip;
+                </div>
+                <div class="action-btns">
+                    <a href="login/login.html" class="btn-quest-primary">&#9654; Go to Login</a>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="verify-state" style="display:none;">
+                <div class="state-icon-wrap error">&#9888;&#65039;</div>
+                <div class="state-title error">Verification Failed</div>
+                <div class="quest-info-box info-error">
+                    <strong id="errorMessage">Something went wrong.</strong>
+                </div>
+                <div class="action-btns">
+                    <button class="btn-quest-primary" onclick="location.href='register/register.html'">&#8635; Try Again</button>
+                    <button class="btn-quest-secondary" onclick="location.href='login/login.html'">&#8592; Back to Login</button>
+                </div>
+            </div>
+
+            <!-- Expired Token State -->
+            <div id="expiredState" class="verify-state" style="display:none;">
+                <div class="state-icon-wrap expired">&#128336;</div>
+                <div class="state-title expired">Link Expired</div>
+                <div class="quest-info-box info-warning">
+                    <strong>Your verification link has expired.</strong>
+                    <p>Verification links are valid for 24 hours. Request a new link below.</p>
+                </div>
+                <div class="action-btns">
+                    <button class="btn-quest-primary" id="resendButton" onclick="resendVerification()">
+                        &#128140; Resend Verification Email
+                    </button>
+                    <button class="btn-quest-secondary" onclick="location.href='login/login.html'">&#8592; Back to Login</button>
+                </div>
+            </div>
+
+            <!-- Email Sent / Manual Token State -->
+            <div id="manualTokenState" class="verify-state" style="display:none;">
+                <div class="state-icon-wrap sent">&#128140;</div>
+                <div class="state-title sent">Check Your Email</div>
+                <p class="state-desc">A verification link has been sent to your inbox.</p>
+                <div class="quest-info-box info-success">
+                    <strong>Verification email sent!</strong>
+                    <p>Click the link in your email to activate your account. If you don&rsquo;t see it, check your spam or junk folder.</p>
+                    <p style="margin-top:8px;"><strong>Tip:</strong> The link is valid for 24 hours.</p>
+                </div>
+                <div class="action-btns">
+                    <button class="btn-quest-secondary" onclick="location.href='login/login.html'">&#8592; Back to Login</button>
+                </div>
+            </div>
+
+            <div class="verify-divider"></div>
+            <p class="verify-help">
+                Need help? <a href="register/register.html">Register again</a> &nbsp;&bull;&nbsp; <a href="login/login.html">Sign in</a>
+            </p>
+
+        </div><!-- /verify-body -->
+    </div><!-- /verify-card -->
+
+    <script>
+        class EmailVerification {
+            constructor() { this.init(); }
+
+            async init() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const token = urlParams.get('token');
+                const email = urlParams.get('email');
+
+                if (token && email) {
+                    await this.verifyEmail(token, email);
+                } else if (email) {
+                    this.showManualTokenForm(email);
+                } else {
+                    this.showError('Missing email address. Please register first.');
+                }
+            }
+
+            async verifyEmail(token, email) {
+                try {
+                    const response = await fetch('../EDUQUEST/api/auth/verify-email.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ token, email }),
+                    });
+                    const result = await response.json();
+                    if (result.success) {
+                        this.showSuccess();
+                    } else {
+                        this.showError(result.message || 'Verification failed');
+                    }
+                } catch (error) {
+                    this.showError(error.message || 'An error occurred during verification');
+                }
+            }
+
+            showSuccess() {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('successState').style.display = 'block';
+
+                var secs = 3;
+                var countdown = document.getElementById('countdown');
+                var timer = setInterval(function () {
+                    secs--;
+                    if (countdown) countdown.textContent = secs;
+                    if (secs <= 0) {
+                        clearInterval(timer);
+                        window.location.href = 'login/login.html';
+                    }
+                }, 1000);
+            }
+
+            showError(message) {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('errorState').style.display = 'block';
+                document.getElementById('errorMessage').textContent = message;
+            }
+
+            showExpired() {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('expiredState').style.display = 'block';
+            }
+
+            showManualTokenForm(email) {
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('manualTokenState').style.display = 'block';
+            }
+        }
+
+        function resendVerification() {
+            var email = new URLSearchParams(window.location.search).get('email');
+            if (!email) {
+                alert('Email not found. Please register again.');
+                return;
+            }
+            var btn = document.getElementById('resendButton');
+            if (btn) { btn.disabled = true; btn.textContent = 'Sending\u2026'; }
+            alert('Resend functionality would be implemented here');
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            new EmailVerification();
+        });
+    </script>
+</body>
+</html>

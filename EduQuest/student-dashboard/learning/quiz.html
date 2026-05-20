@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - EduQuest</title>
+    <link rel="stylesheet" href="../../shared/styles/variables-v2.css">
+    <link rel="stylesheet" href="../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../shared/components/navigation-v2.css">
+    <link rel="stylesheet" href="quiz.css">
+    <link rel="stylesheet" href="../../shared/styles/guide-system.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../shared/styles/quest_theme.css">
+    <script src="../../shared/components/quest_background.js" defer></script>
+</head>
+<body class="quest-theme">
+    <!-- Navigation Bar -->
+        <nav class="navbar student-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="nav-logo">🎮 EduQuest</span>
+                <span class="nav-role">Student Portal</span>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <span class="hamburger"></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <a href="../dashboard/dashboard.html" class="nav-link">
+                    <span class="nav-icon">🏠</span><span>Home</span>
+                </a>
+                <a href="../learning/learning.html" class="nav-link">
+                    <span class="nav-icon">📚</span><span>Learn</span>
+                </a>
+                <a href="../quests/quests.html" class="nav-link">
+                    <span class="nav-icon">🎯</span><span>My Quests</span>
+                </a>
+                <a href="../quests/take-quiz.html" class="nav-link">
+                    <span class="nav-icon">📝</span><span>Quizzes</span>
+                </a>
+                <a href="../gamification/gamification.html" class="nav-link">
+                    <span class="nav-icon">🌟</span><span>My Progress</span>
+                </a>
+                <a href="../achievements/achievements.html" class="nav-link">
+                    <span class="nav-icon">🏆</span><span>Achievements</span>
+                </a>
+                <a href="../leaderboard/leaderboard.html" class="nav-link">
+                    <span class="nav-icon">🥇</span><span>Leaderboard</span>
+                </a>
+            </div>
+            <div class="nav-actions">
+                <div class="nav-stats">
+                    <div class="stat-item">
+                        <span class="stat-icon">⚡</span>
+                        <span class="stat-value" id="navXp">0 XP</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">🔥</span>
+                        <span class="stat-value" id="navStreak">0 days</span>
+                    </div>
+                </div>
+                <div class="nav-profile" id="profileMenu">
+                    <div class="profile-avatar" id="navAvatar">🧑‍🎓</div>
+                    <div class="profile-level">
+                        <span class="level-badge" id="navLevel">Lv 1</span>
+                    </div>
+                    <div class="profile-dropdown">
+                        <a href="../profile/profile.html" class="dropdown-item">
+                            <span class="dropdown-icon">👤</span><span>Profile</span>
+                        </a>
+                        <a href="#" class="dropdown-item" onclick="handleLogout()">
+                            <span class="dropdown-icon">🚪</span><span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="learning.html">📚 Learning</a>
+                <span class="breadcrumb-sep">›</span>
+                <a href="#" id="breadcrumbSubject">Subject</a>
+                <span class="breadcrumb-sep">›</span>
+                <span id="breadcrumbQuiz">Quiz</span>
+            </div>
+
+            <!-- Quiz Area -->
+            <div class="quiz-area" id="quizArea">
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Loading quiz...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../shared/components/navigation.js"></script>
+    <script src="../../shared/utils/helpers.js"></script>
+    <script src="../../shared/utils/guideDialogue.js"></script>
+    <script src="../../shared/utils/guide-character.js"></script>
+    <script src="../../shared/utils/game-helpers.js"></script>
+    <script>window.EDUQUEST_PAGE_NAME = 'quiz';</script>
+    <script src="../../EDUQUEST/assets/js/tracker.js"></script>
+    <script src="quiz.js"></script>
+</body>
+</html>
+

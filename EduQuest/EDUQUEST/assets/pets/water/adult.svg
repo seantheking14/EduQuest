@@ -1,0 +1,61 @@
+<svg viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tidalback the Water Adult Turtle">
+  <defs>
+    <radialGradient id="washell" cx="44%" cy="32%" r="66%">
+      <stop offset="0%" stop-color="#3ec9bd"/>
+      <stop offset="60%" stop-color="#0f8b7a"/>
+      <stop offset="100%" stop-color="#075e52"/>
+    </radialGradient>
+    <radialGradient id="waskin" cx="44%" cy="33%" r="62%">
+      <stop offset="0%" stop-color="#5dade2"/>
+      <stop offset="100%" stop-color="#154360"/>
+    </radialGradient>
+  </defs>
+  <!-- ambient glow -->
+  <ellipse cx="44" cy="104" rx="33" ry="7" fill="#1abc9c" opacity="0.3"/>
+  <!-- large shell (majestic dome) -->
+  <ellipse cx="42" cy="68" rx="35" ry="30" fill="url(#washell)"/>
+  <!-- elaborate shell pattern: wave-inspired + star scutes -->
+  <!-- center scute -->
+  <polygon points="42,42 30,60 38,78 46,78 54,60" fill="none" stroke="#075e52" stroke-width="1.8" opacity="0.5"/>
+  <!-- side scutes -->
+  <polygon points="10,60 20,52 30,60 20,72" fill="none" stroke="#075e52" stroke-width="1.3" opacity="0.4"/>
+  <polygon points="74,60 64,52 54,60 64,72" fill="none" stroke="#075e52" stroke-width="1.3" opacity="0.4"/>
+  <polygon points="30,60 38,78 52,78 54,60 46,78 38,78" fill="none" stroke="#075e52" stroke-width="1.1" opacity="0.35"/>
+  <!-- wave lines across shell -->
+  <path d="M12,58 Q26,54 42,58 Q58,62 72,58" fill="none" stroke="#075e52" stroke-width="1" opacity="0.3" stroke-linecap="round"/>
+  <path d="M14,66 Q28,62 42,66 Q56,70 70,66" fill="none" stroke="#075e52" stroke-width="1" opacity="0.25" stroke-linecap="round"/>
+  <!-- shell highlight -->
+  <ellipse cx="30" cy="55" rx="12" ry="16" fill="white" opacity="0.09" transform="rotate(-15 30 55)"/>
+  <!-- neck -->
+  <ellipse cx="62" cy="56" rx="10" ry="8" fill="#4a9fd0"/>
+  <!-- wise old head (large) -->
+  <circle cx="64" cy="47" r="18" fill="url(#waskin)"/>
+  <!-- wise ridge atop head -->
+  <path d="M53,32 Q64,27 75,32" fill="none" stroke="#154360" stroke-width="3" stroke-linecap="round"/>
+  <path d="M56,30 Q64,26 72,30" fill="none" stroke="#3a86c1" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- deep wise eyes -->
+  <circle cx="58" cy="45" r="7.5" fill="white"/>
+  <circle cx="58" cy="45" r="5"   fill="#1a1a1a"/>
+  <circle cx="60" cy="43" r="1.8" fill="white"/>
+  <circle cx="58" cy="45" r="7.5" fill="none" stroke="#1abc9c" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="70" cy="45" r="6"   fill="white"/>
+  <circle cx="70" cy="45" r="4"   fill="#1a1a1a"/>
+  <circle cx="71.5" cy="43.3" r="1.4" fill="white"/>
+  <!-- wise gentle smile -->
+  <path d="M56,54 Q64,60 72,54" fill="none" stroke="#154360" stroke-width="2" stroke-linecap="round"/>
+  <!-- large powerful flippers -->
+  <ellipse cx="10" cy="74" rx="14" ry="7" fill="#2874a6" transform="rotate(-28 10 74)"/>
+  <ellipse cx="76" cy="76" rx="14" ry="7" fill="#2874a6" transform="rotate(22 76 76)"/>
+  <!-- rear flippers -->
+  <ellipse cx="24" cy="96" rx="12" ry="6" fill="#2874a6" transform="rotate(22 24 96)"/>
+  <ellipse cx="62" cy="97" rx="12" ry="6" fill="#2874a6" transform="rotate(-18 62 97)"/>
+  <!-- water spray / bubble crown effect -->
+  <circle cx="78" cy="36" r="5.5" fill="#bff0ea" opacity="0.7"/>
+  <circle cx="84" cy="28" r="3.5" fill="#bff0ea" opacity="0.6"/>
+  <circle cx="74" cy="27" r="2.5" fill="#bff0ea" opacity="0.55"/>
+  <circle cx="78" cy="36" r="5.5" fill="none" stroke="#1abc9c" stroke-width="1" opacity="0.5"/>
+  <circle cx="76.5" cy="34.5" r="2"  fill="white" opacity="0.5"/>
+  <!-- star sparkles -->
+  <path d="M86,20 L87,17 L88,20 L85,18 L89,18Z" fill="#bff0ea" opacity="0.8"/>
+  <path d="M70,20 L71,17 L72,20 L69,18 L73,18Z" fill="#bff0ea" opacity="0.7"/>
+</svg>

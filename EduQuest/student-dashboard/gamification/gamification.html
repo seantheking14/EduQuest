@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Progress - EduQuest</title>
+    <link rel="stylesheet" href="../../shared/styles/variables-v2.css">
+    <link rel="stylesheet" href="../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../shared/components/navigation-v2.css">
+    <link rel="stylesheet" href="gamification.css">
+    <link rel="stylesheet" href="../../EDUQUEST/assets/css/pet_animations.css">
+    <link rel="stylesheet" href="../../shared/styles/pet-companion.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../shared/styles/quest_theme.css">
+    <script src="../../shared/components/quest_background.js" defer></script>
+</head>
+<body class="quest-theme">
+    <!-- Navigation Bar -->
+        <nav class="navbar student-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="nav-logo">🎮 EduQuest</span>
+                <span class="nav-role">Student Portal</span>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <span class="hamburger"></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <a href="../dashboard/dashboard.html" class="nav-link">
+                    <span class="nav-icon">🏠</span><span>Home</span>
+                </a>
+                <a href="../learning/learning.html" class="nav-link">
+                    <span class="nav-icon">📚</span><span>Learn</span>
+                </a>
+                <a href="../quests/quests.html" class="nav-link">
+                    <span class="nav-icon">🎯</span><span>My Quests</span>
+                </a>
+                <a href="../quests/take-quiz.html" class="nav-link">
+                    <span class="nav-icon">📝</span><span>Quizzes</span>
+                </a>
+                <a href="../gamification/gamification.html" class="nav-link">
+                    <span class="nav-icon">🌟</span><span>My Progress</span>
+                </a>
+                <a href="../achievements/achievements.html" class="nav-link">
+                    <span class="nav-icon">🏆</span><span>Achievements</span>
+                </a>
+                <a href="../leaderboard/leaderboard.html" class="nav-link">
+                    <span class="nav-icon">🥇</span><span>Leaderboard</span>
+                </a>
+            </div>
+            <div class="nav-actions">
+                <div class="nav-stats">
+                    <div class="stat-item">
+                        <span class="stat-icon">⚡</span>
+                        <span class="stat-value" id="navXp">0 XP</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">🔥</span>
+                        <span class="stat-value" id="navStreak">0 days</span>
+                    </div>
+                </div>
+                <div class="nav-profile" id="profileMenu">
+                    <div class="profile-avatar" id="navAvatar">🧑‍🎓</div>
+                    <div class="profile-level">
+                        <span class="level-badge" id="navLevel">Lv 1</span>
+                    </div>
+                    <div class="profile-dropdown">
+                        <a href="../profile/profile.html" class="dropdown-item">
+                            <span class="dropdown-icon">👤</span><span>Profile</span>
+                        </a>
+                        <a href="#" class="dropdown-item" onclick="handleLogout()">
+                            <span class="dropdown-icon">🚪</span><span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+
+            <!-- Page Header -->
+            <section class="page-header-section">
+                <h1 class="page-title">🌟 My Progress</h1>
+                <p class="page-subtitle">Track your growth, evolve your companion, and earn rewards!</p>
+            </section>
+
+            <!-- XP & Level Overview Card -->
+            <div class="section-sign">
+                <span class="section-sign-icon" aria-hidden="true">📊</span>
+                <span class="section-sign-title">My Progress Overview</span>
+            </div>
+            <section class="overview-card">
+                <div class="overview-left">
+                    <div class="level-display">
+                        <div class="level-circle" id="levelCircle">
+                            <span class="level-number" id="levelNumber">1</span>
+                            <span class="level-label">Level</span>
+                        </div>
+                    </div>
+                    <div class="level-details">
+                        <h2 class="player-name" id="playerName">Adventurer</h2>
+                        <div class="team-badge-display" id="teamBadgeDisplay"></div>
+                        <div class="xp-progress-wrapper">
+                            <div class="xp-bar-large">
+                                <div class="xp-fill-large" id="xpFill" style="width: 0%"></div>
+                            </div>
+                            <div class="xp-label" id="xpLabel">0 / 100 XP</div>
+                        </div>
+
+                        <div class="team-progress-meter" id="teamProgressMeter">
+                            <div class="team-progress-title">🏅 Team Progress</div>
+                            <div class="team-progress-list" id="teamProgressList">
+                                <div class="team-progress-row fire" data-team="fire">
+                                    <span class="tp-icon">🔥</span>
+                                    <div class="tp-track"><div class="tp-fill" id="tpFillFire" style="width: 0%"></div></div>
+                                    <span class="tp-value" id="tpValueFire">0%</span>
+                                </div>
+                                <div class="team-progress-row water" data-team="water">
+                                    <span class="tp-icon">💧</span>
+                                    <div class="tp-track"><div class="tp-fill" id="tpFillWater" style="width: 0%"></div></div>
+                                    <span class="tp-value" id="tpValueWater">0%</span>
+                                </div>
+                                <div class="team-progress-row grass" data-team="grass">
+                                    <span class="tp-icon">🌿</span>
+                                    <div class="tp-track"><div class="tp-fill" id="tpFillGrass" style="width: 0%"></div></div>
+                                    <span class="tp-value" id="tpValueGrass">0%</span>
+                                </div>
+                            </div>
+                            <div class="team-progress-hint" id="teamProgressHint">Loading team totals...</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="overview-right">
+                    <div class="stat-box">
+                        <span class="stat-box-icon">⚡</span>
+                        <span class="stat-box-value" id="totalXpStat">0</span>
+                        <span class="stat-box-label">Total XP</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-box-icon">🔥</span>
+                        <span class="stat-box-value" id="streakStat">0</span>
+                        <span class="stat-box-label">Day Streak</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-box-icon">🏆</span>
+                        <span class="stat-box-value" id="achievementsStat">0</span>
+                        <span class="stat-box-label">Badges</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-box-icon">🎁</span>
+                        <span class="stat-box-value" id="rewardsStat">0</span>
+                        <span class="stat-box-label">Rewards</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Daily XP Meter Section Sign -->
+            <div class="section-sign section-sign--light">
+                <span class="section-sign-icon" aria-hidden="true">⚡</span>
+                <span class="section-sign-title">Daily XP Progress</span>
+            </div>
+            <!-- Daily XP Meter -->
+            <section class="daily-xp-section" id="dailyXpSection">
+                <div class="daily-xp-header">
+                    <h3>📊 Daily XP Progress</h3>
+                    <span class="daily-xp-cap" id="dailyXpCap">0 / 500 XP today</span>
+                </div>
+                <div class="daily-xp-bar">
+                    <div class="daily-xp-fill" id="dailyXpFill" style="width: 0%"></div>
+                </div>
+                <p class="daily-xp-hint">Pace yourself — there's always tomorrow to earn more!</p>
+            </section>
+
+            <!-- Two Column Layout -->
+            <div class="progress-columns">
+
+                <!-- Egg Evolution Column -->
+                <section class="egg-evolution-card" id="eggEvolutionSection">
+                    <h3 class="section-heading">🥚 Companion Evolution</h3>
+                    <div class="egg-display">
+                        <div class="egg-container" id="eggContainer">
+                            <div class="egg-sprite" id="eggSprite">🥚</div>
+                            <div class="egg-cracks" id="eggCracks"></div>
+                            <div class="egg-glow" id="eggGlow"></div>
+                        </div>
+                        <div class="egg-info">
+                            <h4 class="egg-stage-name" id="eggStageName">Egg</h4>
+                            <p class="egg-stage-desc" id="eggStageDesc">Your companion is resting. Keep earning XP to see it hatch!</p>
+                        </div>
+                        <div class="egg-level-progress" id="eggLevelProgress">
+                            <div class="egg-progress-bar">
+                                <div class="egg-progress-fill" id="eggProgressFill"></div>
+                            </div>
+                            <p class="egg-progress-label" id="eggProgressLabel">Level 1 → Next evolution at Level 3</p>
+                        </div>
+                    </div>
+                    <div class="evolution-timeline">
+                        <div class="evo-step active" data-stage="1">
+                            <span class="evo-icon">🥚</span>
+                            <span class="evo-label">Egg</span>
+                        </div>
+                        <div class="evo-connector"></div>
+                        <div class="evo-step" data-stage="2">
+                            <span class="evo-icon">🐣</span>
+                            <span class="evo-label">Cracking</span>
+                        </div>
+                        <div class="evo-connector"></div>
+                        <div class="evo-step" data-stage="3">
+                            <span class="evo-icon">🐥</span>
+                            <span class="evo-label">Hatchling</span>
+                        </div>
+                        <div class="evo-connector"></div>
+                        <div class="evo-step" data-stage="4">
+                            <span class="evo-icon">🦅</span>
+                            <span class="evo-label">Young</span>
+                        </div>
+                        <div class="evo-connector"></div>
+                        <div class="evo-step" data-stage="5">
+                            <span class="evo-icon">🐉</span>
+                            <span class="evo-label">Guardian</span>
+                        </div>
+                    </div>
+                    <p class="evo-next-hint" id="evoNextHint">Reach Level 3 to see your egg start cracking!</p>
+                </section>
+
+                <!-- Team Selection Column -->
+                <section class="team-selection-card" id="teamSelectionSection">
+                    <h3 class="section-heading">⚔️ Choose Your Team</h3>
+                    <p class="team-description" id="teamDescription">Join a team to personalize your adventure!</p>
+                    <div class="team-grid" id="teamGrid">
+                    </div>
+                </section>
+            </div>
+
+            <!-- Recent Achievements Preview -->
+            <section class="recent-achievements-section" id="achievementsSection">
+                <div class="section-header-row">
+                    <h3 class="section-heading">🏆 Recent Achievements</h3>
+                    <a href="../achievements/achievements.html" class="view-all-link">View all →</a>
+                </div>
+                <div class="achievements-preview-grid" id="achievementsGrid">
+                    <div class="loading-placeholder">Loading achievements...</div>
+                </div>
+            </section>
+
+            <!-- Leaderboard (Optional) -->
+            <section class="leaderboard-section" id="leaderboardSection" style="display: none;">
+                <div class="section-header-row">
+                    <h3 class="section-heading">👑 Class Leaderboard</h3>
+                    <span class="leaderboard-mode-badge" id="leaderboardModeBadge"></span>
+                </div>
+
+                <!-- Team Stats -->
+                <div class="team-leaderboard" id="teamLeaderboard" style="display: none;">
+                    <div class="team-stat fire" id="teamFireStat">
+                        <span class="team-stat-icon">🔥</span>
+                        <span class="team-stat-name">Fire</span>
+                        <span class="team-stat-xp" id="teamFireXp">0 XP</span>
+                    </div>
+                    <div class="team-stat water" id="teamWaterStat">
+                        <span class="team-stat-icon">💧</span>
+                        <span class="team-stat-name">Water</span>
+                        <span class="team-stat-xp" id="teamWaterXp">0 XP</span>
+                    </div>
+                    <div class="team-stat grass" id="teamGrassStat">
+                        <span class="team-stat-icon">🌿</span>
+                        <span class="team-stat-name">Grass</span>
+                        <span class="team-stat-xp" id="teamGrassXp">0 XP</span>
+                    </div>
+                </div>
+
+                <!-- Individual Leaderboard -->
+                <div class="leaderboard-list" id="leaderboardList">
+                    <div class="loading-placeholder">Loading leaderboard...</div>
+                </div>
+            </section>
+
+            <!-- Recent XP Activity -->
+            <section class="xp-activity-section">
+                <h3 class="section-heading">⚡ Recent XP Activity</h3>
+                <div class="xp-activity-list" id="xpActivityList">
+                    <div class="loading-placeholder">Loading activity...</div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Achievement Unlock Modal -->
+    <div class="achievement-modal-overlay" id="achievementModal" style="display: none;">
+        <div class="achievement-modal">
+            <div class="modal-confetti" id="modalConfetti"></div>
+            <div class="modal-icon" id="modalAchIcon">⭐</div>
+            <h3 class="modal-title">Achievement Unlocked!</h3>
+            <h4 class="modal-ach-name" id="modalAchName"></h4>
+            <p class="modal-ach-desc" id="modalAchDesc"></p>
+            <div class="modal-xp-badge" id="modalXpBadge">+0 XP</div>
+            <button class="modal-close-btn" onclick="closeAchievementModal()">Awesome! 🎉</button>
+        </div>
+    </div>
+
+    <script src="../../shared/components/navigation.js"></script>
+    <script src="../../shared/utils/helpers.js"></script>
+    <script src="../../shared/utils/pet-sprites.js"></script>
+    <script src="../../EDUQUEST/assets/js/pet_animations.js" defer></script>
+    <script src="gamification.js"></script>
+    <script>window.PetCompanionConfig = { context: 'learn', wizard: false };</script>
+    <script src="../../shared/utils/pet-companion.js"></script>
+    <script>window.EDUQUEST_PAGE_NAME = 'gamification';</script>
+    <script src="../../EDUQUEST/assets/js/tracker.js"></script>
+</body>
+</html>
+

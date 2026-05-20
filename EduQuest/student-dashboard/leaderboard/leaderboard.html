@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - EduQuest</title>
+    <link rel="stylesheet" href="../../shared/styles/variables-v2.css">
+    <link rel="stylesheet" href="../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../shared/components/navigation-v2.css">
+    <link rel="stylesheet" href="leaderboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../shared/styles/quest_theme.css">
+    <link rel="stylesheet" href="../../shared/styles/pet-companion.css">
+    <script src="../../shared/components/quest_background.js" defer></script>
+</head>
+<body class="quest-theme">
+    <!-- Navigation Bar -->
+    <nav class="navbar student-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="nav-logo">🎮 EduQuest</span>
+                <span class="nav-role">Student Portal</span>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <span class="hamburger"></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <a href="../dashboard/dashboard.html" class="nav-link">
+                    <span class="nav-icon">🏠</span><span>Home</span>
+                </a>
+                <a href="../learning/learning.html" class="nav-link">
+                    <span class="nav-icon">📚</span><span>Learn</span>
+                </a>
+                <a href="../quests/quests.html" class="nav-link">
+                    <span class="nav-icon">🎯</span><span>My Quests</span>
+                </a>
+                <a href="../quests/take-quiz.html" class="nav-link">
+                    <span class="nav-icon">📝</span><span>Quizzes</span>
+                </a>
+                <a href="../gamification/gamification.html" class="nav-link">
+                    <span class="nav-icon">🌟</span><span>My Progress</span>
+                </a>
+                <a href="../achievements/achievements.html" class="nav-link">
+                    <span class="nav-icon">🏆</span><span>Achievements</span>
+                </a>
+                <a href="../leaderboard/leaderboard.html" class="nav-link">
+                    <span class="nav-icon">🥇</span><span>Leaderboard</span>
+                </a>
+            </div>
+            <div class="nav-actions">
+                <div class="nav-stats">
+                    <div class="stat-item">
+                        <span class="stat-icon">⚡</span>
+                        <span class="stat-value" id="navXp">0 XP</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">🔥</span>
+                        <span class="stat-value" id="navStreak">0 days</span>
+                    </div>
+                </div>
+                <div class="nav-profile" id="profileMenu">
+                    <div class="profile-avatar" id="navAvatar">🧑‍🎓</div>
+                    <div class="profile-level">
+                        <span class="level-badge" id="navLevel">Lv 1</span>
+                    </div>
+                    <div class="profile-dropdown">
+                        <a href="../profile/profile.html" class="dropdown-item">
+                            <span class="dropdown-icon">👤</span><span>Profile</span>
+                        </a>
+                        <a href="#" class="dropdown-item" onclick="handleLogout()">
+                            <span class="dropdown-icon">🚪</span><span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <section class="page-header">
+                <div>
+                    <h1 class="page-title">🥇 Leaderboard</h1>
+                    <p class="page-subtitle">See which team is on top — earn XP to help your team win!</p>
+                </div>
+            </section>
+
+            <!-- Disabled State (hidden by default) -->
+            <div class="disabled-state" id="disabledState" style="display:none;">
+                <div class="disabled-icon">🔒</div>
+                <h2>Leaderboard Not Available</h2>
+                <p>Your teacher hasn't enabled the leaderboard yet. Keep earning XP!</p>
+            </div>
+
+            <!-- Leaderboard Content (hidden until loaded) -->
+            <div id="leaderboardContent" style="display:none;">
+
+                <!-- Team Podium -->
+                <div class="section-sign">
+                    <span class="section-sign-icon" aria-hidden="true">🏆</span>
+                    <span class="section-sign-title">Team Standings</span>
+                </div>
+                <section class="team-podium-section">
+                    <h2 class="section-title">🏆 Team Standings</h2>
+                    <div class="team-podium" id="teamPodium">
+                        <div class="podium-loading">Loading teams…</div>
+                    </div>
+                </section>
+
+                <!-- Team Stats Cards -->
+                <section class="team-cards-section">
+                    <div class="team-cards" id="teamCards">
+                        <!-- Filled by JS -->
+                    </div>
+                </section>
+
+                <!-- Individual Rankings -->
+                <div class="section-sign">
+                    <span class="section-sign-icon" aria-hidden="true">⚡</span>
+                    <span class="section-sign-title">Top Adventurers</span>
+                </div>
+                <section class="rankings-section">
+                    <h2 class="section-title">⚡ Top Adventurers</h2>
+                    <div class="rankings-list" id="rankingsList">
+                        <div class="rankings-loading">Loading rankings…</div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../shared/utils/helpers.js"></script>
+    <script src="../../shared/utils/gamification-helper.js"></script>
+    <script src="../../shared/components/navigation.js"></script>
+    <script src="leaderboard.js"></script>
+    <script>window.PetCompanionConfig = { context: 'learn', wizard: false };</script>
+    <script src="../../shared/utils/pet-companion.js"></script>
+</body>
+</html>

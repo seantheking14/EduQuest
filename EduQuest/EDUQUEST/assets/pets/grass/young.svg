@@ -1,0 +1,61 @@
+<svg viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Twigster the Grass Young Monkey">
+  <defs>
+    <radialGradient id="gybody" cx="44%" cy="38%" r="62%">
+      <stop offset="0%" stop-color="#c07830"/>
+      <stop offset="100%" stop-color="#7a4f1e"/>
+    </radialGradient>
+    <radialGradient id="gyhead" cx="44%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#d09040"/>
+      <stop offset="100%" stop-color="#966228"/>
+    </radialGradient>
+    <radialGradient id="gyface" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e8c080"/>
+      <stop offset="100%" stop-color="#c89040"/>
+    </radialGradient>
+  </defs>
+  <!-- shadow -->
+  <ellipse cx="40" cy="93" rx="26" ry="5.5" fill="#4a2e0c" opacity="0.25"/>
+  <!-- long curling tail (behind body) -->
+  <path d="M18,74 Q4,64 2,74 Q0,86 12,88 Q20,89 20,80" fill="none" stroke="#7a4f1e" stroke-width="6" stroke-linecap="round"/>
+  <!-- body (bigger) -->
+  <ellipse cx="40" cy="74" rx="26" ry="20" fill="url(#gybody)"/>
+  <!-- belly -->
+  <ellipse cx="40" cy="77" rx="16" ry="12" fill="#e8c080" opacity="0.6"/>
+  <!-- vine bracelet on left wrist (earthy green) -->
+  <ellipse cx="18" cy="78" rx="5" ry="3.5" fill="none" stroke="#27ae60" stroke-width="2.5" opacity="0.8"/>
+  <!-- left big ear -->
+  <circle cx="20" cy="48" r="12" fill="url(#gyhead)"/>
+  <circle cx="20" cy="48" r="8"  fill="#e8c080"/>
+  <!-- right big ear -->
+  <circle cx="60" cy="48" r="12" fill="url(#gyhead)"/>
+  <circle cx="60" cy="48" r="8"  fill="#e8c080"/>
+  <!-- head -->
+  <circle cx="40" cy="48" r="22" fill="url(#gyhead)"/>
+  <!-- muzzle -->
+  <ellipse cx="40" cy="58" rx="13" ry="9" fill="url(#gyface)"/>
+  <!-- eyes (expressive) -->
+  <circle cx="32" cy="44" r="6.5" fill="white"/>
+  <circle cx="32" cy="44" r="4.5" fill="#1a1a1a"/>
+  <circle cx="33.5" cy="42.5" r="1.6" fill="white"/>
+  <circle cx="48" cy="44" r="6.5" fill="white"/>
+  <circle cx="48" cy="44" r="4.5" fill="#1a1a1a"/>
+  <circle cx="49.5" cy="42.5" r="1.6" fill="white"/>
+  <!-- raised brow (playful curious look) -->
+  <path d="M26,38 Q32,35 38,38" fill="none" stroke="#7a4f1e" stroke-width="2" stroke-linecap="round"/>
+  <!-- nose -->
+  <ellipse cx="40" cy="56" rx="3" ry="2" fill="#7a4f1e"/>
+  <!-- grin -->
+  <path d="M33,62 Q40,68 47,62" fill="none" stroke="#7a4f1e" stroke-width="2" stroke-linecap="round"/>
+  <!-- leafy accessory on head (two leaves) -->
+  <path d="M34,26 Q28,15 32,10 Q36,7 38,16 Q39,10 43,8 Q47,7 45,18 Q43,22 38,26Z" fill="#4ade80"/>
+  <line x1="38" y1="26" x2="38" y2="10" stroke="#16a34a" stroke-width="1.3" stroke-linecap="round" opacity="0.6"/>
+  <!-- longer arms -->
+  <ellipse cx="16" cy="76" rx="8" ry="5" fill="#966228" transform="rotate(-25 16 76)"/>
+  <ellipse cx="64" cy="76" rx="8" ry="5" fill="#966228" transform="rotate(25 64 76)"/>
+  <!-- feet -->
+  <ellipse cx="30" cy="90" rx="8.5" ry="5" fill="#7a4f1e"/>
+  <ellipse cx="50" cy="90" rx="8.5" ry="5" fill="#7a4f1e"/>
+  <!-- toe lines -->
+  <line x1="26" y1="93" x2="24" y2="95" stroke="#5a3a10" stroke-width="1.3" stroke-linecap="round"/>
+  <line x1="30" y1="94" x2="29" y2="96" stroke="#5a3a10" stroke-width="1.3" stroke-linecap="round"/>
+</svg>

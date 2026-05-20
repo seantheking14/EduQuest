@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Email - EduQuest</title>
+</head>
+<body style="margin:0;padding:0;background-color:#eef2f7;font-family:Arial,Helvetica,sans-serif;color:#1e293b;">
+    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color:#eef2f7;">
+        <tr>
+            <td align="center" style="padding:24px 12px;">
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="620" style="width:620px;max-width:620px;background-color:#ffffff;border:1px solid #dbeafe;">
+                    <tr>
+                        <td align="center" style="padding:28px 24px;background-color:#1d4ed8;color:#ffffff;">
+                            <div style="font-size:12px;line-height:1.4;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:10px;">EduQuest Account Setup</div>
+                            <div style="font-size:28px;line-height:1.2;font-weight:700;margin-bottom:8px;">Verify Your Email Address</div>
+                            <div style="font-size:15px;line-height:1.5;opacity:0.95;">One final step to activate your EduQuest account.</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:28px 24px 22px;">
+                            <p style="margin:0 0 12px;font-size:16px;line-height:1.5;color:#0f172a;">Hello <strong>{NAME}</strong>,</p>
+                            <p style="margin:0 0 20px;font-size:15px;line-height:1.6;color:#334155;">
+                                Welcome to EduQuest. Please confirm this email address so we can secure your account and complete your registration.
+                            </p>
+
+                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="margin:0 auto 18px;">
+                                <tr>
+                                    <td align="center" bgcolor="#ea580c" style="border-radius:6px;">
+                                        <a href="{VERIFICATION_URL}" style="display:inline-block;padding:12px 24px;font-size:15px;font-weight:700;color:#ffffff;text-decoration:none;">Verify My Email</a>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p style="margin:0 0 8px;font-size:13px;line-height:1.5;color:#475569;">If the button does not work, copy and paste this link into your browser:</p>
+                            <p style="margin:0 0 16px;padding:12px;border:1px solid #cbd5e1;background-color:#f8fafc;font-size:12px;line-height:1.5;color:#1e293b;word-break:break-all;">{VERIFICATION_URL}</p>
+
+                            <p style="margin:0 0 12px;padding:10px 12px;background-color:#eff6ff;border-left:4px solid #0ea5e9;font-size:13px;line-height:1.5;color:#1e40af;">
+                                <strong>Link valid for {EXPIRY_HOURS} hours.</strong> If it expires, you can request a new verification email on the verification page.
+                            </p>
+
+                            <p style="margin:0 0 0;padding:10px 12px;background-color:#fffbeb;border-left:4px solid #f59e0b;font-size:13px;line-height:1.5;color:#92400e;">
+                                If you did not create an EduQuest account, you can safely ignore this message.
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:14px 24px 18px;background-color:#f8fafc;border-top:1px solid #e2e8f0;font-size:12px;line-height:1.5;color:#64748b;text-align:center;">
+                            EduQuest - A Gamified Digital Portfolio System for SPED Students<br>
+                            You received this message because a new account was registered with this email. <a href="{BASE_URL}" style="color:#1d4ed8;font-weight:700;text-decoration:none;">Visit EduQuest</a>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

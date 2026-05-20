@@ -1,0 +1,29 @@
+<svg viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Fire Egg">
+  <defs>
+    <radialGradient id="fegg" cx="38%" cy="30%" r="68%">
+      <stop offset="0%" stop-color="#e74c3c"/>
+      <stop offset="60%" stop-color="#c0392b"/>
+      <stop offset="100%" stop-color="#7b241c"/>
+    </radialGradient>
+  </defs>
+  <!-- shadow -->
+  <ellipse cx="40" cy="92" rx="22" ry="5" fill="#7b241c" opacity="0.28"/>
+  <!-- egg body -->
+  <ellipse cx="40" cy="57" rx="27" ry="34" fill="url(#fegg)"/>
+  <!-- surface highlight -->
+  <ellipse cx="29" cy="43" rx="8" ry="12" fill="white" opacity="0.12" transform="rotate(-18 29 43)"/>
+  <!-- outer ring -->
+  <ellipse cx="40" cy="57" rx="27" ry="34" fill="none" stroke="#7b241c" stroke-width="1" opacity="0.3"/>
+  <!-- crack lines (orange-glowing) -->
+  <polyline points="33,41 29,51 36,48 31,62" fill="none" stroke="#f39c12" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="47,44 50,55 44,52 48,65" fill="none" stroke="#e67e22" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="37,67 40,59 44,67" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- glow at crack centers -->
+  <circle cx="31" cy="51" r="3.5" fill="#f39c12" opacity="0.5"/>
+  <circle cx="48" cy="55" r="2.5" fill="#e67e22" opacity="0.45"/>
+  <!-- flame on top -->
+  <path d="M37,26 Q33,15 37,8 Q40,4 43,8 Q47,15 43,26 Q41,19 40,16 Q39,19 37,26Z" fill="#f39c12"/>
+  <path d="M39,26 Q38,20 40,15 Q42,20 41,26Z" fill="#fbbf24"/>
+  <!-- tiny flame glow base -->
+  <ellipse cx="40" cy="27" rx="5" ry="2" fill="#f97316" opacity="0.4"/>
+</svg>

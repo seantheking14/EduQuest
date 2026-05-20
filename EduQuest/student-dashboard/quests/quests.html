@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Quests - EduQuest</title>
+    <link rel="stylesheet" href="../../shared/styles/variables-v2.css">
+    <link rel="stylesheet" href="../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../shared/styles/responsive.css">
+    <link rel="stylesheet" href="../../shared/components/navigation-v2.css">
+    <link rel="stylesheet" href="../../shared/components/notification.css">
+    <link rel="stylesheet" href="../games/activity.css">
+    <link rel="stylesheet" href="./quests.css">
+    <link rel="stylesheet" href="../../shared/styles/guide-system.css">
+    <link rel="stylesheet" href="../../EDUQUEST/assets/css/gamified_popup.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../shared/styles/quest_theme.css">
+    <link rel="stylesheet" href="../../shared/styles/pet-companion.css">
+    <script src="../../shared/components/quest_background.js" defer></script>
+</head>
+<body class="quest-theme">
+    <!-- Navigation -->
+        <nav class="navbar student-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="nav-logo">🎮 EduQuest</span>
+                <span class="nav-role">Student Portal</span>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <span class="hamburger"></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <a href="../dashboard/dashboard.html" class="nav-link">
+                    <span class="nav-icon">🏠</span><span>Home</span>
+                </a>
+                <a href="../learning/learning.html" class="nav-link">
+                    <span class="nav-icon">📚</span><span>Learn</span>
+                </a>
+                <a href="../quests/quests.html" class="nav-link">
+                    <span class="nav-icon">🎯</span><span>My Quests</span>
+                </a>
+                <a href="../quests/take-quiz.html" class="nav-link">
+                    <span class="nav-icon">📝</span><span>Quizzes</span>
+                </a>
+                <a href="../gamification/gamification.html" class="nav-link">
+                    <span class="nav-icon">🌟</span><span>My Progress</span>
+                </a>
+                <a href="../achievements/achievements.html" class="nav-link">
+                    <span class="nav-icon">🏆</span><span>Achievements</span>
+                </a>
+                <a href="../leaderboard/leaderboard.html" class="nav-link">
+                    <span class="nav-icon">🥇</span><span>Leaderboard</span>
+                </a>
+            </div>
+            <div class="nav-actions">
+                <div class="nav-stats">
+                    <div class="stat-item">
+                        <span class="stat-icon">⚡</span>
+                        <span class="stat-value" id="navXp">0 XP</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">🔥</span>
+                        <span class="stat-value" id="navStreak">0 days</span>
+                    </div>
+                </div>
+                <div class="nav-profile" id="profileMenu">
+                    <div class="profile-avatar" id="navAvatar">🧑‍🎓</div>
+                    <div class="profile-level">
+                        <span class="level-badge" id="navLevel">Lv 1</span>
+                    </div>
+                    <div class="profile-dropdown">
+                        <a href="../profile/profile.html" class="dropdown-item">
+                            <span class="dropdown-icon">👤</span><span>Profile</span>
+                        </a>
+                        <a href="#" class="dropdown-item" onclick="handleLogout()">
+                            <span class="dropdown-icon">🚪</span><span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">&#127919; My Quests</h1>
+            <p class="page-subtitle">Complete fun challenges to earn XP and level up your skills!</p>
+        </div>
+
+        <!-- Mini Games Moved From activity.html -->
+        <div class="section-sign">
+            <span class="section-sign-icon" aria-hidden="true">⚔️</span>
+            <span class="section-sign-title">Learning Games</span>
+        </div>
+        <section id="miniGamesSection" class="mini-games-section">
+            <div class="activity-container">
+                <div id="hubScreen" class="screen">
+                    <div class="hub-header">
+                        <h1>🎮 Learning Games</h1>
+                        <p>Practice what you learned through fun activities!</p>
+                    </div>
+                    <div class="subject-tabs">
+                        <button class="subject-tab-btn active" data-subject="math">🔢 Math</button>
+                        <button class="subject-tab-btn" data-subject="english">📖 English</button>
+                        <button class="subject-tab-btn" data-subject="selfcare">🌱 Self Care</button>
+                    </div>
+                    <div class="activity-list" id="activityList"></div>
+                    <div id="actHistorySection" class="ac-history-section hidden"></div>
+                </div>
+
+                <div id="introScreen" class="screen hidden">
+                    <div class="intro-card">
+                        <span class="intro-icon" id="introIcon">🎯</span>
+                        <h2 id="introTitle">Activity Title</h2>
+                        <p class="intro-desc" id="introDesc">Description</p>
+                        <div class="intro-meta">
+                            <span class="meta-pill" id="introRounds">📝 6 rounds</span>
+                            <span class="meta-pill" id="introType">🎮 Sort</span>
+                        </div>
+                        <button class="btn-play" id="btnStart">▶️ Let's Play!</button>
+                        <button class="btn-back" id="btnBackHub">← Back to Games</button>
+                        <div id="actIntroHistory" class="hidden"></div>
+                    </div>
+                </div>
+
+                <div id="gameScreen" class="screen hidden">
+                    <div class="game-hud">
+                        <div class="hud-item"><span class="hud-label">Round</span><span class="hud-val" id="gRound">1/6</span></div>
+                        <div class="hud-item"><span class="hud-label">Score</span><span class="hud-val" id="gScore">0</span></div>
+                        <div class="hud-item"><span class="hud-label">Attempts</span><span class="hud-val" id="gStreak">❤️❤️❤️</span></div>
+                    </div>
+                    <div class="game-instruction" id="gInstruction"></div>
+                    <div id="gameTimerArea"></div>
+                    <div id="gameAttemptsArea"></div>
+                    <div class="game-area" id="gameArea"></div>
+                    <div class="game-actions" id="gameActions"></div>
+                </div>
+
+                <div id="resultsScreen" class="screen hidden">
+                    <div class="results-card">
+                        <span class="results-emoji" id="rEmoji">🏆</span>
+                        <h2 id="rTitle">Great Job!</h2>
+                        <div class="results-score" id="rScore">0</div>
+                        <p class="results-detail" id="rDetail"></p>
+                        <p class="results-xp" id="rXP"></p>
+                        <div class="results-actions">
+                            <button class="btn-play" id="btnRetry">🔄 Play Again</button>
+                            <button class="ctrl-btn" id="btnBackResults">← Back to Games</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="feedback hidden" id="feedback"></div>
+
+    <script src="../../shared/components/navigation.js"></script>
+    <script src="../../shared/utils/gamification-helper.js"></script>
+    <script src="../../shared/utils/helpers.js"></script>
+    <script src="../../shared/utils/guideDialogue.js"></script>
+    <script src="../../shared/utils/guide-character.js"></script>
+    <script src="../../shared/utils/game-helpers.js"></script>
+    <script>
+        // Mini-games only page
+        const miniGamesSection = document.getElementById('miniGamesSection');
+        if (miniGamesSection) {
+            miniGamesSection.classList.remove('hidden');
+        }
+    </script>
+    <script src="../../EDUQUEST/assets/js/gamified_popup.js"></script>
+    <script src="../games/activity.js"></script>
+    <script>window.EDUQUEST_PAGE_NAME = 'myquests';</script>
+    <script src="../../EDUQUEST/assets/js/tracker.js"></script>
+    <script>window.PetCompanionConfig = { context: 'game', wizard: false };</script>
+    <script src="../../shared/utils/pet-companion.js"></script>
+</body>
+</html>
+

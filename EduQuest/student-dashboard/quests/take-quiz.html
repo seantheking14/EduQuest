@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizzes - EduQuest</title>
+    <link rel="stylesheet" href="../../shared/styles/variables-v2.css">
+    <link rel="stylesheet" href="../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../shared/styles/responsive.css">
+    <link rel="stylesheet" href="../../shared/components/navigation-v2.css">
+    <link rel="stylesheet" href="../../shared/components/notification.css">
+    <link rel="stylesheet" href="./take-quiz.css">
+    <link rel="stylesheet" href="../../shared/styles/guide-system.css">
+    <link rel="stylesheet" href="../../EDUQUEST/assets/css/gamified_popup.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../shared/styles/quest_theme.css">
+    <link rel="stylesheet" href="../../shared/styles/pet-companion.css">
+    <script src="../../shared/components/quest_background.js" defer></script>
+</head>
+<body class="quest-theme">
+    <!-- Navigation -->
+    <nav class="navbar student-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="nav-logo">🎮 EduQuest</span>
+                <span class="nav-role">Student Portal</span>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <span class="hamburger"></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <a href="../dashboard/dashboard.html" class="nav-link">
+                    <span class="nav-icon">🏠</span><span>Home</span>
+                </a>
+                <a href="../learning/learning.html" class="nav-link">
+                    <span class="nav-icon">📚</span><span>Learn</span>
+                </a>
+                <a href="../quests/quests.html" class="nav-link">
+                    <span class="nav-icon">🎯</span><span>My Quests</span>
+                </a>
+                <a href="../quests/take-quiz.html" class="nav-link">
+                    <span class="nav-icon">📝</span><span>Quizzes</span>
+                </a>
+                <a href="../gamification/gamification.html" class="nav-link">
+                    <span class="nav-icon">🌟</span><span>My Progress</span>
+                </a>
+                <a href="../achievements/achievements.html" class="nav-link">
+                    <span class="nav-icon">🏆</span><span>Achievements</span>
+                </a>
+                <a href="../leaderboard/leaderboard.html" class="nav-link">
+                    <span class="nav-icon">🥇</span><span>Leaderboard</span>
+                </a>
+            </div>
+            <div class="nav-actions">
+                <div class="nav-stats">
+                    <div class="stat-item">
+                        <span class="stat-icon">⚡</span>
+                        <span class="stat-value" id="navXp">0 XP</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">🔥</span>
+                        <span class="stat-value" id="navStreak">0 days</span>
+                    </div>
+                </div>
+                <div class="nav-profile" id="profileMenu">
+                    <div class="profile-avatar" id="navAvatar">🧑‍🎓</div>
+                    <div class="profile-level">
+                        <span class="level-badge" id="navLevel">Lv 1</span>
+                    </div>
+                    <div class="profile-dropdown">
+                        <a href="../profile/profile.html" class="dropdown-item">
+                            <span class="dropdown-icon">👤</span><span>Profile</span>
+                        </a>
+                        <a href="#" class="dropdown-item" onclick="handleLogout()">
+                            <span class="dropdown-icon">🚪</span><span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+    <div class="tq-wrap">
+
+        <!-- ═══════ QUIZ LIST SCREEN ═══════ -->
+        <div id="quizListScreen" class="screen">
+            <div class="tq-page-header">
+                <h1 class="tq-page-title">📝 Quizzes</h1>
+                <p class="tq-page-subtitle">Complete quizzes assigned by your teacher to earn XP!</p>
+                <div class="tq-summary-pills" id="quizSummaryPills"></div>
+            </div>
+            <div class="section-sign">
+                <span class="section-sign-icon" aria-hidden="true">📝</span>
+                <span class="section-sign-title">Available Quizzes</span>
+            </div>
+            <div id="quizListCards" class="tq-grid">
+                <div class="loading-msg">Loading quizzes…</div>
+            </div>
+            <div id="quizListEmpty" class="tq-empty hidden">
+                <span class="tq-empty-icon">📝</span>
+                <h3>No quizzes available</h3>
+                <p>Your teacher hasn't assigned any quizzes yet. Check back later!</p>
+            </div>
+        </div>
+
+        <!-- ═══════ QUIZ INTRO SCREEN ═══════ -->
+        <div id="quizIntroScreen" class="screen hidden">
+            <div class="tq-intro-card">
+                <div class="tq-intro-banner">
+                    <div class="tq-intro-img" id="introImg">📝</div>
+                    <h2 id="introTitle">Quiz Title</h2>
+                    <p class="tq-intro-desc" id="introDesc">Description</p>
+                </div>
+                <div class="tq-intro-body">
+                    <div id="introInstructions" class="tq-instructions hidden"></div>
+                    <div class="tq-intro-meta">
+                        <span class="tq-meta-pill" id="metaQuestions">0 questions</span>
+                        <span class="tq-meta-pill" id="metaPass">70% to pass</span>
+                        <span class="tq-meta-pill" id="metaTime">No time limit</span>
+                        <span class="tq-meta-pill" id="metaXP">50 XP</span>
+                        <span class="tq-meta-pill" id="metaAttempts">Unlimited</span>
+                    </div>
+                    <div class="tq-intro-actions">
+                        <button class="btn-play" id="btnStartQuiz">▶️ Start Quiz</button>
+                        <button class="btn-back" id="btnBackList">← Back to Quizzes</button>
+                    </div>
+                    <div id="introAttemptNotice" class="tq-attempt-notice hidden"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════ QUIZ TAKING SCREEN ═══════ -->
+        <div id="quizPlayScreen" class="screen hidden">
+            <div class="tq-play-hud">
+                <div class="tq-hud-item"><span class="tq-hud-label">Question</span><span class="tq-hud-val" id="hudQuestion">1/10</span></div>
+                <div class="tq-hud-item"><span class="tq-hud-label">Answered</span><span class="tq-hud-val" id="hudAnswered">0</span></div>
+                <div class="tq-hud-item hidden" id="hudTimerWrap"><span class="tq-hud-label">Time</span><span class="tq-hud-val" id="hudTimer">--:--</span></div>
+            </div>
+            <div id="timerBar" class="tq-timer-bar hidden"><div id="timerFill" class="tq-timer-fill"></div></div>
+            <div class="tq-q-progress" id="qProgress"><div class="tq-q-progress-fill" id="qProgressFill" style="width:0%"></div></div>
+            <div class="tq-q-type-badge" id="qTypeBadge"></div>
+            <div class="tq-question-area" id="questionArea">
+                <!-- Rendered by JS per question type -->
+            </div>
+            <div class="tq-play-nav">
+                <button class="btn-back" id="btnPrevQ" disabled>← Previous</button>
+                <span class="tq-q-dots" id="qDots"></span>
+            </div>
+        </div>
+
+        <!-- ═══════ RESULTS SCREEN ═══════ -->
+        <div id="quizResultScreen" class="screen hidden">
+            <div class="tq-result-card">
+                <div class="tq-result-banner">
+                    <div class="tq-result-emoji" id="resultEmoji">🎉</div>
+                    <h2 id="resultTitle">Great Job!</h2>
+                </div>
+                <div class="tq-result-body">
+                    <p class="tq-result-score" id="resultScore">0 / 0</p>
+                    <div class="tq-result-bar"><div class="tq-result-fill" id="resultFill"></div></div>
+                    <p class="tq-result-pct" id="resultPct">0%</p>
+                    <div class="tq-result-meta" id="resultMeta"></div>
+                    <div class="tq-result-stats" id="resultStats"></div>
+                    <div class="tq-result-xp hidden" id="resultXP">
+                        <span>⚡</span> <strong id="xpEarned">0</strong> XP earned!
+                    </div>
+                    <div class="tq-result-actions">
+                        <button class="btn-play" id="btnRetry" style="display:none">🔄 Try Again</button>
+                        <button class="btn-back" id="btnResultBack">← Back to Quizzes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /.tq-wrap -->
+    </main>
+
+    <!-- ═══════ ATTEMPT REVIEW OVERLAY ═══════ -->
+    <div id="reviewOverlay" class="tq-review-overlay hidden" role="dialog" aria-modal="true" aria-label="Quiz Attempt Review">
+        <div class="tq-review-panel">
+            <div class="tq-review-header">
+                <div class="tq-review-title-row">
+                    <span id="reviewTitle" class="tq-review-title">📋 Attempt Review</span>
+                    <button id="btnCloseReview" class="tq-review-close" aria-label="Close review">✕</button>
+                </div>
+                <div class="tq-review-meta-row" id="reviewMetaRow"></div>
+            </div>
+            <div class="tq-review-body" id="reviewBody">
+                <div class="tq-review-loading">Loading review…</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../shared/components/navigation.js"></script>
+    <script src="../../shared/utils/gamification-helper.js"></script>
+    <script src="../../shared/utils/helpers.js"></script>
+    <script src="../../shared/utils/game-helpers.js"></script>
+    <script src="../../EDUQUEST/assets/js/gamified_popup.js"></script>
+    <script src="./take-quiz.js"></script>
+    <script>window.EDUQUEST_PAGE_NAME = 'quiz';</script>
+    <script src="../../EDUQUEST/assets/js/tracker.js"></script>
+    <script>window.PetCompanionConfig = { context: 'quiz' };</script>
+    <script src="../../shared/utils/pet-companion.js"></script>
+</body>
+</html>

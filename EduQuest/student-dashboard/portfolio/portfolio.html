@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio - EduQuest</title>
+    <link rel="stylesheet" href="../../shared/styles/variables-v2.css">
+    <link rel="stylesheet" href="../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../shared/components/navigation-v2.css">
+    <link rel="stylesheet" href="./portfolio.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../shared/styles/quest_theme.css">
+    <script src="../../shared/components/quest_background.js" defer></script>
+    <script src="../../shared/components/navigation.js"></script>
+</head>
+<body class="quest-theme">
+        <nav class="navbar student-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="nav-logo">🎮 EduQuest</span>
+                <span class="nav-role">Student Portal</span>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <span class="hamburger"></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <a href="../dashboard/dashboard.html" class="nav-link">
+                    <span class="nav-icon">🏠</span><span>Home</span>
+                </a>
+                <a href="../learning/learning.html" class="nav-link">
+                    <span class="nav-icon">📚</span><span>Learn</span>
+                </a>
+                <a href="../quests/quests.html" class="nav-link">
+                    <span class="nav-icon">🎯</span><span>My Quests</span>
+                </a>
+                <a href="../quests/take-quiz.html" class="nav-link">
+                    <span class="nav-icon">📝</span><span>Quizzes</span>
+                </a>
+                <a href="../gamification/gamification.html" class="nav-link">
+                    <span class="nav-icon">🌟</span><span>My Progress</span>
+                </a>
+                <a href="../achievements/achievements.html" class="nav-link">
+                    <span class="nav-icon">🏆</span><span>Achievements</span>
+                </a>
+                <a href="../leaderboard/leaderboard.html" class="nav-link">
+                    <span class="nav-icon">🥇</span><span>Leaderboard</span>
+                </a>
+            </div>
+            <div class="nav-actions">
+                <div class="nav-stats">
+                    <div class="stat-item">
+                        <span class="stat-icon">⚡</span>
+                        <span class="stat-value" id="navXp">0 XP</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">🔥</span>
+                        <span class="stat-value" id="navStreak">0 days</span>
+                    </div>
+                </div>
+                <div class="nav-profile" id="profileMenu">
+                    <div class="profile-avatar" id="navAvatar">🧑‍🎓</div>
+                    <div class="profile-level">
+                        <span class="level-badge" id="navLevel">Lv 1</span>
+                    </div>
+                    <div class="profile-dropdown">
+                        <a href="../profile/profile.html" class="dropdown-item">
+                            <span class="dropdown-icon">👤</span><span>Profile</span>
+                        </a>
+                        <a href="#" class="dropdown-item" onclick="handleLogout()">
+                            <span class="dropdown-icon">🚪</span><span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">📁 My Portfolio</h1>
+            <p class="page-subtitle">Showcase your completed work and achievements</p>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-value" id="statTotal">—</div>
+                <div class="stat-label">Completed Works</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statAvg">—</div>
+                <div class="stat-label">Average Grade</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statHighest">—</div>
+                <div class="stat-label">Best Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statPassed">—</div>
+                <div class="stat-label">Success Rate</div>
+            </div>
+        </div>
+
+        <div class="filter-tabs">
+            <button class="filter-btn active" data-filter="all">All Works</button>
+            <button class="filter-btn" data-filter="math">📐 Math</button>
+            <button class="filter-btn" data-filter="english">📖 English</button>
+            <button class="filter-btn" data-filter="science">🧪 Science</button>
+            <button class="filter-btn" data-filter="history">📜 History</button>
+        </div>
+
+        <div class="portfolio-grid" id="portfolioGrid"></div>
+    </main>
+
+    <script src="../../shared/components/navigation.js"></script>
+    <script>
+        const GRADES_API = '../../EDUQUEST/api/analytics/student-grades.php';
+        const grid = document.getElementById('portfolioGrid');
+        let allWorks = [];
+        let currentFilter = 'all';
+
+        const TYPE_ICONS = {
+            quiz: '📝', assignment: '📋', exam: '📄', project: '🎨',
+            homework: '📚', activity: '🎯',
+        };
+
+        function pctToLetter(pct) {
+            if (pct >= 90) return { letter: 'A', cls: 'grade-a-plus' };
+            if (pct >= 80) return { letter: 'B', cls: 'grade-a' };
+            if (pct >= 70) return { letter: 'C', cls: 'grade-b' };
+            if (pct >= 60) return { letter: 'D', cls: 'grade-b' };
+            return { letter: 'F', cls: 'grade-f' };
+        }
+
+        function formatDate(raw) {
+            if (!raw) return '';
+            const d = new Date(raw);
+            return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        function renderWorks(filter) {
+            grid.innerHTML = '';
+            const list = filter === 'all' ? allWorks : allWorks.filter(w => w.type === filter);
+            if (list.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column:1/-1">
+                        <div class="empty-icon">📭</div>
+                        <h3 class="empty-title">No works found</h3>
+                        <p class="empty-text">Try selecting a different filter or complete some assessments.</p>
+                    </div>`;
+                return;
+            }
+            list.forEach(work => {
+                const { letter, cls } = pctToLetter(work.pct);
+                const card = document.createElement('div');
+                card.className = 'work-card';
+                card.innerHTML = `
+                    <div class="work-preview">${work.icon}</div>
+                    <div class="work-info">
+                        <h3 class="work-title">${work.title}</h3>
+                        <div class="work-meta">
+                            <span class="meta-item">📂 ${work.typeName}</span>
+                            <span class="meta-item">📅 ${work.date}</span>
+                        </div>
+                        <div class="grade-badge ${cls}">${work.pct}% — ${letter}</div>
+                    </div>`;
+                grid.appendChild(card);
+            });
+        }
+
+        async function loadPortfolio() {
+            const token = localStorage.getItem('eq_token');
+            if (!token) return;
+            try {
+                const res = await fetch(GRADES_API, {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const json = await res.json();
+                if (!json.success) return;
+
+                const { summary, recentGrades } = json.data;
+
+                // Stats bar
+                const total = parseInt(summary.total_grades) || 0;
+                const avg   = parseFloat(summary.class_average) || 0;
+                const best  = parseFloat(summary.highest_pct) || 0;
+                const passed = total > 0
+                    ? Math.round((recentGrades.filter(g => parseFloat(g.pct) >= 70).length / recentGrades.length) * 100)
+                    : 0;
+
+                document.getElementById('statTotal').textContent   = total;
+                document.getElementById('statAvg').textContent     = avg ? avg + '%' : '—';
+                document.getElementById('statHighest').textContent = best ? best + '%' : '—';
+                document.getElementById('statPassed').textContent  = total ? passed + '%' : '—';
+
+                // Build works array
+                allWorks = (recentGrades || []).map(g => ({
+                    title:    g.assessment_name || 'Assessment',
+                    type:     g.assessment_type || 'other',
+                    typeName: (g.assessment_type || 'Other').charAt(0).toUpperCase() + (g.assessment_type || 'other').slice(1),
+                    icon:     TYPE_ICONS[g.assessment_type] || '📄',
+                    pct:      parseFloat(g.pct) || 0,
+                    date:     formatDate(g.graded_at),
+                }));
+
+                // Rebuild filter tabs dynamically
+                const types = [...new Set(allWorks.map(w => w.type))];
+                const tabsEl = document.querySelector('.filter-tabs');
+                if (tabsEl) {
+                    tabsEl.innerHTML = '<button class="filter-btn active" data-filter="all">All Works</button>' +
+                        types.map(t => {
+                            const icon = TYPE_ICONS[t] || '📄';
+                            const label = t.charAt(0).toUpperCase() + t.slice(1);
+                            return `<button class="filter-btn" data-filter="${t}">${icon} ${label}</button>`;
+                        }).join('');
+                    tabsEl.querySelectorAll('.filter-btn').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            tabsEl.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                            btn.classList.add('active');
+                            currentFilter = btn.dataset.filter;
+                            renderWorks(currentFilter);
+                        });
+                    });
+                }
+
+                renderWorks('all');
+
+            } catch (e) {
+                grid.innerHTML = `<p style="color:#ef4444;padding:1rem">Failed to load portfolio data.</p>`;
+            }
+        }
+
+        loadPortfolio();
+    </script>
+</body>
+</html>
+

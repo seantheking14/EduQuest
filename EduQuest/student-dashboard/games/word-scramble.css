@@ -1,0 +1,476 @@
+/* =========================================================
+   Word Scramble Game — Minimalist + Fun
+   ========================================================= */
+
+body { background: var(--game-bg, #f8f6f1); font-family: var(--font-game, 'Nunito', var(--font-sans)); }
+
+.main-content {
+    min-height: calc(100vh - 64px);
+    padding: 24px 20px 48px;
+    display: flex;
+    justify-content: center;
+}
+
+.game-container {
+    max-width: 560px;
+    width: 100%;
+}
+
+.screen { animation: fadeUp 0.3s ease; }
+.hidden { display: none !important; }
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Start Screen ── */
+.start-card {
+    background:
+        radial-gradient(circle at 20% 12%, rgba(37, 99, 235, 0.2) 0, rgba(37, 99, 235, 0) 34%),
+        radial-gradient(circle at 86% 14%, rgba(16, 185, 129, 0.18) 0, rgba(16, 185, 129, 0) 34%),
+        linear-gradient(165deg, #ffffff 0%, #edf4ff 100%);
+    border: 2px solid #93c5fd;
+    border-bottom: 5px solid #2563eb;
+    border-radius: 20px;
+    padding: 40px 32px;
+    text-align: center;
+    box-shadow: 0 16px 28px rgba(30, 64, 175, 0.12);
+}
+
+.game-logo {
+    font-size: 36px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+}
+
+.game-tagline {
+    font-size: 17px;
+    color: #0f172a;
+    margin-bottom: 28px;
+    font-weight: 700;
+}
+
+/* Difficulty */
+.difficulty-pick, .category-pick {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.diff-btn, .cat-btn {
+    padding: 8px 18px;
+    border: 2px solid #cbd5e1;
+    border-bottom: 3px solid #94a3b8;
+    border-radius: 10px;
+    background: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: #0f172a;
+}
+
+.diff-btn:hover, .cat-btn:hover { border-color: var(--primary-300); transform: translateY(1px); border-bottom-width: 2px; }
+
+.diff-btn.active {
+    border-color: #2563eb;
+    background: #dbeafe;
+    color: #1e3a8a;
+}
+
+.cat-btn.active {
+    border-color: #2563eb;
+    background: #dbeafe;
+    color: #1e3a8a;
+}
+
+.btn-play {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid rgba(0,0,0,0.1);
+    border-bottom: 4px solid rgba(0,0,0,0.2);
+    border-radius: 12px;
+    background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    box-shadow: 0 9px 16px rgba(29, 78, 216, 0.3);
+}
+
+.btn-play:hover { background: linear-gradient(180deg, #1d4ed8 0%, #1e40af 100%); transform: translateY(2px); border-bottom-width: 2px; box-shadow: 0 3px 8px rgba(30, 64, 175, 0.24); }
+.btn-play:active { transform: translateY(2px); border-bottom-width: 2px; }
+
+.high-score-row {
+    margin-top: 16px;
+    font-size: 15px;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+/* ── Server Attempt History ── */
+.ws-history-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+    justify-content: center;
+}
+.ws-hist-stat {
+    flex: 1;
+    min-width: 60px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 8px 10px;
+    text-align: center;
+}
+.ws-hist-val {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #6366f1;
+    line-height: 1.2;
+}
+.ws-hist-val.ws-hist-date {
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+.ws-hist-lbl {
+    display: block;
+    font-size: 0.65rem;
+    color: #94a3b8;
+    margin-top: 2px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+/* ── HUD ── */
+.hud {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.hud-item {
+    flex: 1;
+    background: #fff;
+    border: 2px solid var(--gray-200);
+    border-bottom: 3px solid var(--gray-300);
+    border-radius: 12px;
+    padding: 10px 8px;
+    text-align: center;
+}
+
+.hud-label {
+    display: block;
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+    font-weight: 700;
+}
+
+.hud-val {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.hud-timer .hud-val { color: var(--error); }
+.hud-timer.warning .hud-val { animation: pulse-red 0.8s ease infinite; }
+
+@keyframes pulse-red {
+    0%, 100% { color: var(--error); }
+    50% { color: #fca5a5; }
+}
+
+/* ── Hint ── */
+.hint-text {
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    min-height: 20px;
+    font-style: italic;
+}
+
+/* ── Letter Rack (scrambled) ── */
+.letter-rack {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    min-height: 56px;
+}
+
+.letter-tile {
+    width: 48px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-primary);
+    background: #fff;
+    border: 2px solid var(--gray-300);
+    border-bottom: 4px solid var(--gray-400);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+    text-transform: uppercase;
+}
+
+.letter-tile:hover { border-color: var(--primary-400); transform: translateY(2px); border-bottom-width: 2px; }
+.letter-tile:active { transform: translateY(2px); border-bottom-width: 2px; }
+.letter-tile.used { opacity: 0.25; pointer-events: none; }
+
+/* ── Answer Rack ── */
+.answer-rack {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    min-height: 56px;
+}
+
+.answer-slot {
+    width: 48px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary-700);
+    background: var(--primary-50);
+    border: 2px dashed var(--primary-200);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+    text-transform: uppercase;
+}
+
+.answer-slot:empty { color: transparent; }
+.answer-slot.filled { border-style: solid; border-color: var(--primary-400); }
+.answer-slot:hover.filled { background: #fee2e2; }
+
+/* Correct / wrong flash */
+.answer-slot.correct { border-color: var(--success); background: var(--success-light); color: var(--success-dark); }
+.answer-slot.wrong   { border-color: var(--error); background: var(--error-light); color: var(--error-dark); animation: shake 0.35s ease; }
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25%      { transform: translateX(-6px); }
+    75%      { transform: translateX(6px); }
+}
+
+/* ── Controls ── */
+.game-controls {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.ctrl-btn {
+    padding: 10px 22px;
+    border: 2px solid var(--gray-200);
+    border-radius: 10px;
+    background: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-secondary);
+}
+
+.ctrl-btn:hover { border-color: var(--primary-300); color: var(--primary-600); }
+
+.btn-submit {
+    background: var(--primary-500);
+    color: #fff;
+    border-color: rgba(0,0,0,0.1);
+    border-bottom: 3px solid rgba(0,0,0,0.2);
+}
+
+.btn-submit:hover { background: var(--primary-600); border-color: rgba(0,0,0,0.15); color: #fff; transform: translateY(1px); border-bottom-width: 2px; }
+
+/* ── Feedback Toast ── */
+.feedback {
+    position: fixed;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 24px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    z-index: 100;
+    animation: fadeUp 0.25s ease;
+    pointer-events: none;
+}
+
+.feedback.correct { background: var(--success); color: #fff; }
+.feedback.wrong   { background: var(--error); color: #fff; }
+.feedback.info    { background: var(--info); color: #fff; }
+
+/* ── Results ── */
+.results-card {
+    background:
+        radial-gradient(circle at 16% 11%, rgba(234, 179, 8, 0.18) 0, rgba(234, 179, 8, 0) 34%),
+        radial-gradient(circle at 84% 12%, rgba(37, 99, 235, 0.2) 0, rgba(37, 99, 235, 0) 35%),
+        linear-gradient(165deg, #ffffff 0%, #eef4ff 100%);
+    border: 2px solid #93c5fd;
+    border-bottom: 5px solid #2563eb;
+    border-radius: 20px;
+    padding: 40px 32px;
+    text-align: center;
+    animation: fadeUp 0.4s ease;
+    box-shadow: 0 20px 34px rgba(30, 64, 175, 0.14);
+}
+
+.results-emoji {
+    width: 84px;
+    height: 84px;
+    border-radius: 999px;
+    border: 2px solid #fef08a;
+    background: linear-gradient(180deg, #ffffff 0%, #fffbeb 100%);
+    box-shadow: 0 8px 16px rgba(234, 179, 8, 0.24);
+    font-size: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+}
+
+.results-card h2 {
+    font-size: 30px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 4px;
+}
+
+.results-score {
+    font-size: 56px;
+    font-weight: 900;
+    color: #1d4ed8;
+    margin: 8px 0;
+    text-shadow: 0 3px 0 rgba(30, 64, 175, 0.18);
+}
+
+.results-detail {
+    font-size: 16px;
+    color: #0f172a;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.results-xp {
+    font-size: 19px;
+    font-weight: 800;
+    color: #92400e;
+    margin-bottom: 24px;
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 999px;
+    border: 1px solid #fcd34d;
+    background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%);
+    box-shadow: 0 8px 14px rgba(217, 119, 6, 0.14);
+}
+
+.results-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+#resultsScreen #btnPlayAgain {
+    background: linear-gradient(180deg, #16a34a 0%, #15803d 100%);
+    color: #fff;
+    border-color: rgba(0,0,0,0.1);
+    border-bottom: 3px solid rgba(0,0,0,0.2);
+    box-shadow: 0 9px 16px rgba(21, 128, 61, 0.3);
+}
+
+#resultsScreen #btnPlayAgain:hover {
+    background: linear-gradient(180deg, #15803d 0%, #166534 100%);
+    color: #fff;
+    border-color: rgba(0,0,0,0.15);
+    transform: translateY(1px);
+    border-bottom-width: 2px;
+    box-shadow: 0 3px 8px rgba(21, 128, 61, 0.24);
+}
+
+/* Nav styling handled by shared navigation-v2.css */
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .start-card { padding: 28px 20px; }
+    .letter-tile, .answer-slot { width: 44px; height: 48px; font-size: 20px; }
+    .hud-val { font-size: 17px; }
+    .results-card { padding: 28px 20px; }
+    .results-score { font-size: 40px; }
+    .results-actions { flex-wrap: wrap; }
+    .ctrl-btn { padding: 10px 16px; font-size: 13px; }
+    .game-controls { flex-wrap: wrap; }
+}
+
+@media (max-width: 600px) {
+    .letter-tile, .answer-slot { width: 40px; height: 44px; font-size: 18px; }
+    .hud-val { font-size: 16px; }
+    .start-card { padding: 28px 20px; }
+    .nav-stats { display: none !important; }
+    .game-logo { font-size: 26px; }
+    .letter-rack, .answer-rack { gap: 6px; }
+}
+
+@media (max-width: 380px) {
+    .letter-tile, .answer-slot { width: 34px; height: 40px; font-size: 16px; }
+    .letter-rack, .answer-rack { gap: 4px; }
+    .diff-btn, .cat-btn { padding: 6px 14px; font-size: 12px; }
+    .hud-item { padding: 8px 4px; }
+    .hud-label { font-size: 10px; }
+    .hud-val { font-size: 14px; }
+}
+
+/* Question readability boost */
+.hint-text {
+    font-size: 1.08rem;
+    line-height: 1.5;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+@media (max-width: 600px) {
+    .hint-text { font-size: 1rem; }
+}
+
+/* Force visible question/hint text in word scramble */
+.game-container .hint-text {
+    font-size: clamp(1.2rem, 3vw, 1.55rem) !important;
+    line-height: 1.6 !important;
+    font-weight: 800 !important;
+    color: var(--text-primary) !important;
+}
+
+@media (max-width: 600px) {
+    .game-container .hint-text { font-size: 1.08rem !important; }
+}

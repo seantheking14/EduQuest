@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduQuest – Student Profile</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/import.css" />
+  <style>
+    /* ── SPED Plan Tabs ── */
+    .plan-tab-bar { display:flex; gap:.5rem; flex-wrap:wrap; margin-top:.25rem; }
+    .plan-tab-btn { padding:.35rem .9rem; border-radius:6px; border:1.5px solid #cbd5e1; background:#f8fafc;
+                    font-size:.85rem; font-weight:600; color:#475569; cursor:pointer; transition:all .15s; }
+    .plan-tab-btn.active { background:#3b82f6; color:#fff; border-color:#3b82f6; }
+    .plan-panel { display:block !important; }
+    .plan-panel.hidden { display:none !important; }
+    .plan-section-heading { font-size:.8rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em;
+                            color:#64748b; margin:1.25rem 0 .5rem; padding-bottom:.25rem;
+                            border-bottom:1px solid #e2e8f0; }
+    .entry-mode-row { display:flex; gap:.5rem; margin-top:.5rem; }
+    .entry-btn { padding:.3rem .85rem; border-radius:6px; border:1.5px solid #cbd5e1; background:#f8fafc;
+                 font-size:.82rem; font-weight:600; color:#475569; cursor:pointer; transition:all .15s; }
+    .entry-btn.active { background:#0ea5e9; color:#fff; border-color:#0ea5e9; }
+    .plan-form-fields { animation: fadeIn .15s ease; }
+    .plan-upload-area { animation: fadeIn .15s ease; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+    .plan-desc { font-size:.88rem; }
+    .plan-view-section { border-bottom:1px solid #f1f5f9; padding-bottom:1rem; margin-bottom:1rem; }
+    .plan-view-section:last-child { border-bottom:none; margin-bottom:0; }
+    .plan-field-row { display:grid; grid-template-columns:1fr 1fr; gap:.5rem 1.5rem; margin-bottom:.25rem; }
+    .plan-field { margin-bottom:.4rem; }
+    .plan-field label { font-size:.75rem; font-weight:600; color:#94a3b8; text-transform:uppercase; display:block; }
+    .plan-field p { margin:0; font-size:.9rem; color:#334155; white-space:pre-wrap; }
+    .plan-badge { display:inline-block; padding:.15rem .5rem; border-radius:4px; font-size:.78rem;
+                  font-weight:600; background:#e0f2fe; color:#0284c7; margin-right:.25rem; }
+    .plan-empty { color:#94a3b8; font-style:italic; font-size:.88rem; }
+  </style>
+</head>
+<body class="app-page">
+
+  <nav class="sidebar">
+    <div class="sidebar-logo"><span>&#127891;</span> EduQuest</div>
+    <ul class="sidebar-nav">
+      <li><a href="dashboard.php">&#127968; Dashboard</a></li>
+      <li><a href="students.php">&#128100; My Students</a></li>
+      <li><a href="courses.php">&#128218; My Courses</a></li>
+      <li><a href="student-form.php" class="active">&#43; Add Student</a></li>
+      <li><a href="analytics.php">&#128202; Analytics</a></li>
+      <li><a href="grade-analytics.php">&#127942; Grade Analytics</a></li>
+      <li><a href="gamification-settings.php">&#127918; Gamification</a></li>
+      <li><a href="profile.php">&#128100; My Profile</a></li>
+    </ul>
+    <div class="sidebar-footer">
+      <span id="teacherName">Loading…</span>
+      <button id="logoutBtn" class="btn btn-outline btn-sm">Sign Out</button>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <header class="page-header">
+      <div>
+        <a href="students.php" class="link-muted">&larr; Back to Students</a>
+        <h2 id="formTitle">Add New Student Profile</h2>
+      </div>
+    </header>
+
+    <div id="formAlert" class="alert hidden"></div>
+
+    <!-- ═══ Method Chooser (add-new mode only) ═══ -->
+    <div id="methodChooser" class="hidden">
+      <p class="muted mb-3">How would you like to add this student?</p>
+      <div class="method-chooser-grid">
+        <button type="button" class="method-card" id="chooseManual">
+          <span class="method-icon">&#9998;</span>
+          <strong>Enter Manually</strong>
+          <span>Fill in the student profile step-by-step using the guided form</span>
+        </button>
+        <button type="button" class="method-card" id="chooseImport">
+          <span class="method-icon">&#8679;</span>
+          <strong>Import from File</strong>
+          <span>Upload physical document scans to create profiles</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══ Manual entry section ═══ -->
+    <div id="manualSection" class="hidden">
+    <div class="back-to-chooser hidden" id="backToChooserManual">
+      <button type="button" class="btn btn-outline btn-sm" id="backToChooserManualBtn">&larr; Change method</button>
+    </div>
+
+    <form id="studentForm" novalidate>
+      <input type="hidden" id="studentId" value="" />
+
+      <!-- ── Step Indicator ── -->
+      <div class="steps-nav">
+        <div class="step active" data-step="1"><span>1</span> Basic Info</div>
+        <div class="step" data-step="2"><span>2</span> ADHD Profile</div>
+        <div class="step" data-step="3"><span>3</span> Comorbidities</div>
+        <div class="step" data-step="4"><span>4</span> Medications</div>
+        <div class="step" data-step="5"><span>5</span> Accommodations</div>
+        <div class="step" data-step="6"><span>6</span> Plans &amp; Docs</div>
+      </div>
+
+      <!-- ══════ Step 1: Basic Info ══════ -->
+      <section class="form-step active" id="step1">
+        <div class="card">
+          <div class="card-header"><h3>Basic Information</h3></div>
+          <div class="card-body">
+            <div class="photo-upload-area">
+              <img id="photoPreview" src="../assets/img/default-avatar.php" alt="Student Photo" class="profile-photo-preview" />
+              <label class="btn btn-outline btn-sm">
+                Upload Photo <input type="file" id="photoInput" accept="image/*" class="hidden" />
+              </label>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>First Name *</label>
+                <input type="text" id="firstName" required />
+              </div>
+              <div class="form-group">
+                <label>Last Name *</label>
+                <input type="text" id="lastName" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Date of Birth</label>
+                <input type="date" id="dob" />
+              </div>
+              <div class="form-group">
+                <label>Gender</label>
+                <select id="gender">
+                  <option value="">Prefer not to say</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="non_binary">Non-Binary</option>
+                  <option value="prefer_not_to_say">Prefer not to say</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Grade Level</label>
+                <input type="text" id="gradeLevel" placeholder="e.g. Grade 5, Year 7" />
+              </div>
+              <div class="form-group">
+                <label>School-Assigned ID</label>
+                <input type="text" id="studentIdNum" placeholder="Optional" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>School Name</label>
+              <input type="text" id="schoolName" />
+            </div>
+            <hr />
+            <h4>Parent / Guardian</h4>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Guardian Name</label>
+                <input type="text" id="parentName" />
+              </div>
+              <div class="form-group">
+                <label>Guardian Email</label>
+                <input type="email" id="parentEmail" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Guardian Phone</label>
+                <input type="tel" id="parentPhone" />
+              </div>
+              <div class="form-group">
+                <label>Emergency Contact</label>
+                <input type="text" id="emergContact" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Emergency Phone</label>
+              <input type="tel" id="emergPhone" />
+            </div>
+            <div class="form-group">
+              <label>General Notes</label>
+              <textarea id="generalNotes" rows="3" placeholder="General teacher notes about this student…"></textarea>
+            </div>
+          </div>
+        </div>
+      </section><!-- /step1 -->
+
+      <!-- ══════ Step 2: ADHD Profile ══════ -->
+      <section class="form-step hidden" id="step2">
+        <div class="card">
+          <div class="card-header"><h3>ADHD Profile</h3></div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group">
+                <label>ADHD Presentation *</label>
+                <select id="adhdType">
+                  <option value="unspecified">Unspecified</option>
+                  <option value="predominantly_inattentive">Predominantly Inattentive</option>
+                  <option value="predominantly_hyperactive_impulsive">Predominantly Hyperactive-Impulsive</option>
+                  <option value="combined_presentation">Combined Presentation</option>
+                  <option value="other_specified">Other Specified</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Severity</label>
+                <select id="adhdSeverity">
+                  <option value="mild">Mild</option>
+                  <option value="moderate" selected>Moderate</option>
+                  <option value="severe">Severe</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Diagnosis Date</label>
+                <input type="date" id="diagnosisDate" />
+              </div>
+              <div class="form-group">
+                <label>Diagnosing Professional</label>
+                <input type="text" id="diagnosingProf" placeholder="Dr. Name / Psychologist" />
+              </div>
+            </div>
+
+            <h4>Symptom Ratings <small>(1 = Rarely &nbsp;|&nbsp; 5 = Very Often)</small></h4>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Inattention</label>
+                <input type="range" id="inattentionRating" min="1" max="5" value="3" oninput="updateRatingLabel(this)" />
+                <span class="rating-label" id="inattentionLabel">3</span>
+              </div>
+              <div class="form-group">
+                <label>Hyperactivity</label>
+                <input type="range" id="hyperactivityRating" min="1" max="5" value="3" oninput="updateRatingLabel(this)" />
+                <span class="rating-label" id="hyperactivityLabel">3</span>
+              </div>
+              <div class="form-group">
+                <label>Impulsivity</label>
+                <input type="range" id="impulsivityRating" min="1" max="5" value="3" oninput="updateRatingLabel(this)" />
+                <span class="rating-label" id="impulsivityLabel">3</span>
+              </div>
+            </div>
+
+            <h4>Specific Challenges</h4>
+            <div class="checkbox-grid">
+              <label class="checkbox-item"><input type="checkbox" id="chkReading" /> Reading Difficulty</label>
+              <label class="checkbox-item"><input type="checkbox" id="chkWriting" /> Writing Difficulty</label>
+              <label class="checkbox-item"><input type="checkbox" id="chkMath" /> Math Difficulty</label>
+              <label class="checkbox-item"><input type="checkbox" id="chkFocus" /> Sustaining Focus</label>
+              <label class="checkbox-item"><input type="checkbox" id="chkOrg" /> Organization</label>
+              <label class="checkbox-item"><input type="checkbox" id="chkTime" /> Time Management</label>
+              <label class="checkbox-item"><input type="checkbox" id="chkMemory" /> Working Memory</label>
+              <label class="checkbox-item"><input type="checkbox" id="chkEmotion" /> Emotional Regulation</label>
+            </div>
+
+            <h4>Plans in Place</h4>
+            <div class="checkbox-grid">
+              <label class="checkbox-item"><input type="checkbox" id="chkIEP" /> IEP (Individualized Education Program)</label>
+              <label class="checkbox-item"><input type="checkbox" id="chk504" /> Section 504 Plan</label>
+            </div>
+
+            <div class="form-group mt-3">
+              <label>Additional Notes</label>
+              <textarea id="adhdNotes" rows="3" placeholder="Any additional diagnostic or clinical notes…"></textarea>
+            </div>
+          </div>
+        </div>
+      </section><!-- /step2 -->
+
+      <!-- ══════ Step 3: Comorbid Conditions ══════ -->
+      <section class="form-step hidden" id="step3">
+        <div class="card">
+          <div class="card-header">
+            <h3>Comorbid Conditions</h3>
+            <button type="button" class="btn btn-secondary btn-sm" id="addConditionBtn">&#43; Add Condition</button>
+          </div>
+          <div class="card-body">
+            <p class="muted mb-3">Add all known comorbid diagnoses. Common examples include Anxiety Disorder, Dyslexia, ASD, Depression, ODD, Dyscalculia, Sleep Disorders, Sensory Processing Disorder.</p>
+            <div id="conditionsList"></div>
+          </div>
+        </div>
+      </section><!-- /step3 -->
+
+      <!-- ══════ Step 4: Medications ══════ -->
+      <section class="form-step hidden" id="step4">
+        <div class="card">
+          <div class="card-header">
+            <h3>Current Medications</h3>
+            <button type="button" class="btn btn-secondary btn-sm" id="addMedBtn">&#43; Add Medication</button>
+          </div>
+          <div class="card-body">
+            <p class="muted mb-3">Record ADHD and comorbidity-related medications. This information assists with understanding the student's needs and is kept confidential.</p>
+            <div id="medicationsList"></div>
+          </div>
+        </div>
+      </section><!-- /step4 -->
+
+      <!-- ══════ Step 5: Accommodations ══════ -->
+      <section class="form-step hidden" id="step5">
+        <div class="card">
+          <div class="card-header">
+            <h3>Accommodations &amp; Strategies</h3>
+            <button type="button" class="btn btn-secondary btn-sm" id="addAccomBtn">&#43; Add Accommodation</button>
+          </div>
+          <div class="card-body">
+            <p class="muted mb-3">List teaching strategies, assessment accommodations, environmental adjustments, and behavioral supports tailored for this student.</p>
+            <!-- Quick-add presets -->
+            <div class="preset-badges" id="presetBadges"></div>
+            <div id="accommodationsList" class="mt-3"></div>
+          </div>
+        </div>
+      </section><!-- /step5 -->
+
+      <!-- ══════ Step 6: SPED Plans & Documents ══════ -->
+      <section class="form-step hidden" id="step6">
+
+        <!-- ── Part A: SPED Plans ── -->
+        <div class="card">
+          <div class="card-header" style="flex-wrap:wrap;gap:.5rem;">
+            <h3>&#128221; SPED Plans</h3>
+            <div class="plan-tab-bar">
+              <button type="button" class="plan-tab-btn active" data-plan="iep">IEP &ndash; Individualized Education Program</button>
+              <button type="button" class="plan-tab-btn" data-plan="itp">ITP &ndash; Individualized Transition Plan</button>
+              <button type="button" class="plan-tab-btn" data-plan="sip">Individual Profile</button>
+            </div>
+          </div>
+          <div class="card-body">
+
+            <!-- ─── IEP Panel ─── -->
+            <div class="plan-panel" id="planPanelIep">
+              <p class="muted plan-desc">The <strong>IEP</strong> documents the student&rsquo;s present levels, measurable annual goals, special education services, and accommodations. Enter each section manually or upload an existing document.</p>
+              <div class="entry-mode-row">
+                <button type="button" class="entry-btn active" data-panel="iep" data-mode="manual">&#9998; Manual Entry</button>
+                <button type="button" class="entry-btn" data-panel="iep" data-mode="upload">&#128196; Upload Existing IEP</button>
+              </div>
+
+              <div id="iepFormFields" class="plan-form-fields">
+                <div class="plan-section-heading">IEP Information</div>
+                <div class="form-row">
+                  <div class="form-group"><label>Effective Date</label><input type="date" id="iep_effective_date" /></div>
+                  <div class="form-group"><label>Annual Review Date</label><input type="date" id="iep_review_date" /></div>
+                  <div class="form-group"><label>IEP Meeting Date</label><input type="date" id="iep_meeting_date" /></div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group flex-2">
+                    <label>Disability Classification</label>
+                    <input type="text" id="iep_disability_class" placeholder="e.g. ADHD Combined Type, Autism Spectrum Disorder" />
+                  </div>
+                  <div class="form-group">
+                    <label>DepEd SpEd Category</label>
+                    <select id="iep_sped_category">
+                      <option value="">– Select –</option>
+                      <option value="ADHD">ADHD</option>
+                      <option value="ASD">ASD – Autism Spectrum</option>
+                      <option value="ID">ID – Intellectual Disability</option>
+                      <option value="HV">HV – Hard of Hearing / Deaf</option>
+                      <option value="VI">VI – Visual Impairment</option>
+                      <option value="OI">OI – Orthopedic Impairment</option>
+                      <option value="LD">LD – Learning Disability</option>
+                      <option value="SI">SI – Speech / Language Impairment</option>
+                      <option value="MD">MD – Multiple Disabilities</option>
+                      <option value="GD">GD – Gifted / Talented</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>IEP Team Members</label>
+                  <input type="text" id="iep_team" placeholder="e.g. Ms. Reyes (SpEd Teacher), Dr. Cruz (School Psychologist), Parent/Guardian Name" />
+                </div>
+
+                <div class="plan-section-heading">Present Level of Educational Performance (PLEP)</div>
+                <div class="form-group">
+                  <label>Academic Performance <small class="muted">&mdash; Reading, writing, math vs. grade expectations</small></label>
+                  <textarea id="iep_plep_academic" rows="3" placeholder="e.g. Student currently reads at a Grade 2 level despite being in Grade 5. Recognizes sight words but struggles with multi-syllabic words. Math skills are at Grade 3 level…"></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Functional Skills <small class="muted">&mdash; Daily living, self-care, communication</small></label>
+                  <textarea id="iep_plep_functional" rows="3" placeholder="e.g. Student demonstrates age-appropriate self-care skills. Requires verbal prompting for organization tasks. Communicates needs verbally in structured settings…"></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Social / Behavioral Skills</label>
+                  <textarea id="iep_plep_social" rows="2" placeholder="e.g. Student interacts positively in small groups. Struggles with transitions and unstructured periods. Responds well to positive reinforcement…"></textarea>
+                </div>
+
+                <div class="plan-section-heading">Annual Goals &amp; Objectives</div>
+                <div class="form-group">
+                  <label>Annual Goals <small class="muted">&mdash; One goal per line &bull; Format: &ldquo;By [date], student will… as measured by…&rdquo;</small></label>
+                  <textarea id="iep_annual_goals" rows="5" placeholder="By June 2026, student will read Grade 3-level passages with 80% accuracy as measured by curriculum-based reading probes.
+By June 2026, student will complete written assignments with a graphic organizer with 75% of tasks completed independently.
+By June 2026, student will demonstrate on-task behavior for 15-minute periods in 3 out of 4 trials."></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Short-Term Objectives / Benchmarks</label>
+                  <textarea id="iep_objectives" rows="3" placeholder="Intermediate steps and quarterly benchmarks toward the annual goals…"></textarea>
+                </div>
+
+                <div class="plan-section-heading">Special Education &amp; Related Services</div>
+                <div class="form-group">
+                  <label>Special Education Services <small class="muted">&mdash; Service &bull; Frequency &bull; Duration &bull; Location &bull; Provider</small></label>
+                  <textarea id="iep_sped_services" rows="3" placeholder="Resource Room: 5×/week, 60 min, SpEd Room, Ms. Reyes
+Pull-out reading support: 3×/week, 30 min, Library, Ms. Santos"></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Related Services <small class="muted">&mdash; OT, Speech-Language, Physical Therapy, Counseling, etc.</small></label>
+                  <textarea id="iep_related_services" rows="2" placeholder="Speech-Language Therapy: 2×/week, 45 min, Speech Room, Ms. Lim
+Occupational Therapy: 1×/week, 60 min, OT Room, Mr. Torres"></textarea>
+                </div>
+
+                <div class="plan-section-heading">Accommodations &amp; Modifications</div>
+                <div class="form-group">
+                  <label>Accommodations</label>
+                  <textarea id="iep_accommodations" rows="3" placeholder="Extended time (1.5×) on all tests; preferential seating near teacher; use of graphic organizers; oral testing option; reduced assignment length…"></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Modifications <small class="muted">&mdash; Changes to curriculum content expectations, if any</small></label>
+                  <textarea id="iep_modifications" rows="2" placeholder="Modified curriculum content (e.g. reduced number of math problems, alternative reading materials at lower readability level)…"></textarea>
+                </div>
+
+                <div class="plan-section-heading">Placement &amp; Participation</div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Time in Regular Class (%)</label>
+                    <input type="number" id="iep_regular_ed_pct" min="0" max="100" placeholder="e.g. 60" />
+                  </div>
+                  <div class="form-group flex-2">
+                    <label>Assessment Accommodations</label>
+                    <input type="text" id="iep_assess_accom" placeholder="e.g. Read aloud, extended time, separate testing room, allow breaks" />
+                  </div>
+                </div>
+
+                <div class="plan-section-heading">Transition Services <small class="muted">(Required for students age 14+)</small></div>
+                <div class="form-group">
+                  <textarea id="iep_transition" rows="2" placeholder="Post-secondary transition planning goals and services. Link to ITP if available…"></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Additional Notes</label>
+                  <textarea id="iep_notes" rows="2" placeholder="Parent concerns, follow-up actions from IEP meeting…"></textarea>
+                </div>
+              </div><!-- /iepFormFields -->
+
+              <div id="iepUploadArea" class="hidden plan-upload-area">
+                <p class="muted mb-2">Upload an existing IEP document. It will be stored and viewable from the student profile.</p>
+                <div class="upload-zone" id="iepUploadZone">
+                  <div class="upload-zone-inner">
+                    <span class="upload-icon">&#128196;</span>
+                    <p>Drag &amp; drop IEP document here, or click to browse</p>
+                    <p class="muted">PDF &middot; Word (.doc/.docx) &middot; Image &middot; Max 10 MB</p>
+                    <input type="file" id="iepFileInput" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
+                  </div>
+                </div>
+                <div id="iepFilePreview" class="selected-file-info hidden"></div>
+              </div>
+            </div><!-- /planPanelIep -->
+
+            <!-- ─── ITP Panel ─── -->
+            <div class="plan-panel hidden" id="planPanelItp">
+              <p class="muted plan-desc">The <strong>ITP</strong> prepares the student for life after school &mdash; setting post-secondary goals for education, employment, and independent living.</p>
+              <div class="entry-mode-row">
+                <button type="button" class="entry-btn active" data-panel="itp" data-mode="manual">&#9998; Manual Entry</button>
+                <button type="button" class="entry-btn" data-panel="itp" data-mode="upload">&#128196; Upload Existing ITP</button>
+              </div>
+
+              <div id="itpFormFields" class="plan-form-fields">
+                <div class="plan-section-heading">ITP Information</div>
+                <div class="form-row">
+                  <div class="form-group"><label>Effective Date</label><input type="date" id="itp_effective_date" /></div>
+                  <div class="form-group"><label>Anticipated Graduation / Exit Date</label><input type="date" id="itp_graduation_date" /></div>
+                  <div class="form-group flex-2">
+                    <label>Disability Category</label>
+                    <input type="text" id="itp_disability_category" placeholder="e.g. ADHD, ASD, Intellectual Disability" />
+                  </div>
+                </div>
+
+                <div class="plan-section-heading">Transition Assessment &mdash; Present Levels</div>
+                <div class="form-group">
+                  <label>Career Interests &amp; Vocational Preferences</label>
+                  <textarea id="itp_career_interests" rows="2" placeholder="e.g. Expresses strong interest in technology and art. Enjoys hands-on tasks. Has explored career options in graphic design and computer repair…"></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Assessed Strengths</label>
+                  <textarea id="itp_assessed_strengths" rows="2" placeholder="e.g. Strong visual-spatial skills, persistent when interested, reliable when given clear expectations…"></textarea>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Work / Vocational Experiences</label>
+                    <textarea id="itp_work_experiences" rows="2" placeholder="e.g. Part-time school helper in computer lab. No formal work experience yet…"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Community Participation</label>
+                    <textarea id="itp_community_experiences" rows="2" placeholder="e.g. Attends weekly youth group. Limited independent mobility in the community…"></textarea>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Daily Living Skills</label>
+                  <textarea id="itp_daily_living" rows="2" placeholder="e.g. Manages basic self-care independently. Requires support for meal preparation and budgeting…"></textarea>
+                </div>
+
+                <div class="plan-section-heading">Post-Secondary Goals</div>
+                <div class="form-group">
+                  <label>Education / Training Goal</label>
+                  <textarea id="itp_goal_education" rows="2" placeholder="e.g. After completing high school, student will enroll in a 2-year technical-vocational course at a TESDA-accredited center…"></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Employment Goal</label>
+                  <textarea id="itp_goal_employment" rows="2" placeholder="e.g. Student will obtain competitive employment as a computer technician within one year of completing technical training…"></textarea>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Independent Living Goal</label>
+                    <textarea id="itp_goal_independent" rows="2" placeholder="e.g. Student will independently manage daily living activities including meal preparation and basic budgeting…"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Community Participation Goal</label>
+                    <textarea id="itp_goal_community" rows="2" placeholder="e.g. Student will independently use public transportation to travel to work and community activities…"></textarea>
+                  </div>
+                </div>
+
+                <div class="plan-section-heading">Transition Services</div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Instruction / Academic Supports</label>
+                    <textarea id="itp_services_instruction" rows="2" placeholder="e.g. Functional academics, career and technical education coursework, life skills class…"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Community Experiences</label>
+                    <textarea id="itp_services_community" rows="2" placeholder="e.g. Community-based instruction (grocery shopping, banking), exposure visits to employment sites…"></textarea>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Employment / Vocational Training</label>
+                    <textarea id="itp_services_employment" rows="2" placeholder="e.g. School-based enterprise, job shadowing, TESDA vocational skills certification…"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Adult Living / Post-Secondary Activities</label>
+                    <textarea id="itp_services_adult" rows="2" placeholder="e.g. Independent living skills training, cooking, household management, self-advocacy…"></textarea>
+                  </div>
+                </div>
+
+                <div class="plan-section-heading">Course of Study &amp; Agency Linkages</div>
+                <div class="form-group">
+                  <label>Course of Study / Academic Path</label>
+                  <textarea id="itp_course_of_study" rows="2" placeholder="e.g. Grade 10–12 Academic Track with modified Science and Math. Technical-Vocational electives in ICT strand…"></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Agency &amp; Community Linkages <small class="muted">&mdash; Outside agencies / organizations involved</small></label>
+                  <textarea id="itp_agency_linkages" rows="2" placeholder="e.g. TESDA (vocational training), DSWD (supported employment), local OPD (assistive technology)…"></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Annual Transition Goals</label>
+                  <textarea id="itp_annual_goals" rows="3" placeholder="Measurable goals for this school year that support the post-secondary goals listed above…"></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Additional Notes</label>
+                  <textarea id="itp_notes" rows="2" placeholder="Parent input, agency contacts, timelines, follow-up actions…"></textarea>
+                </div>
+              </div><!-- /itpFormFields -->
+
+              <div id="itpUploadArea" class="hidden plan-upload-area">
+                <p class="muted mb-2">Upload an existing ITP document.</p>
+                <div class="upload-zone" id="itpUploadZone">
+                  <div class="upload-zone-inner">
+                    <span class="upload-icon">&#128196;</span>
+                    <p>Drag &amp; drop ITP document here, or click to browse</p>
+                    <p class="muted">PDF &middot; Word (.doc/.docx) &middot; Image &middot; Max 10 MB</p>
+                    <input type="file" id="itpFileInput" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
+                  </div>
+                </div>
+                <div id="itpFilePreview" class="selected-file-info hidden"></div>
+              </div>
+            </div><!-- /planPanelItp -->
+
+            <!-- ─── Individual Profile Panel ─── -->
+            <div class="plan-panel hidden" id="planPanelSip">
+              <p class="muted plan-desc">The <strong>Individual Profile</strong> gives a holistic picture of the student &mdash; strengths, challenges, learning style, communication needs, and behavioral profile &mdash; to guide all educators working with this student.</p>
+              <div class="entry-mode-row">
+                <button type="button" class="entry-btn active" data-panel="sip" data-mode="manual">&#9998; Manual Entry</button>
+                <button type="button" class="entry-btn" data-panel="sip" data-mode="upload">&#128196; Upload Existing Profile</button>
+              </div>
+
+              <div id="sipFormFields" class="plan-form-fields">
+                <div class="plan-section-heading">Student Classification</div>
+                <div class="form-row">
+                  <div class="form-group flex-2">
+                    <label>Disability Classification</label>
+                    <input type="text" id="sip_disability_class" placeholder="Primary disability (e.g. ADHD Combined, ASD Level 1)" />
+                  </div>
+                  <div class="form-group">
+                    <label>DepEd SpEd Category</label>
+                    <input type="text" id="sip_sped_category" placeholder="e.g. ADHD, ASD, ID" />
+                  </div>
+                  <div class="form-group">
+                    <label>Years in SpEd Program</label>
+                    <input type="number" id="sip_years_in_sped" min="0" max="20" placeholder="e.g. 3" />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group"><label>Preferred Name / Nickname</label><input type="text" id="sip_preferred_name" placeholder="How student prefers to be addressed" /></div>
+                  <div class="form-group"><label>Pronouns</label><input type="text" id="sip_pronouns" placeholder="e.g. He/Him, She/Her, They/Them" /></div>
+                  <div class="form-group"><label>Primary Language</label><input type="text" id="sip_language" placeholder="e.g. Filipino, Cebuano, English" /></div>
+                </div>
+
+                <div class="plan-section-heading">Strengths &amp; Challenges</div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Academic Strengths</label>
+                    <textarea id="sip_academic_strengths" rows="2" placeholder="e.g. Strong memorization, excellent visual-spatial reasoning, good at math computation…"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Academic Challenges</label>
+                    <textarea id="sip_academic_challenges" rows="2" placeholder="e.g. Reading comprehension below grade level, difficulty with written expression…"></textarea>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Behavioral Strengths</label>
+                    <textarea id="sip_behavioral_strengths" rows="2" placeholder="e.g. Responds well to routines, eager to help others, shows effort when interested…"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Behavioral Challenges</label>
+                    <textarea id="sip_behavioral_challenges" rows="2" placeholder="e.g. Difficulty managing frustration, impulsive responses during transitions…"></textarea>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Social Strengths</label>
+                    <textarea id="sip_social_strengths" rows="2" placeholder="e.g. Kind and empathetic, thrives in structured cooperative activities…"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Social Challenges</label>
+                    <textarea id="sip_social_challenges" rows="2" placeholder="e.g. Struggles with reading social cues, difficulty in large group settings…"></textarea>
+                  </div>
+                </div>
+
+                <div class="plan-section-heading">Learning Profile</div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Learning Style</label>
+                    <select id="sip_learning_style">
+                      <option value="mixed">Mixed / Multimodal</option>
+                      <option value="visual">Visual</option>
+                      <option value="auditory">Auditory</option>
+                      <option value="kinesthetic">Kinesthetic / Hands-On</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Attention Span</label>
+                    <select id="sip_attention_span">
+                      <option value="variable">Variable</option>
+                      <option value="short">Short (under 10 min)</option>
+                      <option value="moderate">Moderate (10–20 min)</option>
+                      <option value="good">Good (20+ min)</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Learning Style Notes</label>
+                  <textarea id="sip_learning_style_notes" rows="2" placeholder="Specific details about how this student learns best (e.g. learns best with visual-spatial tasks paired with hands-on activities)…"></textarea>
+                </div>
+
+                <div class="plan-section-heading">Communication Profile</div>
+                <div class="form-group">
+                  <textarea id="sip_communication" rows="3" placeholder="Describe expressive vs. receptive language, use of non-verbal communication, assistive communication tools, language processing pace, how to communicate effectively with this student…"></textarea>
+                </div>
+
+                <div class="plan-section-heading">Behavioral Profile</div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Motivators &amp; Interests</label>
+                    <textarea id="sip_motivators" rows="2" placeholder="e.g. Technology, drawing, football, earning points/rewards, choice-based tasks, peer recognition…"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Triggers / Antecedents</label>
+                    <textarea id="sip_triggers" rows="2" placeholder="e.g. Sudden routine changes, loud noise, embarrassment in front of peers, unclear instructions…"></textarea>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Calming Strategies</label>
+                    <textarea id="sip_calming" rows="2" placeholder="e.g. Quiet sensory break (5 min), deep breathing with visual cue card, movement break, 1:1 check-in with teacher…"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Reinforcement Strategies</label>
+                    <textarea id="sip_reinforcement" rows="2" placeholder="e.g. Token economy system, verbal praise with specific feedback, star chart, extra computer time as reward…"></textarea>
+                  </div>
+                </div>
+
+                <div class="plan-section-heading">Support Network</div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Family Support Level</label>
+                    <select id="sip_family_support">
+                      <option value="unknown">Unknown</option>
+                      <option value="high">High &ndash; Family is actively involved</option>
+                      <option value="moderate">Moderate &ndash; Family is supportive</option>
+                      <option value="limited">Limited &ndash; Minimal family involvement</option>
+                    </select>
+                  </div>
+                  <div class="form-group flex-2">
+                    <label>Outside Services <small class="muted">&mdash; Therapists, specialists, community supports</small></label>
+                    <input type="text" id="sip_outside_services" placeholder="e.g. Private OT (weekly), speech therapy (DSWD clinic 2×/month), pediatric psychiatrist (monthly)" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Student Voice <small class="muted">&mdash; Student&rsquo;s own perspective on goals and learning</small></label>
+                  <textarea id="sip_student_voice" rows="2" placeholder="What the student has shared about their own goals, what helps them, what they want for their future…"></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Teacher Observations</label>
+                  <textarea id="sip_teacher_observations" rows="2" placeholder="General observations, behavioral patterns seen in class, areas of growth noticed over the year…"></textarea>
+                </div>
+              </div><!-- /sipFormFields -->
+
+              <div id="sipUploadArea" class="hidden plan-upload-area">
+                <p class="muted mb-2">Upload an existing Individual Profile document.</p>
+                <div class="upload-zone" id="sipUploadZone">
+                  <div class="upload-zone-inner">
+                    <span class="upload-icon">&#128196;</span>
+                    <p>Drag &amp; drop profile document here, or click to browse</p>
+                    <p class="muted">PDF &middot; Word (.doc/.docx) &middot; Image &middot; Max 10 MB</p>
+                    <input type="file" id="sipFileInput" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
+                  </div>
+                </div>
+                <div id="sipFilePreview" class="selected-file-info hidden"></div>
+              </div>
+            </div><!-- /planPanelSip -->
+
+          </div><!-- /card-body -->
+        </div><!-- /plan-card -->
+
+        <!-- ── Part B: Other Supporting Documents ── -->
+        <div class="card mt-4">
+          <div class="card-header"><h3>Other Supporting Documents</h3></div>
+          <div class="card-body">
+            <p class="muted mb-3">Upload additional documents: medical reports, psychological evaluations, progress reports, 504 plans, parent consent forms, etc. Accepted formats: PDF, Word, Excel, JPEG, PNG. Max 10 MB per file.</p>
+            <div class="upload-zone" id="docUploadZone">
+              <div class="upload-zone-inner">
+                <span class="upload-icon">&#128196;</span>
+                <p>Drag &amp; drop files here, or click to browse</p>
+                <input type="file" id="docFileInput" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" />
+              </div>
+            </div>
+            <div id="docUploadList" class="doc-upload-list mt-3"></div>
+            <div id="existingDocsList" class="mt-3"></div>
+          </div>
+        </div>
+
+      </section><!-- /step6 -->
+
+      <!-- ── Navigation Buttons ── -->
+      <div class="form-nav-btns">
+        <button type="button" class="btn btn-outline" id="prevBtn" disabled>&#8592; Previous</button>
+        <button type="button" class="btn btn-primary"  id="nextBtn">Next &#8594;</button>
+        <button type="submit"  class="btn btn-success hidden" id="submitBtn">
+          <span class="btn-text">Save Student Profile</span>
+          <span class="btn-spinner hidden">&#8987;</span>
+        </button>
+      </div>
+    </form>
+    </div><!-- /manualSection -->
+
+    <!-- ═══ Import section ═══ -->
+    <div id="importSection" class="hidden">
+      <div class="back-to-chooser" id="backToChooserImport">
+        <button type="button" class="btn btn-outline btn-sm" id="backToChooserImportBtn">&larr; Change method</button>
+      </div>
+
+      <!-- ═══ Document Upload ═══ -->
+      <div id="tabDocument" class="import-tab-content active">
+        <div class="import-step-card">
+          <div class="import-step-number">1</div>
+          <div class="import-step-body">
+            <h3>How This Works</h3>
+            <div class="how-it-works-grid">
+              <div class="how-step"><span class="how-step-icon">&#8679;</span><div><strong>Upload Documents</strong><p>Upload scanned IEPs, psychological evaluations, school reports, Word docs or spreadsheets.</p></div></div>
+              <div class="how-step"><span class="how-step-icon">&#128196;</span><div><strong>Profiles Created</strong><p>Each uploaded file becomes a complete student profile with the document viewable from the profile page.</p></div></div>
+              <div class="how-step"><span class="how-step-icon">&#9998;</span><div><strong>Optionally Enrich the Profile</strong><p>Open any profile to add ADHD details, medications, accommodations, or additional information at any time.</p></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="import-step-card">
+          <div class="import-step-number">2</div>
+          <div class="import-step-body">
+            <h3>Upload Documents</h3>
+            <p class="muted mb-3">Accepted: PDF, Word (.doc/.docx), Excel (.xls/.xlsx), JPEG, PNG, TIFF. Max 10 MB per file. Up to 10 files at once.</p>
+            <div class="upload-zone" id="docDropZone">
+              <div class="upload-zone-inner">
+                <span class="upload-icon">&#128196;</span>
+                <p>Drag &amp; drop files here, or click to browse</p>
+                <p class="muted">PDF &middot; Word &middot; Excel &middot; JPEG &middot; PNG &middot; TIFF</p>
+                <input type="file" id="docFilesInput" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.tif,.tiff" />
+              </div>
+            </div>
+            <div id="docFileQueue" class="doc-queue mt-3"></div>
+            <div id="docUploadOptions" class="hidden mt-3">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Default Document Type</label>
+                  <select id="docTypeSelect">
+                    <option value="other">Other / General Profile</option>
+                    <option value="iep">IEP (Individualized Education Program)</option>
+                    <option value="psychological_evaluation">Psychological Evaluation</option>
+                    <option value="medical_report">Medical Report</option>
+                    <option value="progress_report">Progress Report</option>
+                    <option value="504_plan">504 Plan</option>
+                    <option value="parent_consent">Parent Consent Form</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Optional: Student Name Hints</label>
+                  <p class="muted" style="font-size:0.78rem;margin-top:0.25rem">One name per line, matching the file order above.</p>
+                  <textarea id="nameHints" rows="3" placeholder="Jane Smith&#10;John Doe&#10;Alex Johnson"></textarea>
+                </div>
+              </div>
+              <button class="btn btn-primary" id="uploadDocsBtn">&#8679; Upload &amp; Create Profiles</button>
+            </div>
+            <div id="docUploadProgress" class="hidden">
+              <div class="progress-bar-bg"><div class="progress-bar-fill" id="docProgressFill" style="width:0%"></div></div>
+              <p id="docProgressText" class="muted mt-1">Uploading&hellip;</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="docUploadResult" class="hidden">
+          <div class="import-step-card">
+            <div class="import-step-number done">&#10003;</div>
+            <div class="import-step-body">
+              <h3>Profiles Created</h3>
+              <p class="muted mb-3">Each uploaded file has been saved as a student profile. Click <strong>View Profile</strong> to open it.</p>
+              <div id="draftProfileList" class="draft-list"></div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /tabDocument -->
+    </div><!-- /importSection -->
+
+  </main><!-- /main-content -->
+
+  <script src="../assets/js/auth-guard.js"></script>
+  <script src="../assets/js/student-form.js"></script>
+  <script src="../assets/js/student-import.js"></script>
+</body>
+</html>

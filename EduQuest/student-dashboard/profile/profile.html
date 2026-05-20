@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile - EduQuest</title>
+    <link rel="stylesheet" href="../../shared/styles/variables-v2.css">
+    <link rel="stylesheet" href="../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../shared/styles/responsive.css">
+    <link rel="stylesheet" href="../../shared/components/navigation-v2.css">
+    <link rel="stylesheet" href="../../shared/components/card.css">
+    <link rel="stylesheet" href="../../shared/components/modal.css">
+    <link rel="stylesheet" href="../../shared/components/notification.css">
+    <link rel="stylesheet" href="./profile.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../shared/styles/quest_theme.css">
+    <script src="../../shared/components/quest_background.js" defer></script>
+</head>
+<body class="quest-theme">
+    <!-- Navigation -->
+        <nav class="navbar student-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="nav-logo">🎮 EduQuest</span>
+                <span class="nav-role">Student Portal</span>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <span class="hamburger"></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <a href="../dashboard/dashboard.html" class="nav-link">
+                    <span class="nav-icon">🏠</span><span>Home</span>
+                </a>
+                <a href="../learning/learning.html" class="nav-link">
+                    <span class="nav-icon">📚</span><span>Learn</span>
+                </a>
+                <a href="../quests/quests.html" class="nav-link">
+                    <span class="nav-icon">🎯</span><span>My Quests</span>
+                </a>
+                <a href="../quests/take-quiz.html" class="nav-link">
+                    <span class="nav-icon">📝</span><span>Quizzes</span>
+                </a>
+                <a href="../gamification/gamification.html" class="nav-link">
+                    <span class="nav-icon">🌟</span><span>My Progress</span>
+                </a>
+                <a href="../achievements/achievements.html" class="nav-link">
+                    <span class="nav-icon">🏆</span><span>Achievements</span>
+                </a>
+                <a href="../leaderboard/leaderboard.html" class="nav-link">
+                    <span class="nav-icon">🥇</span><span>Leaderboard</span>
+                </a>
+            </div>
+            <div class="nav-actions">
+                <div class="nav-stats">
+                    <div class="stat-item">
+                        <span class="stat-icon">⚡</span>
+                        <span class="stat-value" id="navXp">0 XP</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">🔥</span>
+                        <span class="stat-value" id="navStreak">0 days</span>
+                    </div>
+                </div>
+                <div class="nav-profile" id="profileMenu">
+                    <div class="profile-avatar" id="navAvatar">🧑‍🎓</div>
+                    <div class="profile-level">
+                        <span class="level-badge" id="navLevel">Lv 1</span>
+                    </div>
+                    <div class="profile-dropdown">
+                        <a href="../profile/profile.html" class="dropdown-item">
+                            <span class="dropdown-icon">👤</span><span>Profile</span>
+                        </a>
+                        <a href="#" class="dropdown-item" onclick="handleLogout()">
+                            <span class="dropdown-icon">🚪</span><span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="header-content">
+                    <h1 class="page-title">My Profile</h1>
+                    <p class="page-subtitle">Track your progress and customize your adventure</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" id="cancelEditBtn" style="display: none;">
+                        <span class="btn-icon">✕</span>
+                        Cancel
+                    </button>
+                    <button class="btn btn-primary" id="editProfileBtn">
+                        <span class="btn-icon">✏️</span>
+                        Edit Profile
+                    </button>
+                    <button class="btn btn-primary" id="saveProfileBtn" style="display: none;">
+                        <span class="btn-icon">💾</span>
+                        Save Changes
+                    </button>
+                </div>
+            </div>
+
+            <div class="profile-grid">
+                <!-- Profile Hero Card -->
+                <div class="profile-hero-card">
+                    <div class="hero-background"></div>
+                    <div class="hero-content">
+                        <div class="avatar-section">
+                            <div class="avatar-wrapper avatar-clickable" id="openAvatarPicker" title="Change avatar">
+                                <div class="profile-avatar-large avatar-emoji" id="profileAvatar">🧑‍🎓</div>
+                                <div class="level-ring" id="levelRing">
+                                    <span class="level-text">Lv <span id="profileLevel">5</span></span>
+                                </div>
+                                <div class="avatar-edit-hint">
+                                    <span>✏️</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hero-info">
+                            <h2 class="profile-name" id="displayName">Demo Student</h2>
+                            <p class="profile-title" id="studentTitle">Quest Explorer</p>
+                            <div class="xp-section">
+                                <div class="xp-bar-container">
+                                    <div class="xp-bar" id="xpBar" style="width: 65%;">
+                                        <span class="xp-text"><span id="currentXP">1300</span> / <span id="requiredXP">2000</span> XP</span>
+                                    </div>
+                                </div>
+                                <p class="xp-label"><span id="xpToNext">700</span> XP to Level <span id="nextLevel">6</span></p>
+                            </div>
+                            <div class="profile-badges">
+                                <div class="badge-item" title="7 Day Streak">
+                                    <span class="badge-icon">🔥</span>
+                                    <span class="badge-value" id="streakDays">7</span>
+                                </div>
+                                <div class="badge-item" title="Total Quests Completed">
+                                    <span class="badge-icon">✅</span>
+                                    <span class="badge-value" id="completedQuests">15</span>
+                                </div>
+                                <div class="badge-item" title="Achievements Unlocked">
+                                    <span class="badge-icon">🏆</span>
+                                    <span class="badge-value" id="unlockedAchievements">8</span>
+                                </div>
+                                <div class="badge-item" title="Total Coins Earned">
+                                    <span class="badge-icon">🪙</span>
+                                    <span class="badge-value" id="totalCoins">450</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card stat-primary">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="totalXP">1300</div>
+                            <div class="stat-label">Total XP Earned</div>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-success">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="questsInProgress">3</div>
+                            <div class="stat-label">Quests in Progress</div>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-warning">
+                        <div class="stat-icon">⏱️</div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="avgCompletionTime">2.5h</div>
+                            <div class="stat-label">Avg Completion Time</div>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-info">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="classRank">#3</div>
+                            <div class="stat-label">Class Ranking</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personal Information -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Personal Information</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="personalInfoForm" class="profile-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="firstName" class="form-label">First Name</label>
+                                    <input type="text" id="firstName" class="form-input" value="Demo" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName" class="form-label">Last Name</label>
+                                    <input type="text" id="lastName" class="form-input" value="Student" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" id="email" class="form-input" value="demostudent@eduquest.com" disabled>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="bio" class="form-label">About Me</label>
+                                    <textarea id="bio" class="form-input" rows="4" disabled>I love learning through games and completing quests! My favorite subjects are math and science.</textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Preferences & Settings -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Preferences & Settings</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="settings-list">
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <span class="setting-icon">🔔</span>
+                                    <div>
+                                        <h4 class="setting-title">Quest Notifications</h4>
+                                        <p class="setting-desc">Get notified about new quests</p>
+                                    </div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="questNotifications" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <span class="setting-icon">🏅</span>
+                                    <div>
+                                        <h4 class="setting-title">Achievement Pop-ups</h4>
+                                        <p class="setting-desc">Show a pop-up when you unlock a badge</p>
+                                    </div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="achievementPopups" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <span class="setting-icon">🔐</span>
+                                    <div>
+                                        <h4 class="setting-title">Change Password</h4>
+                                        <p class="setting-desc">Update your password</p>
+                                    </div>
+                                </div>
+                                <button class="btn btn-secondary btn-sm" id="changePasswordBtn">Change</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Achievements -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Recent Achievements</h3>
+                        <a href="../achievements/achievements.html" class="card-link">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="achievements-grid" id="recentAchievements">
+                            <div class="achievement-card unlocked">
+                                <div class="achievement-icon">🏆</div>
+                                <div class="achievement-info">
+                                    <h4 class="achievement-title">First Quest</h4>
+                                    <p class="achievement-desc">Complete your first quest</p>
+                                </div>
+                                <div class="achievement-badge">✓</div>
+                            </div>
+                            <div class="achievement-card unlocked">
+                                <div class="achievement-icon">🔥</div>
+                                <div class="achievement-info">
+                                    <h4 class="achievement-title">On Fire!</h4>
+                                    <p class="achievement-desc">Maintain a 7-day streak</p>
+                                </div>
+                                <div class="achievement-badge">✓</div>
+                            </div>
+                            <div class="achievement-card unlocked">
+                                <div class="achievement-icon">⭐</div>
+                                <div class="achievement-info">
+                                    <h4 class="achievement-title">Rising Star</h4>
+                                    <p class="achievement-desc">Reach level 5</p>
+                                </div>
+                                <div class="achievement-badge">✓</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Avatar Picker Modal -->
+    <div class="modal" id="avatarModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-md">
+            <div class="modal-header avatar-modal-header">
+                <h3 class="modal-title">Choose Your Avatar</h3>
+                <p class="modal-subtitle">Pick an icon that represents you!</p>
+                <button class="modal-close" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body avatar-modal-body">
+                <!-- Current Avatar Preview -->
+                <div class="current-avatar-preview">
+                    <div class="preview-avatar" id="previewAvatar">🧑‍🎓</div>
+                    <span class="preview-label">Current</span>
+                </div>
+
+                <!-- Free Avatars -->
+                <div class="avatar-category">
+                    <h4 class="category-title"><span class="category-icon">⭐</span> Starter Avatars</h4>
+                    <div class="avatar-grid" id="freeAvatarGrid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Level-Locked Avatars -->
+                <div class="avatar-category">
+                    <h4 class="category-title"><span class="category-icon">🔒</span> Level Rewards</h4>
+                    <p class="category-desc">Reach higher levels to unlock these avatars!</p>
+                    <div class="avatar-grid" id="lockedAvatarGrid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelAvatarBtn">Cancel</button>
+                <button class="btn btn-primary" id="saveAvatarBtn" disabled>
+                    <span class="btn-icon">💾</span> Save Avatar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div class="modal" id="passwordModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-sm">
+            <div class="modal-header">
+                <h3 class="modal-title" id="pwdModalTitle">🔒 Change Password</h3>
+                <button class="modal-close" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="pwdAlert" class="pwd-alert hidden"></div>
+                <form id="passwordForm" autocomplete="off">
+
+                    <div class="form-group">
+                        <label for="currentPassword" class="form-label">Current Password</label>
+                        <div class="pwd-input-wrap">
+                            <input type="password" id="currentPassword" class="form-input" required autocomplete="current-password" placeholder="Enter current password">
+                            <button type="button" class="pwd-toggle-btn" data-target="currentPassword" aria-label="Show password">
+                                <svg class="eye-icon eye-open" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                                <svg class="eye-icon eye-closed hidden" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newPassword" class="form-label">New Password</label>
+                        <div class="pwd-input-wrap">
+                            <input type="password" id="newPassword" class="form-input" required autocomplete="new-password" placeholder="Enter new password">
+                            <button type="button" class="pwd-toggle-btn" data-target="newPassword" aria-label="Show password">
+                                <svg class="eye-icon eye-open" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                                <svg class="eye-icon eye-closed hidden" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                            </button>
+                        </div>
+                        <!-- Strength meter -->
+                        <div class="pwd-strength-bar">
+                            <div class="pwd-strength-fill" id="strengthFill"></div>
+                        </div>
+                        <div class="pwd-strength-text" id="strengthText"></div>
+                        <!-- Requirements checklist -->
+                        <ul class="pwd-requirements" id="pwdRequirements">
+                            <li data-rule="length"><span class="pwd-check">○</span> At least 8 characters</li>
+                            <li data-rule="uppercase"><span class="pwd-check">○</span> One uppercase letter</li>
+                            <li data-rule="number"><span class="pwd-check">○</span> One number</li>
+                            <li data-rule="special"><span class="pwd-check">○</span> One special character (!@#$%^&*)</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                        <div class="pwd-input-wrap">
+                            <input type="password" id="confirmPassword" class="form-input" required autocomplete="new-password" placeholder="Re-enter new password">
+                            <button type="button" class="pwd-toggle-btn" data-target="confirmPassword" aria-label="Show password">
+                                <svg class="eye-icon eye-open" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                                <svg class="eye-icon eye-closed hidden" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                            </button>
+                        </div>
+                        <div class="pwd-match-text" id="matchText"></div>
+                    </div>
+                </form>
+
+                <!-- Step 2: OTP verification (hidden initially) -->
+                <div id="pwdOtpStep" class="pwd-otp-step hidden">
+                    <div class="otp-sent-info">
+                        <span class="otp-sent-icon">📧</span>
+                        <p>A 6-digit code was sent to<br><strong id="otpEmailDisplay"></strong></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="otpCode" class="form-label">Verification Code</label>
+                        <input type="text" id="otpCode" class="form-input otp-code-input"
+                               maxlength="6" placeholder="000000"
+                               inputmode="numeric" autocomplete="one-time-code"
+                               pattern="[0-9]{6}">
+                    </div>
+                    <div class="otp-meta">
+                        <span id="otpCountdown" class="otp-countdown"></span>
+                        <button type="button" id="resendOtpBtn" class="btn-link otp-resend hidden">Resend Code</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelPasswordBtn">Cancel</button>
+                <button class="btn btn-primary" id="savePasswordBtn" disabled>Send OTP to Email</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../shared/components/navigation.js"></script>
+    <script src="../../shared/utils/helpers.js"></script>
+    <script src="../../shared/utils/gamification-helper.js"></script>
+    <script src="./profile.js"></script>
+</body>
+</html>
+

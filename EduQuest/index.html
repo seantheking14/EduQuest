@@ -1,0 +1,1008 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduQuest - Where Every Learner's Journey Matters</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --game-bg:  #f8f6f1;
+            --card-bg:  #ffffff;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --text-primary:   #111827;
+            --text-secondary: #6b7280;
+            /* Adventure palette - ZERO purple */
+            --sky:        #0ea5e9;
+            --navy:       #0369a1;
+            --deep:       #0c4a6e;
+            --gold:       #fbbf24;
+            --amber:      #f59e0b;
+            --amber-dark: #d97706;
+            --fire:       #ef4444;
+            --orange:     #f97316;
+            --green:      #10b981;
+            --teal:       #06b6d4;
+            --pink:       #ec4899;
+            --card-border: 2px solid var(--gray-200);
+            --card-bottom: 4px solid var(--gray-300);
+            --radius: 16px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--game-bg);
+            color: var(--text-secondary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* NAV */
+        .navbar {
+            background: rgba(248,246,241,0.94);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: var(--card-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-inner {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 66px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        .logo {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        .logo-mark {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--sky), var(--navy));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 900;
+            color: #fff;
+            flex-shrink: 0;
+            box-shadow: 0 3px 10px rgba(14,165,233,0.35);
+        }
+        .logo-name {
+            font-size: 19px;
+            font-weight: 900;
+            color: var(--text-primary);
+            letter-spacing: -0.03em;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 700;
+            font-size: 14px;
+            padding: 7px 13px;
+            border-radius: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.15s, color 0.15s;
+        }
+        .nav-link:hover { background: var(--card-bg); color: var(--text-primary); }
+        .nav-btn-outline {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 14px;
+            padding: 8px 18px;
+            border-radius: 10px;
+            border: var(--card-border);
+            border-bottom: var(--card-bottom);
+            background: var(--card-bg);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-family: inherit;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .nav-btn-outline:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .nav-btn-gold {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 14px;
+            padding: 8px 18px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--gold), var(--amber));
+            color: #78350f;
+            border: none;
+            border-bottom: 3px solid var(--amber-dark);
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 3px 10px rgba(251,191,36,0.35);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .nav-btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(251,191,36,0.45); }
+        .nav-btn-gold:active { transform: translateY(0); border-bottom-width: 1px; }
+        .menu-toggle {
+            display: none;
+            background: var(--card-bg);
+            border: var(--card-border);
+            border-bottom: var(--card-bottom);
+            border-radius: 10px;
+            padding: 7px 12px;
+            cursor: pointer;
+            font-size: 17px;
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+
+        /* HERO - Warm parchment + colorful accents (like dashboard), not all-blue */
+        .hero {
+            background-color: var(--game-bg);
+            background-image:
+                radial-gradient(circle at 5%  55%, rgba(14,165,233,0.10) 0%, transparent 42%),
+                radial-gradient(circle at 95% 55%, rgba(251,191,36,0.13) 0%, transparent 42%),
+                radial-gradient(circle at 50% 108%, rgba(16,185,129,0.08) 0%, transparent 38%);
+            padding: 72px 24px 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: var(--card-border);
+        }
+        /* Rainbow game-palette strip at top of hero */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #ef4444, #f97316, #fbbf24, #10b981, #0ea5e9, #06b6d4, #ec4899);
+            pointer-events: none;
+        }
+        /* Gold glow orb bottom-right */
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            right: -60px;
+            width: 340px;
+            height: 340px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(251,191,36,0.13), transparent 70%);
+            pointer-events: none;
+        }
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 860px;
+            margin: 0 auto;
+        }
+        .hero-eyebrow {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--gold), var(--amber));
+            border: none;
+            color: #78350f;
+            font-size: 11.5px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 5px 18px;
+            border-radius: 100px;
+            margin-bottom: 22px;
+            box-shadow: 0 3px 10px rgba(251,191,36,0.3);
+        }
+        .hero-title {
+            font-size: clamp(30px, 5.5vw, 52px);
+            font-weight: 900;
+            color: var(--text-primary);
+            letter-spacing: -0.04em;
+            line-height: 1.12;
+            margin-bottom: 18px;
+        }
+        .hero-gold { color: var(--amber-dark); }
+        .hero-quote {
+            font-size: clamp(13px, 1.6vw, 15.5px);
+            font-style: italic;
+            font-weight: 600;
+            color: var(--text-secondary);
+            max-width: 580px;
+            margin: 0 auto 28px;
+            line-height: 1.78;
+        }
+        /* Colorful team badge chips in hero */
+        .hero-badges {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 36px;
+        }
+        .hbadge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 6px 14px;
+            border-radius: 100px;
+            border: 1.5px solid transparent;
+        }
+        .hb-fire  { background: #fef2f2; color: #b91c1c; border-color: #fca5a5; }
+        .hb-water { background: #e0f2fe; color: var(--navy); border-color: #7dd3fc; }
+        .hb-grass { background: #f0fdf4; color: #15803d; border-color: #86efac; }
+        .hb-gold  { background: #fffbeb; color: #92400e; border-color: #fde68a; }
+
+        /* Role Cards */
+        .role-cards {
+            display: flex;
+            gap: 18px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .role-card {
+            background: var(--card-bg);
+            border: var(--card-border);
+            border-radius: 20px;
+            padding: 28px 26px 22px;
+            width: 272px;
+            text-align: left;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s cubic-bezier(0.22,1,0.36,1), box-shadow 0.2s, border-color 0.2s;
+            border-bottom: 4px solid var(--gray-300);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07), 0 6px 18px rgba(0,0,0,0.05);
+        }
+        .role-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+        }
+        .role-card.teacher::before { background: linear-gradient(90deg, var(--sky), var(--teal)); }
+        .role-card.student::before  { background: linear-gradient(90deg, var(--amber), var(--gold)); }
+        .role-card.teacher { border-bottom-color: var(--sky); }
+        .role-card.student { border-bottom-color: var(--amber); }
+        .role-card:hover { transform: translateY(-5px); box-shadow: 0 14px 32px rgba(0,0,0,0.18); }
+        .role-card.teacher:hover { border-color: #7dd3fc; }
+        .role-card.student:hover  { border-color: #fde68a; }
+        .role-card:active { transform: translateY(0); }
+        .role-icon-bg {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 4px;
+            flex-shrink: 0;
+        }
+        .role-card.teacher .role-icon-bg { background: #e0f2fe; }
+        .role-card.student .role-icon-bg { background: #fffbeb; }
+        .role-card-title {
+            font-size: 17px;
+            font-weight: 900;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+        .role-card-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            line-height: 1.56;
+        }
+        .role-card-chip {
+            display: inline-flex;
+            align-items: center;
+            font-size: 11.5px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 100px;
+            align-self: flex-start;
+            margin-top: 2px;
+        }
+        .role-card.teacher .role-card-chip { background: #e0f2fe; color: var(--navy); }
+        .role-card.student .role-card-chip { background: #fffbeb; color: #92400e; }
+        .role-card-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: 10px;
+            padding: 9px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 800;
+            font-family: inherit;
+            text-decoration: none;
+            align-self: flex-start;
+            cursor: pointer;
+            border: none;
+            color: #fff;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .role-card.teacher .role-card-cta {
+            background: linear-gradient(135deg, var(--sky), var(--navy));
+            border-bottom: 3px solid var(--deep);
+            box-shadow: 0 3px 10px rgba(14,165,233,0.3);
+        }
+        .role-card.student .role-card-cta {
+            background: linear-gradient(135deg, var(--gold), var(--amber));
+            border-bottom: 3px solid var(--amber-dark);
+            box-shadow: 0 3px 10px rgba(251,191,36,0.35);
+            color: #78350f;
+        }
+        .role-card-cta:hover { transform: translateY(-2px); box-shadow: 0 5px 14px rgba(0,0,0,0.18); }
+        .hero-signin {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        .hero-signin a {
+            color: var(--navy);
+            font-weight: 800;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            text-decoration-color: rgba(3,105,161,0.3);
+        }
+        .hero-signin a:hover { color: var(--amber-dark); text-decoration-color: var(--amber-dark); }
+
+        /* SHARED SECTION */
+        .section { padding: 80px 24px; }
+        .section-inner { max-width: 1100px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 52px; }
+        .section-label {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--navy);
+            background: #e0f2fe;
+            padding: 4px 14px;
+            border-radius: 100px;
+            margin-bottom: 10px;
+        }
+        .section-title {
+            font-size: clamp(24px, 3.8vw, 34px);
+            font-weight: 900;
+            color: var(--text-primary);
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+        .section-sub {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            max-width: 480px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* FEATURES */
+        .features { background: var(--game-bg); }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+        .feature-card {
+            background: var(--card-bg);
+            border: var(--card-border);
+            border-bottom: var(--card-bottom);
+            border-radius: var(--radius);
+            padding: 26px 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: transform 0.15s ease, border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+        .feature-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+        .feature-card:active { transform: translateY(0); }
+        .fc-sky    { border-left: 4px solid var(--sky);    }
+        .fc-teal   { border-left: 4px solid var(--teal);   }
+        .fc-amber  { border-left: 4px solid var(--amber);  }
+        .fc-green  { border-left: 4px solid var(--green);  }
+        .fc-fire   { border-left: 4px solid var(--fire);   }
+        .fc-pink   { border-left: 4px solid var(--pink);   }
+        .fc-sky:hover    { background: #f0f9ff;  border-bottom-color: var(--sky);   }
+        .fc-teal:hover   { background: #ecfeff;  border-bottom-color: var(--teal);  }
+        .fc-amber:hover  { background: #fffbeb;  border-bottom-color: var(--amber); }
+        .fc-green:hover  { background: #ecfdf5;  border-bottom-color: var(--green); }
+        .fc-fire:hover   { background: #fef2f2;  border-bottom-color: var(--fire);  }
+        .fc-pink:hover   { background: #fdf2f8;  border-bottom-color: var(--pink);  }
+        .feature-icon { font-size: 30px; line-height: 1; margin-bottom: 4px; }
+        .feature-title { font-size: 15px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.01em; }
+        .feature-desc { font-size: 13.5px; color: var(--text-secondary); font-weight: 600; line-height: 1.6; }
+
+        /* HOW IT WORKS */
+        .how-it-works { background: var(--card-bg); }
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            position: relative;
+        }
+        .steps-grid::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: calc(16.66% + 16px);
+            right: calc(16.66% + 16px);
+            height: 2px;
+            background: linear-gradient(90deg, #7dd3fc, var(--sky), #7dd3fc);
+            opacity: 0.45;
+            z-index: 0;
+        }
+        .step-card {
+            background: var(--card-bg);
+            border: var(--card-border);
+            border-bottom: var(--card-bottom);
+            border-radius: var(--radius);
+            padding: 36px 24px 28px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.15s ease, box-shadow 0.2s;
+        }
+        .step-card:nth-child(1) { border-bottom-color: var(--sky);   }
+        .step-card:nth-child(2) { border-bottom-color: var(--amber); }
+        .step-card:nth-child(3) { border-bottom-color: var(--green); }
+        .step-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+        .step-num {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, var(--sky), var(--navy));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 900;
+            color: #fff;
+            margin: 0 auto 18px;
+            box-shadow: 0 4px 14px rgba(14,165,233,0.35);
+        }
+        .step-badge {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--navy);
+            margin-bottom: 6px;
+        }
+        .step-title { font-size: 16px; font-weight: 800; color: var(--text-primary); margin-bottom: 8px; letter-spacing: -0.01em; }
+        .step-desc { font-size: 13.5px; color: var(--text-secondary); line-height: 1.65; font-weight: 600; }
+
+        /* TEAMS - Fire / Water / Grass (from leaderboard) */
+        .teams-section { background: var(--game-bg); }
+        .teams-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .team-card {
+            background: var(--card-bg);
+            border: var(--card-border);
+            border-bottom: 4px solid var(--gray-300);
+            border-radius: 20px;
+            padding: 32px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.18s ease, box-shadow 0.18s;
+        }
+        .team-card:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(0,0,0,0.1); }
+        .team-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 5px;
+        }
+        .team-fire::before   { background: linear-gradient(90deg, #ef4444, #f97316); }
+        .team-water::before  { background: linear-gradient(90deg, var(--sky), var(--teal)); }
+        .team-grass::before  { background: linear-gradient(90deg, #22c55e, #84cc16); }
+        .team-fire   { border-bottom-color: var(--fire); }
+        .team-water  { border-bottom-color: var(--sky); }
+        .team-grass  { border-bottom-color: #22c55e; }
+        .team-fire:hover   { border-color: #fca5a5; }
+        .team-water:hover  { border-color: #7dd3fc; }
+        .team-grass:hover  { border-color: #86efac; }
+        .team-icon { font-size: 44px; margin-bottom: 14px; display: block; line-height: 1; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.12)); }
+        .team-name { font-size: 20px; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 8px; }
+        .team-fire  .team-name { color: #b91c1c; }
+        .team-water .team-name { color: var(--navy); }
+        .team-grass .team-name { color: #15803d; }
+        .team-desc { font-size: 13.5px; font-weight: 600; color: var(--text-secondary); line-height: 1.6; }
+        .team-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 100px;
+            margin-top: 12px;
+        }
+        .team-fire  .team-badge { background: #fef2f2; color: #991b1b; }
+        .team-water .team-badge { background: #e0f2fe; color: var(--deep); }
+        .team-grass .team-badge { background: #f0fdf4; color: #166534; }
+
+        /* CTA */
+        .get-started { background: var(--card-bg); }
+        .cta-box {
+            background: var(--game-bg);
+            border: var(--card-border);
+            border-bottom: 5px solid var(--sky);
+            border-radius: 24px;
+            padding: 56px 40px;
+            text-align: center;
+            max-width: 760px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02), 0 16px 40px rgba(14,165,233,0.08);
+        }
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(14,165,233,0.06) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+        }
+        .cta-box-inner { position: relative; z-index: 1; }
+        .cta-title { font-size: clamp(22px, 3.5vw, 32px); font-weight: 900; color: var(--text-primary); letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 12px; }
+        .cta-text { font-size: 15px; color: var(--text-secondary); font-weight: 600; line-height: 1.7; margin-bottom: 36px; max-width: 480px; margin-left: auto; margin-right: auto; }
+        .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px; }
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 26px;
+            font-size: 14px;
+            font-weight: 800;
+            font-family: inherit;
+            border-radius: 12px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .cta-btn:active { transform: translateY(0) !important; }
+        .cta-btn-teacher {
+            background: linear-gradient(135deg, var(--sky), var(--navy));
+            color: #fff;
+            border-bottom: 3px solid var(--deep);
+            box-shadow: 0 4px 14px rgba(14,165,233,0.3);
+        }
+        .cta-btn-teacher:hover { transform: translateY(-2px); box-shadow: 0 7px 20px rgba(14,165,233,0.38); }
+        .cta-btn-student {
+            background: linear-gradient(135deg, var(--gold), var(--amber));
+            color: #78350f;
+            border-bottom: 3px solid var(--amber-dark);
+            box-shadow: 0 4px 14px rgba(251,191,36,0.32);
+        }
+        .cta-btn-student:hover { transform: translateY(-2px); box-shadow: 0 7px 20px rgba(251,191,36,0.4); }
+        .cta-btn-about {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            border: var(--card-border);
+            border-bottom: var(--card-bottom);
+        }
+        .cta-btn-about:hover { transform: translateY(-2px); box-shadow: 0 5px 14px rgba(0,0,0,0.08); }
+        .cta-trust { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; font-size: 12.5px; font-weight: 700; color: var(--gray-400); }
+        .cta-trust span { display: flex; align-items: center; gap: 5px; }
+        .trust-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+        .trust-dot-green { background: var(--green); }
+        .trust-dot-sky   { background: var(--sky); }
+        .trust-dot-amber { background: var(--amber); }
+
+        /* FOOTER */
+        .footer { background: var(--gray-900); color: #e5e7eb; padding: 52px 24px 22px; }
+        .footer-inner { max-width: 1100px; margin: 0 auto; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 44px; margin-bottom: 40px; }
+        .footer-brand-name { font-size: 17px; font-weight: 900; color: #fff; letter-spacing: -0.02em; margin-bottom: 10px; }
+        .footer-brand-desc { font-size: 13.5px; color: #9ca3af; line-height: 1.7; font-weight: 600; }
+        .footer-col-title { font-size: 11px; font-weight: 800; color: #e5e7eb; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px; }
+        .footer-links { display: flex; flex-direction: column; gap: 9px; }
+        .footer-link { text-decoration: none; font-size: 13.5px; font-weight: 600; color: #9ca3af; background: none; border: none; cursor: pointer; font-family: inherit; padding: 0; text-align: left; transition: color 0.15s; }
+        .footer-link:hover { color: #e5e7eb; }
+        .footer-hr { height: 1px; background: #374151; margin-bottom: 20px; }
+        .footer-bottom { text-align: center; font-size: 12.5px; font-weight: 600; color: #6b7280; }
+
+        /* ABOUT MODAL */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.52); align-items: center; justify-content: center; z-index: 9000; padding: 20px; animation: fadeBg 0.25s ease; }
+        .modal-overlay.open { display: flex; }
+        @keyframes fadeBg { from { opacity: 0; } to { opacity: 1; } }
+        .modal-box {
+            background: var(--card-bg);
+            border: var(--card-border);
+            border-bottom: 5px solid var(--sky);
+            border-radius: 20px;
+            padding: 36px 32px 28px;
+            max-width: 560px;
+            width: 100%;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s cubic-bezier(0.22,1,0.36,1);
+        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+        .modal-close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 8px; background: var(--gray-100); border: 1px solid var(--gray-200); cursor: pointer; font-size: 16px; color: var(--gray-400); font-family: inherit; display: flex; align-items: center; justify-content: center; transition: background 0.15s, color 0.15s; }
+        .modal-close:hover { background: #fee2e2; color: var(--fire); }
+        .modal-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 22px; }
+        .modal-icon { width: 48px; height: 48px; border-radius: 12px; background: #e0f2fe; border: 2px solid #bae6fd; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+        .modal-title { font-size: 20px; font-weight: 900; color: var(--text-primary); letter-spacing: -0.02em; }
+        .modal-sub { font-size: 13px; color: var(--gray-400); font-weight: 600; margin-top: 3px; }
+        .modal-body p { font-size: 14px; color: var(--text-secondary); line-height: 1.75; font-weight: 600; margin-bottom: 12px; }
+        .modal-body p:last-of-type { margin-bottom: 0; }
+        .modal-list { list-style: none; margin: 12px 0 16px; display: flex; flex-direction: column; gap: 9px; }
+        .modal-list li { display: flex; align-items: flex-start; gap: 9px; font-size: 13.5px; font-weight: 600; color: var(--text-secondary); line-height: 1.55; }
+        .modal-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sky); flex-shrink: 0; margin-top: 6px; }
+        .modal-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+        .modal-btn { display: inline-flex; align-items: center; gap: 7px; padding: 10px 20px; border-radius: 10px; font-size: 13.5px; font-weight: 800; font-family: inherit; text-decoration: none; cursor: pointer; transition: transform 0.15s; border: none; }
+        .modal-btn:hover { transform: translateY(-1px); }
+        .modal-btn-primary { background: linear-gradient(135deg, var(--gold), var(--amber)); color: #78350f; border-bottom: 3px solid var(--amber-dark); box-shadow: 0 3px 10px rgba(251,191,36,0.3); }
+        .modal-btn-secondary { background: var(--gray-100); color: var(--text-primary); border: var(--card-border); border-bottom: var(--card-bottom); }
+
+        /* SCROLL REVEAL */
+        .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s cubic-bezier(0.22,1,0.36,1), transform 0.55s cubic-bezier(0.22,1,0.36,1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .stagger .reveal:nth-child(1) { transition-delay: 0.00s; }
+        .stagger .reveal:nth-child(2) { transition-delay: 0.06s; }
+        .stagger .reveal:nth-child(3) { transition-delay: 0.12s; }
+        .stagger .reveal:nth-child(4) { transition-delay: 0.18s; }
+        .stagger .reveal:nth-child(5) { transition-delay: 0.24s; }
+        .stagger .reveal:nth-child(6) { transition-delay: 0.30s; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid   { grid-template-columns: 1fr 1fr; gap: 28px; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 66px; left: 0; right: 0; background: var(--game-bg); border-bottom: var(--card-border); padding: 14px 20px 20px; gap: 4px; box-shadow: 0 8px 20px rgba(0,0,0,0.06); z-index: 99; }
+            .navbar { position: relative; }
+            .menu-toggle { display: flex; }
+            .hero { padding: 56px 18px 64px; }
+            .role-cards { flex-direction: column; align-items: center; }
+            .role-card { width: 100%; max-width: 360px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .steps-grid    { grid-template-columns: 1fr; }
+            .steps-grid::before { display: none; }
+            .teams-grid    { grid-template-columns: 1fr; }
+            .cta-box { padding: 40px 24px; }
+            .cta-btns { flex-direction: column; align-items: center; }
+            .cta-btn { width: 100%; max-width: 300px; justify-content: center; }
+            .footer-grid { grid-template-columns: 1fr; gap: 22px; }
+            .section { padding: 60px 18px; }
+            .modal-box { padding: 28px 20px; }
+        }
+        @media (max-width: 480px) { .hero-title { font-size: 26px; } .cta-title { font-size: 22px; } .section-title { font-size: 22px; } }
+        @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } .feature-card:hover, .step-card:hover, .role-card:hover, .team-card:hover { transform: none; } }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-inner">
+        <a href="#" class="logo">
+            <div class="logo-mark">EQ</div>
+            <span class="logo-name">EduQuest</span>
+        </a>
+        <div class="nav-links" id="navLinks">
+            <a href="#features"     class="nav-link">Features</a>
+            <a href="#how-it-works" class="nav-link">How It Works</a>
+            <a href="#teams"        class="nav-link">Teams</a>
+            <button class="nav-link" id="navAboutBtn">About Us</button>
+            <a href="auth/login/login.html"       class="nav-btn-outline">Sign In</a>
+            <a href="auth/register/register.html" class="nav-btn-gold">&#9733; Get Started</a>
+        </div>
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu">&#9776;</button>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-inner">
+        <span class="hero-eyebrow">&#9733; Gamified Learning Platform</span>
+        <h1 class="hero-title">
+            Transform Learning Into<br>
+            <span class="hero-gold">An Adventure</span>
+        </h1>
+        <p class="hero-quote">
+            &ldquo;Where personalized progress is tracked, achievements are celebrated,<br>
+            and every learner&rsquo;s journey matters.&rdquo;
+        </p>
+        <div class="hero-badges">
+            <span class="hbadge hb-fire">&#128293; Team Fire</span>
+            <span class="hbadge hb-water">&#128166; Team Water</span>
+            <span class="hbadge hb-grass">&#127807; Team Grass</span>
+            <span class="hbadge hb-gold">&#9733; XP &amp; Levels</span>
+        </div>
+        <div class="role-cards">
+            <div class="role-card teacher">
+                <div class="role-icon-bg">&#128104;&#8205;&#127979;</div>
+                <span class="role-card-title">I&rsquo;m a Teacher</span>
+                <span class="role-card-desc">Manage classrooms, create IEP goals, assign quizzes, and track every student&rsquo;s progress in real time.</span>
+                <span class="role-card-chip">Classroom &amp; IEP Management</span>
+                <a href="auth/register/register.html" class="role-card-cta">Join as Teacher &#8594;</a>
+            </div>
+            <div class="role-card student">
+                <div class="role-icon-bg">&#127891;</div>
+                <span class="role-card-title">I&rsquo;m a Student</span>
+                <span class="role-card-desc">Earn XP, hatch your companion egg, complete quests, and unlock achievements on your learning journey.</span>
+                <span class="role-card-chip">Gamified Learning Experience</span>
+                <a href="auth/register/register.html" class="role-card-cta">Join as Student &#8594;</a>
+            </div>
+        </div>
+        <p class="hero-signin">
+            Already have an account?&nbsp;
+            <a href="auth/login/login.html">Sign in here</a>
+            &nbsp;&bull;&nbsp;
+            <a href="#" id="heroAboutBtn">About EduQuest</a>
+        </p>
+    </div>
+</section>
+
+<section class="section features" id="features">
+    <div class="section-inner">
+        <div class="section-header reveal">
+            <span class="section-label">Features</span>
+            <h2 class="section-title">Everything You Need to Quest Forward</h2>
+            <p class="section-sub">Purpose-built for special education teachers and ADHD learners</p>
+        </div>
+        <div class="features-grid stagger">
+            <div class="feature-card fc-sky reveal">
+                <div class="feature-icon">&#127918;</div>
+                <h3 class="feature-title">Gamified Learning</h3>
+                <p class="feature-desc">Turn every lesson into a quest. Earn XP, level up, hatch companion eggs, and unlock rewards that keep motivation high.</p>
+            </div>
+            <div class="feature-card fc-teal reveal">
+                <div class="feature-icon">&#127919;</div>
+                <h3 class="feature-title">Adaptive IEP Paths</h3>
+                <p class="feature-desc">Personalized learning journeys that adapt to each student&rsquo;s pace and IEP goals &mdash; no one gets left behind.</p>
+            </div>
+            <div class="feature-card fc-amber reveal">
+                <div class="feature-icon">&#128202;</div>
+                <h3 class="feature-title">Real-Time Analytics</h3>
+                <p class="feature-desc">XP tracking, egg evolution, streaks, and progress dashboards give teachers instant and clear feedback.</p>
+            </div>
+            <div class="feature-card fc-green reveal">
+                <div class="feature-icon">&#127942;</div>
+                <h3 class="feature-title">Achievement System</h3>
+                <p class="feature-desc">Unlock badges as students complete quests and hit milestones &mdash; building confidence and celebrating every win.</p>
+            </div>
+            <div class="feature-card fc-fire reveal">
+                <div class="feature-icon">&#129504;</div>
+                <h3 class="feature-title">ADHD-Friendly Design</h3>
+                <p class="feature-desc">Clean, uncluttered interface designed to minimize cognitive overload with soothing tones and focused layouts.</p>
+            </div>
+            <div class="feature-card fc-pink reveal">
+                <div class="feature-icon">&#128241;</div>
+                <h3 class="feature-title">Works Everywhere</h3>
+                <p class="feature-desc">Fully responsive &mdash; access EduQuest on any laptop, tablet, or phone, from anywhere in the classroom or home.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section how-it-works" id="how-it-works">
+    <div class="section-inner">
+        <div class="section-header reveal">
+            <span class="section-label">Your Journey</span>
+            <h2 class="section-title">Get Started in Three Steps</h2>
+            <p class="section-sub">Your quest begins the moment you sign up &mdash; setup takes only a few minutes</p>
+        </div>
+        <div class="steps-grid stagger">
+            <div class="step-card reveal">
+                <div class="step-num">1</div>
+                <span class="step-badge">Sign Up</span>
+                <h3 class="step-title">Choose Your Role</h3>
+                <p class="step-desc">Register as a Teacher or Student, verify your email, and unlock the tools built specifically for your role.</p>
+            </div>
+            <div class="step-card reveal">
+                <div class="step-num">2</div>
+                <span class="step-badge">Customize</span>
+                <h3 class="step-title">Set Up Your Quest</h3>
+                <p class="step-desc">Teachers build courses and assign quizzes. Students choose their team, hatch their starter egg, and receive a personalized path.</p>
+            </div>
+            <div class="step-card reveal">
+                <div class="step-num">3</div>
+                <span class="step-badge">Grow</span>
+                <h3 class="step-title">Track &amp; Celebrate</h3>
+                <p class="step-desc">Monitor real-time XP, egg evolution, and streaks. Celebrate achievements and watch every learner&rsquo;s confidence grow.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section teams-section" id="teams">
+    <div class="section-inner">
+        <div class="section-header reveal">
+            <span class="section-label">Choose Your Side</span>
+            <h2 class="section-title">Join an Elemental Team</h2>
+            <p class="section-sub">Students pick their team and compete together for XP on the class leaderboard</p>
+        </div>
+        <div class="teams-grid stagger">
+            <div class="team-card team-fire reveal">
+                <span class="team-icon">&#128293;</span>
+                <h3 class="team-name">Team Fire</h3>
+                <p class="team-desc">Bold, fearless, and unstoppable. Fire team members charge through challenges and blaze their own trail.</p>
+                <span class="team-badge">&#9889; Fearless</span>
+            </div>
+            <div class="team-card team-water reveal">
+                <span class="team-icon">&#128166;</span>
+                <h3 class="team-name">Team Water</h3>
+                <p class="team-desc">Cool, adaptive, and persistent. Water team members flow around every obstacle and never stop moving forward.</p>
+                <span class="team-badge">&#127754; Adaptive</span>
+            </div>
+            <div class="team-card team-grass reveal">
+                <span class="team-icon">&#127807;</span>
+                <h3 class="team-name">Team Grass</h3>
+                <p class="team-desc">Patient, steady, and ever-growing. Grass team members put down roots and grow stronger with every lesson.</p>
+                <span class="team-badge">&#127808; Steady</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section get-started" id="get-started">
+    <div class="section-inner">
+        <div class="cta-box reveal">
+            <div class="cta-box-inner">
+                <h2 class="cta-title">Ready to Begin the Adventure?</h2>
+                <p class="cta-text">Join EduQuest &mdash; where every learner&rsquo;s journey is celebrated and every milestone matters.</p>
+                <div class="cta-btns">
+                    <a href="auth/register/register.html" class="cta-btn cta-btn-teacher">&#128104;&#8205;&#127979; Join as Teacher</a>
+                    <a href="auth/register/register.html" class="cta-btn cta-btn-student">&#9733; Join as Student</a>
+                    <button class="cta-btn cta-btn-about" id="ctaAboutBtn">About Us</button>
+                </div>
+                <div class="cta-trust">
+                    <span><span class="trust-dot trust-dot-green"></span>Free to get started</span>
+                    <span><span class="trust-dot trust-dot-sky"></span>Built for ADHD learners</span>
+                    <span><span class="trust-dot trust-dot-amber"></span>Set up in minutes</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-grid">
+            <div>
+                <p class="footer-brand-name">EduQuest</p>
+                <p class="footer-brand-desc">Making special education engaging, accessible, and fun through gamified learning designed for students with ADHD and comorbid conditions.</p>
+            </div>
+            <div>
+                <p class="footer-col-title">Platform</p>
+                <div class="footer-links">
+                    <a href="#features"     class="footer-link">Features</a>
+                    <a href="#how-it-works" class="footer-link">How It Works</a>
+                    <a href="#teams"        class="footer-link">Teams</a>
+                    <a href="#get-started"  class="footer-link">Get Started</a>
+                </div>
+            </div>
+            <div>
+                <p class="footer-col-title">Portals</p>
+                <div class="footer-links">
+                    <a href="auth/login/login.html?role=teacher" class="footer-link">Teacher Login</a>
+                    <a href="auth/login/login.html?role=student" class="footer-link">Student Login</a>
+                    <a href="auth/register/register.html"        class="footer-link">Sign Up Free</a>
+                </div>
+            </div>
+            <div>
+                <p class="footer-col-title">Info</p>
+                <div class="footer-links">
+                    <button class="footer-link" id="footerAboutBtn">About Us</button>
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Support</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-hr"></div>
+        <p class="footer-bottom">&copy; 2025 EduQuest &mdash; Where every learner&rsquo;s journey matters.</p>
+    </div>
+</footer>
+
+<div class="modal-overlay" id="aboutModal" role="dialog" aria-modal="true" aria-labelledby="modalHeading">
+    <div class="modal-box">
+        <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+        <div class="modal-header">
+            <div class="modal-icon">&#127918;</div>
+            <div>
+                <h2 class="modal-title" id="modalHeading">About EduQuest</h2>
+                <p class="modal-sub">Gamified Learning for Every Learner</p>
+            </div>
+        </div>
+        <div class="modal-body">
+            <p>EduQuest is a gamified learning platform designed for students with ADHD and comorbid conditions. The clean, soothing interface avoids cognitive overload while delivering engaging, personalized learning experiences.</p>
+            <p>From the moment a user arrives, they choose their role and follow a path built for them:</p>
+            <ul class="modal-list">
+                <li><span class="modal-dot"></span><span><strong>Teachers</strong> access Classroom &amp; IEP Management &mdash; create student profiles, set individualized goals, assign quizzes, and track progress with real-time analytics.</span></li>
+                <li><span class="modal-dot"></span><span><strong>Students</strong> enter a Gamified Learning Experience &mdash; earn XP, hatch and evolve a companion egg, join elemental teams (Fire, Water, Grass), complete quests, and unlock achievements.</span></li>
+                <li><span class="modal-dot"></span><span>The warm parchment palette, clear navigation, and ADHD-friendly layouts ensure every learner can focus and thrive.</span></li>
+                <li><span class="modal-dot"></span><span>Join Now and begin your quest in minutes &mdash; completely free.</span></li>
+            </ul>
+            <p>EduQuest&rsquo;s mission: make every learner&rsquo;s journey visible, celebrated, and worth continuing.</p>
+        </div>
+        <div class="modal-actions">
+            <a href="auth/register/register.html" class="modal-btn modal-btn-primary">&#9733; Join Now &mdash; It&rsquo;s Free</a>
+            <button class="modal-btn modal-btn-secondary" id="modalCloseBtn">Close</button>
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+    'use strict';
+    var els = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+                if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+            });
+        }, { threshold: 0.10, rootMargin: '0px 0px -20px 0px' });
+        els.forEach(function (el) { io.observe(el); });
+    } else {
+        els.forEach(function (el) { el.classList.add('visible'); });
+    }
+    var toggle = document.getElementById('menuToggle');
+    var nav    = document.getElementById('navLinks');
+    if (toggle && nav) {
+        toggle.addEventListener('click', function () { nav.classList.toggle('open'); });
+        nav.querySelectorAll('a, button').forEach(function (el) {
+            el.addEventListener('click', function () { nav.classList.remove('open'); });
+        });
+    }
+    var modal = document.getElementById('aboutModal');
+    function openModal()  { modal.classList.add('open');    document.body.style.overflow = 'hidden'; }
+    function closeModal() { modal.classList.remove('open'); document.body.style.overflow = '';       }
+    ['navAboutBtn','heroAboutBtn','ctaAboutBtn','footerAboutBtn'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('click', function (e) { e.preventDefault(); openModal(); });
+    });
+    document.getElementById('modalClose').addEventListener('click', closeModal);
+    document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+    modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+    });
+}());
+</script>
+</body>
+</html>

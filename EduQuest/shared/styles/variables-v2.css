@@ -1,0 +1,301 @@
+/* ===== Game Font ===== */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+/* ========================================
+   EDUQUEST DESIGN SYSTEM V2.0
+   Modern, Clean, Accessible
+   ======================================== */
+
+:root {
+    /* ===== PRIMARY BRAND COLORS ===== */
+    --primary-50: #f5f3ff;
+    --primary-100: #ede9fe;
+    --primary-200: #ddd6fe;
+    --primary-300: #c4b5fd;
+    --primary-400: #a78bfa;
+    --primary-500: #8b5cf6;
+    --primary-600: #7c3aed;
+    --primary-700: #6d28d9;
+    --primary-800: #5b21b6;
+    --primary-900: #4c1d95;
+    
+    /* Main primary color */
+    --primary: var(--primary-600);
+    --primary-hover: var(--primary-700);
+    --primary-active: var(--primary-800);
+    
+    /* Legacy support */
+    --primary-color: var(--primary-600);
+    --primary-dark: var(--primary-700);
+    --primary-light: var(--primary-400);
+    
+    /* ===== SECONDARY COLORS ===== */
+    --secondary-500: #f59e0b;
+    --secondary-600: #d97706;
+    --secondary-700: #b45309;
+    
+    --secondary: var(--secondary-500);
+    --secondary-color: var(--secondary-500);
+    
+    /* ===== ACCENT & GAMIFICATION ===== */
+    --gold: #fbbf24;
+    --gold-light: #fde68a;
+    --gold-dark: #f59e0b;
+    
+    --accent-color: var(--gold);
+    
+    /* ===== SEMANTIC COLORS ===== */
+    --success: #10b981;
+    --success-light: #d1fae5;
+    --success-dark: #059669;
+    
+    --warning: #f59e0b;
+    --warning-light: #fef3c7;
+    --warning-dark: #d97706;
+    
+    --error: #ef4444;
+    --error-light: #fee2e2;
+    --error-dark: #dc2626;
+    
+    --info: #3b82f6;
+    --info-light: #dbeafe;
+    --info-dark: #2563eb;
+    
+    /* Legacy */
+    --success-color: var(--success);
+    --warning-color: var(--warning);
+    --error-color: var(--error);
+    --info-color: var(--info);
+    
+    /* ===== DIFFICULTY COLORS ===== */
+    --difficulty-easy: #10b981;
+    --difficulty-medium: #f59e0b;
+    --difficulty-hard: #ef4444;
+    --difficulty-expert: #8b5cf6;
+    
+    /* ===== NEUTRAL PALETTE ===== */
+    --white: #ffffff;
+    --black: #0a0a0a;
+    
+    --gray-50: #fafafa;
+    --gray-100: #f5f5f5;
+    --gray-200: #e5e5e5;
+    --gray-300: #d4d4d4;
+    --gray-400: #a3a3a3;
+    --gray-500: #737373;
+    --gray-600: #525252;
+    --gray-700: #404040;
+    --gray-800: #262626;
+    --gray-900: #171717;
+    
+    /* ===== TEXT COLORS ===== */
+    --text-primary: var(--gray-900);
+    --text-secondary: var(--gray-600);
+    --text-tertiary: var(--gray-500);
+    --text-disabled: var(--gray-400);
+    --text-inverse: var(--white);
+    --text-link: var(--primary-600);
+    
+    /* ===== BACKGROUND COLORS ===== */
+    --bg-primary: var(--white);
+    --bg-secondary: var(--gray-50);
+    --bg-tertiary: var(--gray-100);
+    --bg-elevated: var(--white);
+    --bg-overlay: rgba(0, 0, 0, 0.6);
+    --bg-subtle: var(--gray-50);
+    
+    /* ===== BORDER COLORS ===== */
+    --border-light: var(--gray-200);
+    --border-medium: var(--gray-300);
+    --border-dark: var(--gray-400);
+    --border-focus: var(--primary-500);
+    
+    /* Legacy */
+    --border-color: var(--border-light);
+    
+    /* ===== SPACING SCALE (Base: 4px) ===== */
+    --space-0: 0;
+    --space-1: 0.25rem;    /* 4px */
+    --space-2: 0.5rem;     /* 8px */
+    --space-3: 0.75rem;    /* 12px */
+    --space-4: 1rem;       /* 16px */
+    --space-5: 1.25rem;    /* 20px */
+    --space-6: 1.5rem;     /* 24px */
+    --space-7: 1.75rem;    /* 28px */
+    --space-8: 2rem;       /* 32px */
+    --space-10: 2.5rem;    /* 40px */
+    --space-12: 3rem;      /* 48px */
+    --space-16: 4rem;      /* 64px */
+    --space-20: 5rem;      /* 80px */
+    --space-24: 6rem;      /* 96px */
+    
+    /* Legacy spacing */
+    --spacing-xs: var(--space-2);
+    --spacing-sm: var(--space-3);
+    --spacing-md: var(--space-4);
+    --spacing-lg: var(--space-6);
+    --spacing-xl: var(--space-8);
+    --spacing-2xl: var(--space-12);
+    --spacing-3xl: var(--space-16);
+    
+    /* ===== BORDER RADIUS ===== */
+    --radius-none: 0;
+    --radius-sm: 0.375rem;   /* 6px */
+    --radius-md: 0.5rem;     /* 8px */
+    --radius-lg: 0.75rem;    /* 12px */
+    --radius-xl: 1rem;       /* 16px */
+    --radius-2xl: 1.5rem;    /* 24px */
+    --radius-full: 9999px;
+    
+    /* Legacy */
+    --border-radius-sm: var(--radius-sm);
+    --border-radius-md: var(--radius-md);
+    --border-radius-lg: var(--radius-lg);
+    --border-radius-xl: var(--radius-xl);
+    --border-radius-full: var(--radius-full);
+    
+    /* ===== MODERN SHADOW SYSTEM ===== */
+    --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+    
+    /* Colored shadows */
+    --shadow-primary: 0 10px 30px -10px rgba(124, 58, 237, 0.3);
+    --shadow-success: 0 10px 30px -10px rgba(16, 185, 129, 0.3);
+    --shadow-warning: 0 10px 30px -10px rgba(245, 158, 11, 0.3);
+    --shadow-error: 0 10px 30px -10px rgba(239, 68, 68, 0.3);
+    
+    /* ===== TYPOGRAPHY ===== */
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Helvetica Neue', sans-serif;
+    --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'Monaco', 'Courier New', monospace;
+    
+    /* Font sizes */
+    --text-xs: 0.75rem;      /* 12px */
+    --text-sm: 0.875rem;     /* 14px */
+    --text-base: 1rem;       /* 16px */
+    --text-lg: 1.125rem;     /* 18px */
+    --text-xl: 1.25rem;      /* 20px */
+    --text-2xl: 1.5rem;      /* 24px */
+    --text-3xl: 1.875rem;    /* 30px */
+    --text-4xl: 2.25rem;     /* 36px */
+    --text-5xl: 3rem;        /* 48px */
+    --text-6xl: 3.75rem;     /* 60px */
+    
+    /* Legacy font sizes */
+    --font-xs: var(--text-xs);
+    --font-sm: var(--text-sm);
+    --font-md: var(--text-base);
+    --font-lg: var(--text-lg);
+    --font-xl: var(--text-xl);
+    --font-2xl: var(--text-2xl);
+    --font-3xl: var(--text-3xl);
+    --font-4xl: var(--text-4xl);
+    
+    /* Font weights */
+    --font-light: 300;
+    --font-normal: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+    --font-extrabold: 800;
+    
+    /* Line heights */
+    --leading-none: 1;
+    --leading-tight: 1.25;
+    --leading-snug: 1.375;
+    --leading-normal: 1.5;
+    --leading-relaxed: 1.625;
+    --leading-loose: 2;
+    
+    /* Letter spacing */
+    --tracking-tight: -0.025em;
+    --tracking-normal: 0;
+    --tracking-wide: 0.025em;
+    
+    /* ===== TRANSITIONS ===== */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slower: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Easing functions */
+    --ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* ===== Z-INDEX LAYERS ===== */
+    --z-base: 0;
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-popover: 1060;
+    --z-tooltip: 1070;
+    --z-notification: 1080;
+    
+    /* ===== LAYOUT CONSTANTS ===== */
+    --navbar-height: 72px;
+    --navbar-height-mobile: 64px;
+    --sidebar-width: 280px;
+    --sidebar-width-collapsed: 64px;
+    
+    /* Container widths */
+    --container-xs: 480px;
+    --container-sm: 640px;
+    --container-md: 768px;
+    --container-lg: 1024px;
+    --container-xl: 1280px;
+    --container-2xl: 1400px;
+    
+    /* Component sizes */
+    --input-height: 48px;
+    --input-height-sm: 40px;
+    --button-height: 48px;
+    --button-height-sm: 40px;
+    --card-padding: var(--space-6);
+    --section-padding: var(--space-12);
+    
+    /* ===== RESPONSIVE BREAKPOINTS ===== */
+    --breakpoint-xs: 480px;
+    --breakpoint-sm: 640px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+    --breakpoint-2xl: 1536px;
+
+    /* ===== GAMIFIED 2D DESIGN TOKENS ===== */
+    --game-bg: #f8f6f1;
+    --game-card: #ffffff;
+    --game-border: 2px solid var(--gray-200);
+    --game-border-bottom: 4px solid var(--gray-300);
+    --game-radius: 14px;
+
+    --game-shadow: 0 3px 0 rgba(0,0,0,0.06);
+    --game-shadow-hover: 0 1px 0 rgba(0,0,0,0.04);
+    --game-shadow-active: 0 0 0 transparent;
+
+    --game-hud-bg: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+    --game-hud-border: #4338ca;
+    --game-hud-glow: rgba(99, 102, 241, 0.3);
+
+    --game-xp-track: rgba(255,255,255,0.18);
+    --game-xp-fill: linear-gradient(90deg, #fbbf24, #fde68a);
+    --game-xp-glow: rgba(251, 191, 36, 0.35);
+
+    --game-press-y: 2px;
+
+    /* Game-specific font */
+    --font-game: 'Nunito', 'Fredoka', var(--font-sans);
+}
+
+/* ===== DARK MODE SUPPORT (Future) ===== */
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Override variables here for dark mode */
+    }
+}

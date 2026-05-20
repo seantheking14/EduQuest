@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - EduQuest</title>
+    <link rel="stylesheet" href="../../shared/styles/variables.css">
+    <link rel="stylesheet" href="../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../shared/styles/responsive.css">
+    <link rel="stylesheet" href="login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../shared/styles/quest_theme.css">
+    <script src="../../shared/components/quest_background.js" defer></script>
+</head>
+<body class="quest-theme quest-auth-page">
+    <div class="login-container">
+        <div class="login-card">
+            <a href="../../index.html" class="back-home-btn" title="Back to Homepage">&#8592; Back to Home</a>
+            <div class="login-header">
+                <div class="logo">🎮 EduQuest</div>
+                <h1 class="title">Welcome Back!</h1>
+                <p class="subtitle">Sign in to continue your learning adventure</p>
+            </div>
+
+            <form class="login-form" id="loginForm">
+                <!-- Role Selection -->
+                <div class="role-selector">
+                    <button type="button" class="role-btn active" data-role="student">
+                        <span class="role-icon">🎓</span>
+                        <span class="role-text">Student</span>
+                    </button>
+                    <button type="button" class="role-btn" data-role="teacher">
+                        <span class="role-icon">👨‍🏫</span>
+                        <span class="role-text">Teacher</span>
+                    </button>
+                </div>
+
+                <!-- Email Input -->
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="Enter your email"
+                        required
+                        autocomplete="email"
+                    >
+                </div>
+
+                <!-- Password Input -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-wrapper">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            placeholder="Enter your password"
+                            required
+                            autocomplete="current-password"
+                        >
+                        <button type="button" class="toggle-password" id="togglePassword">
+                            <span class="eye-icon">👁️</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Remember Me & Forgot Password -->
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="remember" id="remember">
+                        <span>Remember me</span>
+                    </label>
+                    <a href="#" class="forgot-link">Forgot password?</a>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-login">
+                    <span class="btn-text">Sign In</span>
+                    <span class="btn-loader hidden">Loading...</span>
+                </button>
+            </form>
+
+            <!-- Register Link -->
+            <div class="register-link">
+                Don't have an account? 
+                <a href="../register/register.html">Sign up here</a>
+            </div>
+        </div>
+
+        <!-- Accessibility Features Info -->
+        <div class="accessibility-info">
+            <p>♿ Accessibility features enabled | Screen reader compatible</p>
+        </div>
+    </div>
+
+    <script src="login.js"></script>
+</body>
+</html>

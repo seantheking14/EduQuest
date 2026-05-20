@@ -1,0 +1,5 @@
+# Prevent direct access to uploaded files — only serve through download.php
+<FilesMatch ".*">
+    Order allow,deny
+    Deny from all
+</FilesMatch>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your EduQuest Account</title>
+    <link rel="stylesheet" href="../../shared/styles/reset.css">
+    <link rel="stylesheet" href="../../shared/styles/variables.css">
+    <link rel="stylesheet" href="../../shared/styles/responsive.css">
+    <link rel="stylesheet" href="./register.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../shared/styles/quest_theme.css">
+    <script src="../../shared/components/quest_background.js" defer></script>
+</head>
+<body class="quest-theme quest-auth-page">
+    <div class="register-container">
+        <div class="register-card">
+            <div class="register-header">
+                <a href="../../index.html" class="back-home-btn" title="Back to Homepage">&#8592; Back to Home</a>
+                <span class="header-icon">🎮</span>
+                <h1>EduQuest</h1>
+                <p>Create Your Account</p>
+            </div>
+
+            <!-- Role Selection Step -->
+            <div id="roleSelector" class="form-step active">
+                <h2>Who are you?</h2>
+                <p class="subtitle">Select your role to get started</p>
+
+                <div class="role-selector">
+                    <button class="role-button" data-role="teacher">
+                        <span class="role-icon">👨‍🏫</span>
+                        <span class="role-title">Teacher</span>
+                        <span class="role-desc">I manage courses and students</span>
+                    </button>
+
+                    <button class="role-button" data-role="student">
+                        <span class="role-icon">👨‍🎓</span>
+                        <span class="role-title">Student</span>
+                        <span class="role-desc">I learn and build my portfolio</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Registration Form Step -->
+            <div id="registrationForm" class="form-step">
+                <button class="back-button" id="backButton">
+                    <span class="back-arrow">←</span> Back to role selection
+                </button>
+
+                <h2>Create Your Account</h2>
+                <p class="subtitle role-label" id="roleLabel"></p>
+
+                <form id="registerForm" class="auth-form" novalidate>
+                    <!-- Name Row -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input
+                                type="text"
+                                id="firstName"
+                                name="firstName"
+                                placeholder="John"
+                                required
+                                autocomplete="given-name"
+                                aria-label="First Name"
+                            >
+                            <span class="error-message" id="firstNameError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input
+                                type="text"
+                                id="lastName"
+                                name="lastName"
+                                placeholder="Doe"
+                                required
+                                autocomplete="family-name"
+                                aria-label="Last Name"
+                            >
+                            <span class="error-message" id="lastNameError"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="you@example.com"
+                            required
+                            autocomplete="email"
+                            aria-label="Email Address"
+                        >
+                        <span class="field-hint" id="emailHint"></span>
+                        <span class="error-message" id="emailError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="password-wrapper">
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Create a strong password"
+                                required
+                                autocomplete="new-password"
+                                aria-label="Password"
+                            >
+                            <button type="button" class="toggle-password" data-target="password" aria-label="Toggle password visibility">
+                                <span class="eye-icon">👁️</span>
+                            </button>
+                        </div>
+                        <span class="error-message" id="passwordError"></span>
+
+                        <!-- Password Strength Bar -->
+                        <div class="password-strength" id="passwordStrength">
+                            <div class="strength-bar">
+                                <div class="strength-fill" id="strengthFill"></div>
+                            </div>
+                            <span class="strength-label" id="strengthLabel"></span>
+                        </div>
+
+                        <div class="password-requirements" id="passwordRequirements">
+                            <div class="requirement" id="charRequirement">
+                                <span class="requirement-icon">○</span>
+                                <span>At least 8 characters</span>
+                            </div>
+                            <div class="requirement" id="upperRequirement">
+                                <span class="requirement-icon">○</span>
+                                <span>One uppercase letter</span>
+                            </div>
+                            <div class="requirement" id="numberRequirement">
+                                <span class="requirement-icon">○</span>
+                                <span>One number</span>
+                            </div>
+                            <div class="requirement" id="specialRequirement">
+                                <span class="requirement-icon">○</span>
+                                <span>One special character (!@#$%^&*)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="passwordConfirm">Confirm Password</label>
+                        <div class="password-wrapper">
+                            <input
+                                type="password"
+                                id="passwordConfirm"
+                                name="passwordConfirm"
+                                placeholder="Re-enter your password"
+                                required
+                                autocomplete="new-password"
+                                aria-label="Confirm Password"
+                            >
+                            <button type="button" class="toggle-password" data-target="passwordConfirm" aria-label="Toggle confirm password visibility">
+                                <span class="eye-icon">👁️</span>
+                            </button>
+                        </div>
+                        <span class="field-hint" id="matchHint"></span>
+                        <span class="error-message" id="passwordConfirmError"></span>
+                    </div>
+
+                    <div class="form-group checkbox">
+                        <input
+                            type="checkbox"
+                            id="agreeTerms"
+                            name="agreeTerms"
+                            required
+                        >
+                        <label for="agreeTerms">
+                            I agree to the <a href="#" onclick="openLegalModal('tos');return false;">Terms of Service</a> and <a href="#" onclick="openLegalModal('pp');return false;">Privacy Policy</a>
+                        </label>
+                        <span class="error-message" id="agreeTermsError"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block" id="submitButton">
+                        <span class="btn-text">Create Account</span>
+                        <span class="btn-loader" style="display:none;">Creating...</span>
+                    </button>
+
+                    <div class="form-message" id="successMessage" style="display: none;">
+                        <div class="message-content">
+                            <strong>Account Created!</strong>
+                            <p>Check your email for a verification link to activate your account.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-message error-banner" id="errorMessage" style="display: none;"></div>
+                </form>
+
+                <div class="auth-footer">
+                    <p>
+                        Already have an account?
+                        <a href="../login/login.html">Sign In</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../shared/utils/api.js"></script>
+    <script src="./register.js"></script>
+
+    <!-- Legal Modal (Terms of Service & Privacy Policy) -->
+    <div id="legalModal" class="legal-modal-overlay" role="dialog" aria-modal="true" hidden>
+        <div class="legal-modal-box">
+            <div class="legal-modal-header">
+                <div class="legal-modal-tabs" role="tablist">
+                    <button class="legal-tab active" role="tab" data-tab="tos" aria-selected="true">Terms of Service</button>
+                    <button class="legal-tab" role="tab" data-tab="pp" aria-selected="false">Privacy Policy</button>
+                </div>
+                <button class="legal-modal-close" aria-label="Close">&times;</button>
+            </div>
+            <div class="legal-modal-body">
+                <div id="legalTabTos" class="legal-tab-content active" role="tabpanel">
+                    <h2>Terms of Service</h2>
+                    <p><strong>Last Updated: May 2026</strong></p>
+                    <p>Welcome to EduQuest. By creating an account and using our platform, you agree to these Terms of Service. Please read them carefully.</p>
+                    <h3>1. Acceptance of Terms</h3>
+                    <p>By registering for or using EduQuest, you agree to be bound by these Terms. If you are registering on behalf of a school or institution, you represent that you have authority to bind that organisation.</p>
+                    <h3>2. Use of the Platform</h3>
+                    <p>EduQuest is an educational platform designed to support learning through gamified content, quizzes, and interactive modules. You agree to use the platform only for lawful, educational purposes in accordance with these Terms.</p>
+                    <h3>3. Account Responsibilities</h3>
+                    <p>You are responsible for: maintaining the confidentiality of your login credentials; all activities that occur under your account; and promptly notifying us of any unauthorised access.</p>
+                    <h3>4. Acceptable Use</h3>
+                    <p>You agree not to share or transfer your account, post harmful or misleading content, attempt to disrupt platform services, or use automated tools to access the platform without authorisation.</p>
+                    <h3>5. Intellectual Property</h3>
+                    <p>All content on EduQuest — including courses, quizzes, and design elements — is owned by EduQuest or its content providers. You may not reproduce or distribute platform content without prior written permission.</p>
+                    <h3>6. Limitation of Liability</h3>
+                    <p>EduQuest is provided "as is" without warranties of any kind. To the fullest extent permitted by law, EduQuest shall not be liable for any indirect, incidental, or consequential damages arising from your use of the platform.</p>
+                    <h3>7. Termination</h3>
+                    <p>We reserve the right to suspend or terminate accounts that violate these Terms. You may delete your account at any time by contacting your platform administrator.</p>
+                    <h3>8. Changes to Terms</h3>
+                    <p>We may update these Terms from time to time. Continued use of EduQuest after changes are posted constitutes your acceptance of the revised Terms.</p>
+                </div>
+                <div id="legalTabPp" class="legal-tab-content" role="tabpanel">
+                    <h2>Privacy Policy</h2>
+                    <p><strong>Last Updated: May 2026</strong></p>
+                    <p>EduQuest is committed to protecting your personal information. This Privacy Policy explains what data we collect, how we use it, and your rights.</p>
+                    <h3>1. Information We Collect</h3>
+                    <ul>
+                        <li><strong>Account data:</strong> name, email address, role, and encrypted password.</li>
+                        <li><strong>Activity data:</strong> quiz scores, course progress, game activity, and learning behaviour.</li>
+                        <li><strong>Technical data:</strong> browser type, device information, and IP address for security purposes.</li>
+                    </ul>
+                    <h3>2. How We Use Your Information</h3>
+                    <p>Your information is used to provide and personalise your learning experience, track academic progress, send account-related notifications, and improve platform features and security.</p>
+                    <h3>3. Information Sharing</h3>
+                    <p>We do not sell your personal data. Information may be shared with your teacher or institution as part of the platform's educational function, with service providers bound by confidentiality agreements, or when required by law.</p>
+                    <h3>4. Data Security</h3>
+                    <p>We implement industry-standard security measures including password hashing, CSRF protection, and encrypted connections. However, no system is completely secure and we cannot guarantee absolute security.</p>
+                    <h3>5. Your Rights</h3>
+                    <p>You have the right to access, correct, or request deletion of your personal data. To exercise these rights, please contact your platform administrator.</p>
+                    <h3>6. Cookies</h3>
+                    <p>EduQuest uses session cookies to maintain your login state and provide a seamless experience. These cookies are deleted when you log out or close your browser.</p>
+                    <h3>7. Contact</h3>
+                    <p>For privacy-related questions or requests, please contact your school or institution administrator, or reach out to the EduQuest support team.</p>
+                </div>
+            </div>
+            <div class="legal-modal-footer">
+                <button class="legal-modal-close-btn">Close</button>
+            </div>
+        </div>
+    </div>
+    <script>
+    (function () {
+        'use strict';
+        var modal = document.getElementById('legalModal');
+        if (!modal) return;
+        window.openLegalModal = function (tab) {
+            modal.removeAttribute('hidden');
+            document.body.style.overflow = 'hidden';
+            switchTab(tab || 'tos');
+            modal.querySelector('.legal-modal-close').focus();
+        };
+        function closeLegalModal() {
+            modal.setAttribute('hidden', '');
+            document.body.style.overflow = '';
+        }
+        function switchTab(tab) {
+            modal.querySelectorAll('.legal-tab').forEach(function (t) {
+                var active = t.dataset.tab === tab;
+                t.classList.toggle('active', active);
+                t.setAttribute('aria-selected', String(active));
+            });
+            modal.querySelectorAll('.legal-tab-content').forEach(function (c) { c.classList.remove('active'); });
+            var panel = document.getElementById(tab === 'tos' ? 'legalTabTos' : 'legalTabPp');
+            if (panel) panel.classList.add('active');
+        }
+        modal.querySelectorAll('.legal-tab').forEach(function (t) {
+            t.addEventListener('click', function () { switchTab(this.dataset.tab); });
+        });
+        modal.querySelector('.legal-modal-close').addEventListener('click', closeLegalModal);
+        modal.querySelector('.legal-modal-close-btn').addEventListener('click', closeLegalModal);
+        modal.addEventListener('click', function (e) { if (e.target === modal) closeLegalModal(); });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && !modal.hasAttribute('hidden')) closeLegalModal();
+        });
+    }());
+    </script>
+</body>
+</html>
