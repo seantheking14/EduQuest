@@ -1,5 +1,3 @@
 FROM php:8.2-apache
-
-COPY . /var/www/html/
-
+COPY ./EduQuest /var/www/html/
 EXPOSE 80
