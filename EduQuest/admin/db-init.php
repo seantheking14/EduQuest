@@ -6,11 +6,11 @@
  * URL: /admin/db-init.php
  */
 
-define('DB_HOST',    'localhost');
-define('DB_PORT',    '3306');
-define('DB_NAME',    'eduquest');
-define('DB_USER',    'root');
-define('DB_PASS',    '');
+define('DB_HOST',    'mysql-24e761da-mymail-4f8f.j.aivencloud.com');
+define('DB_PORT',    '18185');
+define('DB_NAME',    'defaultdb');
+define('DB_USER',    'avnadmin');
+define('DB_PASS',    'AVNS_Rd0v9GCE8ryXi3vCnWc');
 define('DB_CHARSET', 'utf8mb4');
 
 $messages = [];
