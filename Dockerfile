@@ -1,3 +1,7 @@
 FROM php:8.2-apache
-COPY ./EduQuest /var/www/html/
+
+RUN docker-php-ext-install pdo pdo_mysql
+
+COPY . /var/www/html/
+
 EXPOSE 80
