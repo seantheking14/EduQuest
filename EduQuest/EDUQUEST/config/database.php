@@ -7,11 +7,11 @@
 // Set PHP timezone to UTC
 date_default_timezone_set('UTC');
 
-define('DB_HOST', 'sql12.freesqldatabase.com');
-define('DB_PORT', '3306');
-define('DB_NAME', 'sql12827672');
-define('DB_USER', 'sql12827672');       // change for production
-define('DB_PASS', 'gWLMelpwsu');           // change for production
+define('DB_HOST', 'mysql-24e761da-mymail-4f8f.j.aivencloud.com');
+define('DB_PORT', '18185');
+define('DB_NAME', 'defaultdb');
+define('DB_USER', 'avnadmin');       // change for production
+define('DB_PASS', 'AVNS_Rd0v9GCE8ryXi3vCnWc');           // change for production
 define('DB_CHARSET', 'utf8mb4');
 
 function getDBConnection(): PDO {
@@ -21,11 +21,12 @@ function getDBConnection(): PDO {
             'mysql:host=%s;port=%s;dbname=%s;charset=%s',
             DB_HOST, DB_PORT, DB_NAME, DB_CHARSET
         );
-        $options = [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES   => false,
-        ];
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+    PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
+];
         try {
             $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
             // Set MySQL session timezone to UTC
