@@ -1,7 +1,7 @@
 // API Helper Functions for EduQuest
 // This file provides a foundation for backend API integration
 
-const API_BASE_URL = 'http://localhost:3000/api'; // Change to your API URL
+const API_BASE_URL = 'https://eduquest-1-9acf.onrender.com/EDUQUEST/api';
 
 // ==================== API CLIENT ====================
 class APIClient {
@@ -265,7 +265,7 @@ window.EduQuestAPI = {
 
 // ==================== MOCK DATA (for development) ====================
 // Remove this section when connecting to real backend
-window.MOCK_MODE = true; // Set to false when using real API
+window.MOCK_MODE = false; // Set to false when using real API
 
 if (window.MOCK_MODE) {
     console.log('📦 Running in MOCK mode - using localStorage instead of API');
